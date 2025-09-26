@@ -12,6 +12,7 @@ interface CardTableProps {
 }
 
 interface ColumnVisibility {
+  number: boolean;
   originalName: boolean;
   manaCost: boolean;
   type: boolean;
@@ -36,6 +37,7 @@ const COLUMN_SETTINGS_KEY = 'mtg-card-table-columns';
 const SORT_SETTINGS_KEY = 'mtg-card-table-sort';
 
 const defaultColumnVisibility: ColumnVisibility = {
+  number: true,
   originalName: true,
   manaCost: true,
   type: true,
@@ -388,6 +390,7 @@ export const CardTable: React.FC<CardTableProps> = ({
   };
 
   const columnConfig = [
+    { key: 'number' as const, label: 'Card Number', description: 'Shows card number for set ordering' },
     { key: 'number' as const, label: 'Card Number', description: 'Shows card number for set ordering' },
     { key: 'originalName' as const, label: 'Original Name', description: 'Shows original card name for nickname cards' },
     { key: 'imageThumbnail' as const, label: 'Image Thumbnail', description: 'Shows card image thumbnail if uploaded' },
