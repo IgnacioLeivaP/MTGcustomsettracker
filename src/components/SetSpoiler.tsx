@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card, Archetype } from '../types';
 import { ManaSymbols } from './ManaSymbols';
-import { X, Image as ImageIcon } from 'lucide-react';
+import { X, Image as ImageIcon, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface SetSpoilerProps {
   cards: Card[];
@@ -13,9 +13,11 @@ interface CardDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
   archetypes: Archetype[];
+  cards: Card[];
+  onNavigate: (card: Card) => void;
 }
 
-const CardDetailModal: React.FC<CardDetailModalProps> = ({ card, isOpen, onClose, archetypes }) => {
+const CardDetailModal: React.FC<CardDetailModalProps> = ({ card, isOpen, onClose, archetypes, cards, onNavigate }) => {
   if (!isOpen || !card) return null;
 
   const getArchetypeName = (id: string) => {
@@ -32,11 +34,61 @@ const CardDetailModal: React.FC<CardDetailModalProps> = ({ card, isOpen, onClose
     return rarityNames[rarity as keyof typeof rarityNames] || rarity;
   };
 
+  // Find current card index and navigation
+  const currentIndex = cards.findIndex(c => c.id === card.id);
+  const canNavigatePrev = currentIndex > 0;
+  const canNavigateNext = currentIndex < cards.length - 1;
+
+  const navigatePrev = () => {
+    if (canNavigatePrev) {
+      onNavigate(cards[currentIndex - 1]);
+    }
+  };
+
+  const navigateNext = () => {
+    if (canNavigateNext) {
+      onNavigate(cards[currentIndex + 1]);
+    }
+  };
+
   const isCreature = card.type.toLowerCase().includes('creature');
 
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div className="bg-gray-900 border border-white/20 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        {/* Navigation Header */}
+        <div className="flex items-center justify-between p-4 border-b border-white/20">
+          <button
+            onClick={navigatePrev}
+            disabled={!canNavigatePrev}
+            className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors ${
+              canNavigatePrev 
+                ? 'bg-blue-500/20 border border-blue-500/30 text-blue-300 hover:bg-blue-500/30' 
+                : 'bg-gray-500/20 border border-gray-500/30 text-gray-500 cursor-not-allowed'
+            }`}
+          >
+            <ChevronLeft className="w-4 h-4" />
+            <span>Previous</span>
+          </button>
+
+          <div className="text-center text-gray-300">
+            <span className="text-sm">Card {currentIndex + 1} of {cards.length}</span>
+          </div>
+
+          <button
+            onClick={navigateNext}
+            disabled={!canNavigateNext}
+            className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors ${
+              canNavigateNext 
+                ? 'bg-blue-500/20 border border-blue-500/30 text-blue-300 hover:bg-blue-500/30' 
+                : 'bg-gray-500/20 border border-gray-500/30 text-gray-500 cursor-not-allowed'
+            }`}
+          >
+            <span>Next</span>
+            <ChevronRight className="w-4 h-4" />
+          </button>
+        </div>
+
         <div className="flex">
           {/* Left side - Image */}
           <div className="w-1/2 p-6">
@@ -101,7 +153,7 @@ const CardDetailModal: React.FC<CardDetailModalProps> = ({ card, isOpen, onClose
                 </div>
 
                 <div className="flex items-center space-x-3">
-                  <span className="text-gray-400 font-medium w-20">Set:</span>
+                  <span className="text-gray-400 font-medium w-20">Archetype:</span>
                   <span className="text-white">{getArchetypeName(card.archetype)}</span>
                 </div>
 
@@ -109,6 +161,13 @@ const CardDetailModal: React.FC<CardDetailModalProps> = ({ card, isOpen, onClose
                   <div className="flex items-center space-x-3">
                     <span className="text-gray-400 font-medium w-20">P/T:</span>
                     <span className="text-white font-bold">{card.power}/{card.toughness}</span>
+                  </div>
+                )}
+
+                {card.artist && (
+                  <div className="flex items-center space-x-3">
+                    <span className="text-gray-400 font-medium w-20">Artist:</span>
+                    <span className="text-white">{card.artist}</span>
                   </div>
                 )}
               </div>
@@ -137,20 +196,21 @@ const CardDetailModal: React.FC<CardDetailModalProps> = ({ card, isOpen, onClose
                 </div>
               )}
 
-              {/* Artist */}
-              {card.artist && (
-                <div className="border-t border-white/20 pt-4">
-                  <div className="flex items-center space-x-3">
-                    <span className="text-gray-400 font-medium">Artist:</span>
-                    <span className="text-white">{card.artist}</span>
-                  </div>
-                </div>
-              )}
-
               {/* Additional Info */}
               <div className="border-t border-white/20 pt-4">
                 <h3 className="text-lg font-semibold text-white mb-3">Additional Information</h3>
                 <div className="space-y-2 text-sm">
+                  <div className="flex items-center space-x-2">
+                    <span className="text-gray-400">Image Status:</span>
+                    <span className={`px-2 py-1 rounded text-xs font-bold ${
+                      card.imageStatus === 'complete' 
+                        ? 'bg-green-500/20 text-green-300' 
+                        : 'bg-orange-500/20 text-orange-300'
+                    }`}>
+                      {card.imageStatus === 'complete' ? 'Complete' : 'Pending'}
+                    </span>
+                  </div>
+
                   <div className="flex items-center space-x-2">
                     <span className="text-gray-400">Status:</span>
                     <span className={`px-2 py-1 rounded text-xs font-bold ${
@@ -173,6 +233,13 @@ const CardDetailModal: React.FC<CardDetailModalProps> = ({ card, isOpen, onClose
                       <span className="px-2 py-1 rounded text-xs font-bold bg-cyan-500/20 text-cyan-300">
                         Alternate Art
                       </span>
+                    </div>
+                  )}
+
+                  {card.otherFaceId && (
+                    <div className="flex items-center space-x-2">
+                      <span className="text-gray-400">Other Face ID:</span>
+                      <span className="text-indigo-300">{card.otherFaceId}</span>
                     </div>
                   )}
 
@@ -335,6 +402,8 @@ export const SetSpoiler: React.FC<SetSpoilerProps> = ({ cards, archetypes }) => 
         isOpen={isModalOpen}
         onClose={closeCardModal}
         archetypes={archetypes}
+        cards={sortedCards}
+        onNavigate={setSelectedCard}
       />
     </>
   );
