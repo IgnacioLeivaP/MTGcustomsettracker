@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Card, Archetype } from '../types';
-import { Settings, RotateCcw, Eye, EyeOff, Columns2 as Columns } from 'lucide-react';
+import { Settings, RotateCcw, Eye, EyeOff, Columns2 as Columns, ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
 import { ManaSymbols } from './ManaSymbols';
 import { CardEditModal } from './CardEditModal';
 
@@ -22,6 +22,14 @@ interface ColumnVisibility {
   actions: boolean;
 }
 
+type SortField = 'name' | 'manaCost' | 'rarity' | 'archetype' | 'originalReprint' | 'type';
+type SortDirection = 'asc' | 'desc';
+
+interface SortConfig {
+  field: SortField | null;
+  direction: SortDirection;
+}
+
 export const CardTable: React.FC<CardTableProps> = ({ 
   cards, 
   archetypes, 
@@ -31,6 +39,7 @@ export const CardTable: React.FC<CardTableProps> = ({
   const [editingCard, setEditingCard] = useState<Card | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [showColumnConfig, setShowColumnConfig] = useState(false);
+  const [sortConfig, setSortConfig] = useState<SortConfig>({ field: null, direction: 'asc' });
   const [columnVisibility, setColumnVisibility] = useState<ColumnVisibility>({
     originalName: true,
     manaCost: true,
@@ -77,6 +86,91 @@ export const CardTable: React.FC<CardTableProps> = ({
     }));
   };
 
+  const getConvertedManaCost = (manaCost: string): number => {
+    if (!manaCost) return 0;
+    let total = 0;
+    const symbols = manaCost.match(/\{([^}]+)\}/g) || [];
+    symbols.forEach(symbol => {
+      const content = symbol.slice(1, -1);
+      if (/^\d+$/.test(content)) {
+        total += parseInt(content);
+      } else {
+        total += 1; // Each colored symbol counts as 1
+      }
+    });
+    return total;
+  };
+
+  const getRarityOrder = (rarity: string): number => {
+    const order = { 'C': 0, 'U': 1, 'R': 2, 'M': 3 };
+    return order[rarity as keyof typeof order] ?? 999;
+  };
+
+  const handleSort = (field: SortField) => {
+    let direction: SortDirection = 'asc';
+    
+    if (sortConfig.field === field && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    
+    setSortConfig({ field, direction });
+  };
+
+  const getSortedCards = () => {
+    if (!sortConfig.field) return cards;
+
+    return [...cards].sort((a, b) => {
+      let aValue: any;
+      let bValue: any;
+
+      switch (sortConfig.field) {
+        case 'name':
+          aValue = a.name.toLowerCase();
+          bValue = b.name.toLowerCase();
+          break;
+        case 'manaCost':
+          aValue = getConvertedManaCost(a.manaCost || '');
+          bValue = getConvertedManaCost(b.manaCost || '');
+          break;
+        case 'rarity':
+          aValue = getRarityOrder(a.rarity);
+          bValue = getRarityOrder(b.rarity);
+          break;
+        case 'archetype':
+          aValue = getArchetypeName(a.archetype).toLowerCase();
+          bValue = getArchetypeName(b.archetype).toLowerCase();
+          break;
+        case 'originalReprint':
+          aValue = a.isReprint ? 1 : 0; // Original = 0, Reprint = 1
+          bValue = b.isReprint ? 1 : 0;
+          break;
+        case 'type':
+          aValue = a.type.toLowerCase();
+          bValue = b.type.toLowerCase();
+          break;
+        default:
+          return 0;
+      }
+
+      if (aValue < bValue) {
+        return sortConfig.direction === 'asc' ? -1 : 1;
+      }
+      if (aValue > bValue) {
+        return sortConfig.direction === 'asc' ? 1 : -1;
+      }
+      return 0;
+    });
+  };
+
+  const getSortIcon = (field: SortField) => {
+    if (sortConfig.field !== field) {
+      return <ArrowUpDown className="w-4 h-4 text-gray-500" />;
+    }
+    return sortConfig.direction === 'asc' 
+      ? <ArrowUp className="w-4 h-4 text-blue-400" />
+      : <ArrowDown className="w-4 h-4 text-blue-400" />;
+  };
+
   const columnConfig = [
     { key: 'originalName' as const, label: 'Original Name', description: 'Shows original card name for nickname cards' },
     { key: 'manaCost' as const, label: 'Mana Cost', description: 'Displays mana cost symbols' },
@@ -87,6 +181,8 @@ export const CardTable: React.FC<CardTableProps> = ({
     { key: 'imageStatus' as const, label: 'Image Status', description: 'Image completion status' },
     { key: 'actions' as const, label: 'Actions', description: 'Edit and configuration buttons' }
   ];
+
+  const sortedCards = getSortedCards();
 
   return (
     <>
@@ -155,24 +251,72 @@ export const CardTable: React.FC<CardTableProps> = ({
           <table className="w-full border-collapse bg-white/5 rounded-lg overflow-hidden">
             <thead>
               <tr className="bg-red-500/30">
-                <th className="p-4 text-left font-bold text-white">Card Name</th>
+                <th className="p-4 text-left font-bold text-white">
+                  <button
+                    onClick={() => handleSort('name')}
+                    className="flex items-center space-x-2 hover:text-blue-300 transition-colors"
+                  >
+                    <span>Card Name</span>
+                    {getSortIcon('name')}
+                  </button>
+                </th>
                 {columnVisibility.originalName && (
                   <th className="p-4 text-left font-bold text-white">Original Name</th>
                 )}
                 {columnVisibility.manaCost && (
-                  <th className="p-4 text-left font-bold text-white">Mana Cost</th>
+                  <th className="p-4 text-left font-bold text-white">
+                    <button
+                      onClick={() => handleSort('manaCost')}
+                      className="flex items-center space-x-2 hover:text-blue-300 transition-colors"
+                    >
+                      <span>Mana Cost</span>
+                      {getSortIcon('manaCost')}
+                    </button>
+                  </th>
                 )}
                 {columnVisibility.type && (
-                  <th className="p-4 text-left font-bold text-white">Type</th>
+                  <th className="p-4 text-left font-bold text-white">
+                    <button
+                      onClick={() => handleSort('type')}
+                      className="flex items-center space-x-2 hover:text-blue-300 transition-colors"
+                    >
+                      <span>Type</span>
+                      {getSortIcon('type')}
+                    </button>
+                  </th>
                 )}
                 {columnVisibility.rarity && (
-                  <th className="p-4 text-left font-bold text-white">Rarity</th>
+                  <th className="p-4 text-left font-bold text-white">
+                    <button
+                      onClick={() => handleSort('rarity')}
+                      className="flex items-center space-x-2 hover:text-blue-300 transition-colors"
+                    >
+                      <span>Rarity</span>
+                      {getSortIcon('rarity')}
+                    </button>
+                  </th>
                 )}
                 {columnVisibility.archetype && (
-                  <th className="p-4 text-left font-bold text-white">Archetype</th>
+                  <th className="p-4 text-left font-bold text-white">
+                    <button
+                      onClick={() => handleSort('archetype')}
+                      className="flex items-center space-x-2 hover:text-blue-300 transition-colors"
+                    >
+                      <span>Archetype</span>
+                      {getSortIcon('archetype')}
+                    </button>
+                  </th>
                 )}
                 {columnVisibility.originalReprint && (
-                  <th className="p-4 text-left font-bold text-white">Original/Reprint</th>
+                  <th className="p-4 text-left font-bold text-white">
+                    <button
+                      onClick={() => handleSort('originalReprint')}
+                      className="flex items-center space-x-2 hover:text-blue-300 transition-colors"
+                    >
+                      <span>Original/Reprint</span>
+                      {getSortIcon('originalReprint')}
+                    </button>
+                  </th>
                 )}
                 {columnVisibility.imageStatus && (
                   <th className="p-4 text-left font-bold text-white">Image Status</th>
@@ -183,7 +327,7 @@ export const CardTable: React.FC<CardTableProps> = ({
               </tr>
             </thead>
             <tbody>
-              {cards.map((card) => (
+              {sortedCards.map((card) => (
                 <tr 
                   key={card.id}
                   className={`${getArchetypeColor(card.archetype)} hover:bg-white/10 transition-colors border-b border-white/10`}
@@ -294,7 +438,12 @@ export const CardTable: React.FC<CardTableProps> = ({
 
         {/* Cards Count */}
         <div className="mt-4 text-center text-gray-400">
-          Showing {cards.length} cards
+          Showing {sortedCards.length} cards
+          {sortConfig.field && (
+            <span className="ml-2 text-blue-300">
+              (sorted by {sortConfig.field} {sortConfig.direction === 'asc' ? '↑' : '↓'})
+            </span>
+          )}
         </div>
       </div>
 
