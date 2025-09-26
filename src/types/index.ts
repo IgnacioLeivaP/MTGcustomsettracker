@@ -2,6 +2,7 @@ export interface Card {
   id: string;
   name: string;
   type: string;
+  manaCost: string;
   archetype: string;
   imageStatus: 'pending' | 'complete';
   isReprint: boolean;

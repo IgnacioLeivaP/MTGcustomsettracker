@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Card, Archetype } from '../types';
 import { CreditCard as Edit, Trash2, Image as ImageIcon, Upload } from 'lucide-react';
+import { ManaSymbols } from './ManaSymbols';
 
 interface CardTableProps {
   cards: Card[];
@@ -85,6 +86,7 @@ export const CardTable: React.FC<CardTableProps> = ({
             <tr className="bg-red-500/30">
               <th className="p-4 text-left font-bold text-white">Image</th>
               <th className="p-4 text-left font-bold text-white">Card Name</th>
+              <th className="p-4 text-left font-bold text-white">Mana Cost</th>
               <th className="p-4 text-left font-bold text-white">Type</th>
               <th className="p-4 text-left font-bold text-white">Archetype</th>
               <th className="p-4 text-left font-bold text-white">Original/Reprint</th>
@@ -149,6 +151,9 @@ export const CardTable: React.FC<CardTableProps> = ({
                 </td>
                 <td className="p-4">
                   <strong className="text-white">{card.name}</strong>
+                </td>
+                <td className="p-4">
+                  <ManaSymbols manaCost={card.manaCost || ''} />
                 </td>
                 <td className="p-4 text-gray-300">{card.type}</td>
                 <td className="p-4">

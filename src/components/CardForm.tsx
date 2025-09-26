@@ -22,6 +22,7 @@ export const CardForm: React.FC<CardFormProps> = ({ archetypes, onAddCard }) => 
   const [formData, setFormData] = useState({
     name: '',
     type: 'Creature',
+    manaCost: '',
     archetype: archetypes[0]?.id || '',
     imageStatus: 'pending' as const,
     isReprint: false,
@@ -59,6 +60,7 @@ export const CardForm: React.FC<CardFormProps> = ({ archetypes, onAddCard }) => 
     setFormData({
       name: '',
       type: 'Creature',
+      manaCost: '',
       archetype: archetypes[0]?.id || '',
       imageStatus: 'pending',
       isReprint: false,
@@ -70,7 +72,7 @@ export const CardForm: React.FC<CardFormProps> = ({ archetypes, onAddCard }) => 
     <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
       <h2 className="text-2xl font-bold mb-6 text-red-400">➕ Add New Card</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">Card Name</label>
             <input
@@ -79,6 +81,17 @@ export const CardForm: React.FC<CardFormProps> = ({ archetypes, onAddCard }) => 
               onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
               className="w-full p-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500"
               placeholder="Enter card name"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Mana Cost</label>
+            <input
+              type="text"
+              value={formData.manaCost}
+              onChange={(e) => setFormData(prev => ({ ...prev, manaCost: e.target.value }))}
+              className="w-full p-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500"
+              placeholder="e.g. {1}{U}{R}"
             />
           </div>
 

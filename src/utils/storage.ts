@@ -20,18 +20,18 @@ const defaultArchetypes: Archetype[] = [
 
 const defaultCards: Card[] = [
   // Transformations
-  { id: '1', name: 'Bat Form', type: 'Enchantment - Aura', archetype: 'transformation', imageStatus: 'pending', isReprint: false, createdAt: Date.now() },
-  { id: '2', name: 'Wolf Form', type: 'Instant', archetype: 'transformation', imageStatus: 'pending', isReprint: false, createdAt: Date.now() },
-  { id: '3', name: 'Mist Form', type: 'Enchantment - Aura', archetype: 'transformation', imageStatus: 'pending', isReprint: false, createdAt: Date.now() },
-  { id: '4', name: 'Disguise Form', type: 'Enchantment - Aura', archetype: 'transformation', imageStatus: 'pending', isReprint: false, createdAt: Date.now() },
-  { id: '5', name: 'Beguile Form', type: 'Enchantment - Aura', archetype: 'transformation', imageStatus: 'pending', isReprint: false, createdAt: Date.now() },
+  { id: '1', name: 'Bat Form', type: 'Enchantment - Aura', manaCost: '{2}{B}', archetype: 'transformation', imageStatus: 'pending', isReprint: false, createdAt: Date.now() },
+  { id: '2', name: 'Wolf Form', type: 'Instant', manaCost: '{1}{G}', archetype: 'transformation', imageStatus: 'pending', isReprint: false, createdAt: Date.now() },
+  { id: '3', name: 'Mist Form', type: 'Enchantment - Aura', manaCost: '{3}{U}', archetype: 'transformation', imageStatus: 'pending', isReprint: false, createdAt: Date.now() },
+  { id: '4', name: 'Disguise Form', type: 'Enchantment - Aura', manaCost: '{1}{U}{B}', archetype: 'transformation', imageStatus: 'pending', isReprint: false, createdAt: Date.now() },
+  { id: '5', name: 'Beguile Form', type: 'Enchantment - Aura', manaCost: '{2}{R}', archetype: 'transformation', imageStatus: 'pending', isReprint: false, createdAt: Date.now() },
 
   // Powers
-  { id: '6', name: 'Sanctuary', type: 'Enchantment', archetype: 'power', imageStatus: 'pending', isReprint: false, createdAt: Date.now() },
-  { id: '7', name: 'Light', type: 'Instant', archetype: 'power', imageStatus: 'pending', isReprint: false, createdAt: Date.now() },
-  { id: '8', name: 'Repel Aegis', type: 'Instant', archetype: 'power', imageStatus: 'pending', isReprint: false, createdAt: Date.now() },
-  { id: '9', name: 'Mind Stun', type: 'Instant', archetype: 'power', imageStatus: 'pending', isReprint: false, createdAt: Date.now() },
-  { id: '10', name: 'Control Mind', type: 'Sorcery', archetype: 'power', imageStatus: 'pending', isReprint: false, createdAt: Date.now() },
+  { id: '6', name: 'Sanctuary', type: 'Enchantment', manaCost: '{3}{W}', archetype: 'power', imageStatus: 'pending', isReprint: false, createdAt: Date.now() },
+  { id: '7', name: 'Light', type: 'Instant', manaCost: '{W}', archetype: 'power', imageStatus: 'pending', isReprint: false, createdAt: Date.now() },
+  { id: '8', name: 'Repel Aegis', type: 'Instant', manaCost: '{1}{W}', archetype: 'power', imageStatus: 'pending', isReprint: false, createdAt: Date.now() },
+  { id: '9', name: 'Mind Stun', type: 'Instant', manaCost: '{2}{U}', archetype: 'power', imageStatus: 'pending', isReprint: false, createdAt: Date.now() },
+  { id: '10', name: 'Control Mind', type: 'Sorcery', manaCost: '{4}{U}{B}', archetype: 'power', imageStatus: 'pending', isReprint: false, createdAt: Date.now() },
 ];
 
 export const loadData = (): AppData => {
