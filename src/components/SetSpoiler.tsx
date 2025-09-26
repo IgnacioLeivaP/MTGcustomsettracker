@@ -182,6 +182,26 @@ const CardDetailModal: React.FC<CardDetailModalProps> = ({ card, isOpen, onClose
                     <span className="text-white">{card.artist}</span>
                   </div>
                 )}
+
+                <div className="flex items-center space-x-3">
+                  <span className="text-gray-400 font-medium w-20">Status:</span>
+                  <span className={`px-2 py-1 rounded text-sm font-bold ${
+                    card.isReprint ? 'bg-yellow-500/20 text-yellow-300' : 'bg-green-500/20 text-green-300'
+                  }`}>
+                    {card.isReprint ? 'Reprint' : 'Original'}
+                  </span>
+                </div>
+
+                <div className="flex items-center space-x-3">
+                  <span className="text-gray-400 font-medium w-20">Image:</span>
+                  <span className={`px-2 py-1 rounded text-sm font-bold ${
+                    card.imageStatus === 'complete' 
+                      ? 'bg-green-500/20 text-green-300' 
+                      : 'bg-orange-500/20 text-orange-300'
+                  }`}>
+                    {card.imageStatus === 'complete' ? 'Complete' : 'Pending'}
+                  </span>
+                </div>
               </div>
 
               {/* Card Text */}
@@ -208,63 +228,45 @@ const CardDetailModal: React.FC<CardDetailModalProps> = ({ card, isOpen, onClose
                 </div>
               )}
 
-              {/* Additional Info */}
-              <div className="border-t border-white/20 pt-4">
-                <h3 className="text-lg font-semibold text-white mb-3">Additional Information</h3>
-                <div className="space-y-2 text-sm">
-                  <div className="flex items-center space-x-2">
-                    <span className="text-gray-400">Image Status:</span>
-                    <span className={`px-2 py-1 rounded text-xs font-bold ${
-                      card.imageStatus === 'complete' 
-                        ? 'bg-green-500/20 text-green-300' 
-                        : 'bg-orange-500/20 text-orange-300'
-                    }`}>
-                      {card.imageStatus === 'complete' ? 'Complete' : 'Pending'}
-                    </span>
+              {/* Special Properties */}
+              {(card.isNickname || card.isAlternateArt || card.isDoubleFaced || card.otherFaceId) && (
+                <div className="border-t border-white/20 pt-4">
+                  <h3 className="text-lg font-semibold text-white mb-3">Special Properties</h3>
+                  <div className="space-y-3">
+                    {card.isNickname && card.originalName && (
+                      <div className="flex items-center space-x-3">
+                        <span className="text-gray-400 font-medium w-24">Original Name:</span>
+                        <span className="text-purple-300 font-medium">{card.originalName}</span>
+                      </div>
+                    )}
+
+                    {card.isAlternateArt && (
+                      <div className="flex items-center space-x-3">
+                        <span className="text-gray-400 font-medium w-24">Special:</span>
+                        <span className="px-2 py-1 rounded text-sm font-bold bg-cyan-500/20 text-cyan-300">
+                          Alternate Art
+                        </span>
+                      </div>
+                    )}
+
+                    {card.isDoubleFaced && (
+                      <div className="flex items-center space-x-3">
+                        <span className="text-gray-400 font-medium w-24">Card Type:</span>
+                        <span className="px-2 py-1 rounded text-sm font-bold bg-indigo-500/20 text-indigo-300">
+                          Double-Faced Card
+                        </span>
+                      </div>
+                    )}
+
+                    {card.otherFaceId && (
+                      <div className="flex items-center space-x-3">
+                        <span className="text-gray-400 font-medium w-24">Other Face:</span>
+                        <span className="text-indigo-300 font-medium">{card.otherFaceId}</span>
+                      </div>
+                    )}
                   </div>
-
-                  <div className="flex items-center space-x-2">
-                    <span className="text-gray-400">Status:</span>
-                    <span className={`px-2 py-1 rounded text-xs font-bold ${
-                      card.isReprint ? 'bg-yellow-500/20 text-yellow-300' : 'bg-green-500/20 text-green-300'
-                    }`}>
-                      {card.isReprint ? 'Reprint' : 'Original'}
-                    </span>
-                  </div>
-
-                  {card.isNickname && card.originalName && (
-                    <div className="flex items-center space-x-2">
-                      <span className="text-gray-400">Original Name:</span>
-                      <span className="text-purple-300">{card.originalName}</span>
-                    </div>
-                  )}
-
-                  {card.isAlternateArt && (
-                    <div className="flex items-center space-x-2">
-                      <span className="text-gray-400">Special:</span>
-                      <span className="px-2 py-1 rounded text-xs font-bold bg-cyan-500/20 text-cyan-300">
-                        Alternate Art
-                      </span>
-                    </div>
-                  )}
-
-                  {card.otherFaceId && (
-                    <div className="flex items-center space-x-2">
-                      <span className="text-gray-400">Other Face ID:</span>
-                      <span className="text-indigo-300">{card.otherFaceId}</span>
-                    </div>
-                  )}
-
-                  {card.isDoubleFaced && (
-                    <div className="flex items-center space-x-2">
-                      <span className="text-gray-400">Special:</span>
-                      <span className="px-2 py-1 rounded text-xs font-bold bg-indigo-500/20 text-indigo-300">
-                        Double-Faced Card
-                      </span>
-                    </div>
-                  )}
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
