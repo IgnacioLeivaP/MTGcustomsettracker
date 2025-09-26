@@ -503,16 +503,6 @@ export const CardEditModal: React.FC<CardEditModalProps> = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Artist</label>
-              <input
-                type="text"
-                value={formData.artist}
-                onChange={(e) => setFormData(prev => ({ ...prev, artist: e.target.value }))}
-                className="w-full p-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500"
-                placeholder="Enter artist name for art credit"
-              />
-            </div>
-          </div>
         </div>
       </div>
     </div>
