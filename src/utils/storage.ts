@@ -61,6 +61,10 @@ export const loadData = (): AppData => {
         settings: {
           ...defaultData.settings,
           ...data.settings,
+          setInfo: {
+            ...defaultData.settings.setInfo,
+            ...(data.settings?.setInfo || {})
+          },
           overviewSections: {
             ...defaultData.settings.overviewSections,
             ...(data.settings?.overviewSections || {})
@@ -103,6 +107,12 @@ const getDefaultData = (): AppData => ({
   archetypes: [...defaultArchetypes],
   version: STORAGE_VERSION,
   settings: {
+    setInfo: {
+      name: 'My Custom Magic Set',
+      description: 'A custom Magic: The Gathering set created with the MTG Custom Set Tracker.',
+      totalCards: 280,
+      hasAlternateArts: false
+    },
     overviewSections: {
       totalCards: true,
       cardsWithImages: true,

@@ -32,6 +32,12 @@ export interface AppData {
   archetypes: Archetype[];
   version: string;
   settings: {
+    setInfo: {
+      name: string;
+      description: string;
+      totalCards: number;
+      hasAlternateArts: boolean;
+    };
     overviewSections: {
       totalCards: boolean;
       cardsWithImages: boolean;

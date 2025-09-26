@@ -9,6 +9,8 @@ import { ArchetypeManager } from './components/ArchetypeManager';
 import { SettingsModal } from './components/SettingsModal';
 import { OverviewSettings } from './components/OverviewSettings';
 import { HelpSection } from './components/HelpSection';
+import { SetInfoSettings } from './components/SetInfoSettings';
+import { SetHeader } from './components/SetHeader';
 
 type ActiveSection = 'dashboard' | 'add-card' | 'card-list' | 'settings' | 'help';
 
@@ -88,11 +90,17 @@ function App() {
           {/* Content based on active section */}
           <div className="space-y-8">
             {activeSection === 'dashboard' && (
-              <StatsGrid 
-                cards={appData.cards} 
-                archetypes={appData.archetypes}
-                settings={appData.settings}
-              />
+              <>
+                <SetHeader 
+                  setInfo={appData.settings.setInfo}
+                  currentCardCount={appData.cards.length}
+                />
+                <StatsGrid 
+                  cards={appData.cards} 
+                  archetypes={appData.archetypes}
+                  settings={appData.settings}
+                />
+              </>
             )}
 
             {activeSection === 'add-card' && (
@@ -114,6 +122,11 @@ function App() {
 
             {activeSection === 'settings' && (
               <div className="space-y-8">
+                <SetInfoSettings
+                  settings={appData.settings}
+                  onUpdateSettings={updateSettings}
+                />
+                
                 <OverviewSettings
                   settings={appData.settings}
                   onUpdateSettings={updateSettings}

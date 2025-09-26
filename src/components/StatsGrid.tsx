@@ -27,7 +27,7 @@ export const StatsGrid: React.FC<StatsGridProps> = ({ cards, archetypes, setting
   }, {} as Record<string, number>);
   
   const activeArchetypes = Object.keys(archetypeCounts).length;
-  const completionPercent = ((totalCards / 280) * 100);
+  const completionPercent = ((totalCards / settings.setInfo.totalCards) * 100);
   const imagePercent = totalCards > 0 ? ((imageCompleteCards / totalCards) * 100) : 0;
 
   return (
@@ -47,6 +47,7 @@ export const StatsGrid: React.FC<StatsGridProps> = ({ cards, archetypes, setting
               />
             </div>
             <small className="text-gray-300">Target: 280 cards ({completionPercent.toFixed(1)}%)</small>
+            <small className="text-gray-300">Target: {settings.setInfo.totalCards} cards ({completionPercent.toFixed(1)}%)</small>
           </div>
         )}
 
