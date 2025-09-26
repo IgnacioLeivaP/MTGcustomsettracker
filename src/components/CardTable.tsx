@@ -32,6 +32,64 @@ interface SortConfig {
   direction: SortDirection;
 }
 
+const COLUMN_SETTINGS_KEY = 'mtg-card-table-columns';
+const SORT_SETTINGS_KEY = 'mtg-card-table-sort';
+
+const defaultColumnVisibility: ColumnVisibility = {
+  originalName: true,
+  manaCost: true,
+  type: true,
+  rarity: true,
+  archetype: true,
+  originalReprint: true,
+  imageStatus: true,
+  colorIdentity: true,
+  imageThumbnail: true,
+  actions: true
+};
+
+const loadColumnSettings = (): ColumnVisibility => {
+  try {
+    const stored = localStorage.getItem(COLUMN_SETTINGS_KEY);
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      // Merge with defaults to ensure all properties exist
+      return { ...defaultColumnVisibility, ...parsed };
+    }
+  } catch (error) {
+    console.error('Error loading column settings:', error);
+  }
+  return defaultColumnVisibility;
+};
+
+const saveColumnSettings = (settings: ColumnVisibility): void => {
+  try {
+    localStorage.setItem(COLUMN_SETTINGS_KEY, JSON.stringify(settings));
+  } catch (error) {
+    console.error('Error saving column settings:', error);
+  }
+};
+
+const loadSortSettings = (): SortConfig => {
+  try {
+    const stored = localStorage.getItem(SORT_SETTINGS_KEY);
+    if (stored) {
+      return JSON.parse(stored);
+    }
+  } catch (error) {
+    console.error('Error loading sort settings:', error);
+  }
+  return { field: null, direction: 'asc' };
+};
+
+const saveSortSettings = (settings: SortConfig): void => {
+  try {
+    localStorage.setItem(SORT_SETTINGS_KEY, JSON.stringify(settings));
+  } catch (error) {
+    console.error('Error saving sort settings:', error);
+  }
+};
+
 export const CardTable: React.FC<CardTableProps> = ({ 
   cards, 
   archetypes, 
@@ -41,19 +99,8 @@ export const CardTable: React.FC<CardTableProps> = ({
   const [editingCard, setEditingCard] = useState<Card | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [showColumnConfig, setShowColumnConfig] = useState(false);
-  const [sortConfig, setSortConfig] = useState<SortConfig>({ field: null, direction: 'asc' });
-  const [columnVisibility, setColumnVisibility] = useState<ColumnVisibility>({
-    originalName: true,
-    manaCost: true,
-    type: true,
-    rarity: true,
-    archetype: true,
-    originalReprint: true,
-    imageStatus: true,
-    colorIdentity: true,
-    imageThumbnail: true,
-    actions: true
-  });
+  const [sortConfig, setSortConfig] = useState<SortConfig>(() => loadSortSettings());
+  const [columnVisibility, setColumnVisibility] = useState<ColumnVisibility>(() => loadColumnSettings());
 
   const toggleImageStatus = (cardId: string, currentStatus: 'pending' | 'complete') => {
     onUpdateCard(cardId, { 
@@ -84,12 +131,25 @@ export const CardTable: React.FC<CardTableProps> = ({
   };
 
   const toggleColumnVisibility = (column: keyof ColumnVisibility) => {
-    setColumnVisibility(prev => ({
-      ...prev,
-      [column]: !prev[column]
-    }));
+    const newSettings = {
+      ...columnVisibility,
+      [column]: !columnVisibility[column]
+    };
+    setColumnVisibility(newSettings);
+    saveColumnSettings(newSettings);
   };
 
+  const handleSort = (field: SortField) => {
+    let direction: SortDirection = 'asc';
+    
+    if (sortConfig.field === field && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    
+    const newSortConfig = { field, direction };
+    setSortConfig(newSortConfig);
+    saveSortSettings(newSortConfig);
+  };
   const getConvertedManaCost = (manaCost: string): number => {
     if (!manaCost) return 0;
     let total = 0;
@@ -252,16 +312,6 @@ export const CardTable: React.FC<CardTableProps> = ({
         <span className={`text-sm ${info.textColor}`}>{identity.displayName}</span>
       </div>
     );
-  };
-
-  const handleSort = (field: SortField) => {
-    let direction: SortDirection = 'asc';
-    
-    if (sortConfig.field === field && sortConfig.direction === 'asc') {
-      direction = 'desc';
-    }
-    
-    setSortConfig({ field, direction });
   };
 
   const getSortedCards = () => {
