@@ -53,7 +53,15 @@ export const loadData = (): AppData => {
 
 export const saveData = (data: AppData): void => {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    // Create a copy of data without image files to avoid quota exceeded errors
+    const dataToSave = {
+      ...data,
+      cards: data.cards.map(card => {
+        const { imageFile, ...cardWithoutImage } = card;
+        return cardWithoutImage;
+      })
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
   } catch (error) {
     console.error('Error saving data:', error);
   }
