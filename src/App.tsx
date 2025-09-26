@@ -5,6 +5,7 @@ import { Sidebar } from './components/Sidebar';
 import { StatsGrid } from './components/StatsGrid';
 import { CardForm } from './components/CardForm';
 import { CardTable } from './components/CardTable';
+import { SetSpoiler } from './components/SetSpoiler';
 import { ArchetypeManager } from './components/ArchetypeManager';
 import { SettingsModal } from './components/SettingsModal';
 import { OverviewSettings } from './components/OverviewSettings';
@@ -13,7 +14,7 @@ import { SetInfoSettings } from './components/SetInfoSettings';
 import { SetHeader } from './components/SetHeader';
 import { DebugSection } from './components/DebugSection';
 
-type ActiveSection = 'dashboard' | 'add-card' | 'card-list' | 'settings' | 'help';
+type ActiveSection = 'dashboard' | 'add-card' | 'card-list' | 'set-spoiler' | 'settings' | 'help';
 
 function App() {
   const [appData, setAppData] = useState<AppData>(() => loadData());
@@ -124,6 +125,13 @@ function App() {
                 archetypes={appData.archetypes}
                 onUpdateCard={updateCard}
                 onDeleteCard={deleteCard}
+              />
+            )}
+
+            {activeSection === 'set-spoiler' && (
+              <SetSpoiler 
+                cards={appData.cards}
+                archetypes={appData.archetypes}
               />
             )}
 
