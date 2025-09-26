@@ -18,6 +18,7 @@ export interface Card {
   abilityText?: string;
   flavorText?: string;
   createdAt: number;
+  number?: number;
 }
 
 export interface Archetype {

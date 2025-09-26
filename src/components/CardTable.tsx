@@ -12,6 +12,7 @@ interface CardTableProps {
 }
 
 interface ColumnVisibility {
+  number: boolean;
   originalName: boolean;
   manaCost: boolean;
   type: boolean;
@@ -24,7 +25,7 @@ interface ColumnVisibility {
   actions: boolean;
 }
 
-type SortField = 'name' | 'manaCost' | 'rarity' | 'archetype' | 'originalReprint' | 'type' | 'colorIdentity';
+type SortField = 'name' | 'number' | 'manaCost' | 'rarity' | 'archetype' | 'originalReprint' | 'type' | 'colorIdentity';
 type SortDirection = 'asc' | 'desc';
 
 interface SortConfig {
@@ -36,6 +37,7 @@ const COLUMN_SETTINGS_KEY = 'mtg-card-table-columns';
 const SORT_SETTINGS_KEY = 'mtg-card-table-sort';
 
 const defaultColumnVisibility: ColumnVisibility = {
+  number: true,
   originalName: true,
   manaCost: true,
   type: true,
@@ -327,6 +329,10 @@ export const CardTable: React.FC<CardTableProps> = ({
           aValue = a.name.toLowerCase();
           bValue = b.name.toLowerCase();
           break;
+        case 'number':
+          aValue = a.number || 0;
+          bValue = b.number || 0;
+          break;
         case 'manaCost':
           aValue = getConvertedManaCost(a.manaCost || '');
           bValue = getConvertedManaCost(b.manaCost || '');
@@ -383,6 +389,7 @@ export const CardTable: React.FC<CardTableProps> = ({
   };
 
   const columnConfig = [
+    { key: 'number' as const, label: 'Number', description: 'Card number for ordering and identification' },
     { key: 'originalName' as const, label: 'Original Name', description: 'Shows original card name for nickname cards' },
     { key: 'imageThumbnail' as const, label: 'Image Thumbnail', description: 'Shows card image thumbnail if uploaded' },
     { key: 'manaCost' as const, label: 'Mana Cost', description: 'Displays mana cost symbols' },
@@ -473,6 +480,17 @@ export const CardTable: React.FC<CardTableProps> = ({
                     {getSortIcon('name')}
                   </button>
                 </th>
+                {columnVisibility.number && (
+                  <th className="p-4 text-left font-bold text-white">
+                    <button
+                      onClick={() => handleSort('number')}
+                      className="flex items-center space-x-2 hover:text-blue-300 transition-colors"
+                    >
+                      <span>Number</span>
+                      {getSortIcon('number')}
+                    </button>
+                  </th>
+                )}
                 {columnVisibility.originalName && (
                   <th className="p-4 text-left font-bold text-white">Original Name</th>
                 )}
@@ -567,6 +585,13 @@ export const CardTable: React.FC<CardTableProps> = ({
                       </span>
                     )}
                   </td>
+                  {columnVisibility.number && (
+                    <td className="p-4">
+                      <span className="text-white font-mono">
+                        {card.number ? `#${card.number.toString().padStart(3, '0')}` : '—'}
+                      </span>
+                    </td>
+                  )}
                   {columnVisibility.originalName && (
                     <td className="p-4">
                       {card.isNickname && card.originalName ? (
