@@ -28,7 +28,9 @@ export const CardForm: React.FC<CardFormProps> = ({ archetypes, onAddCard }) => 
     isReprint: false,
     imageFile: '',
     power: '',
-    toughness: ''
+    toughness: '',
+    abilityText: '',
+    flavorText: ''
   });
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,7 +70,9 @@ export const CardForm: React.FC<CardFormProps> = ({ archetypes, onAddCard }) => 
       isReprint: false,
       imageFile: '',
       power: '',
-      toughness: ''
+      toughness: '',
+      abilityText: '',
+      flavorText: ''
     });
   };
 
@@ -153,6 +157,30 @@ export const CardForm: React.FC<CardFormProps> = ({ archetypes, onAddCard }) => 
               </div>
             </>
           )}
+        </div>
+
+        <div className="grid grid-cols-1 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Ability Text</label>
+            <textarea
+              value={formData.abilityText}
+              onChange={(e) => setFormData(prev => ({ ...prev, abilityText: e.target.value }))}
+              className="w-full p-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 resize-vertical"
+              placeholder="Enter the card's abilities and rules text"
+              rows={3}
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Flavor Text</label>
+            <textarea
+              value={formData.flavorText}
+              onChange={(e) => setFormData(prev => ({ ...prev, flavorText: e.target.value }))}
+              className="w-full p-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 resize-vertical italic"
+              placeholder="Enter the card's flavor text (optional)"
+              rows={2}
+            />
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">

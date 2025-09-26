@@ -34,7 +34,7 @@ const defaultCards: Card[] = [
   { id: '10', name: 'Control Mind', type: 'Sorcery', manaCost: '{4}{U}{B}', archetype: 'power', imageStatus: 'pending', isReprint: false, createdAt: Date.now() },
   
   // Example creature with power/toughness
-  { id: '11', name: 'Vampire Knight', type: 'Creature - Vampire Knight', manaCost: '{2}{B}', archetype: 'bw', imageStatus: 'pending', isReprint: false, power: '2', toughness: '2', createdAt: Date.now() },
+  { id: '11', name: 'Vampire Knight', type: 'Creature - Vampire Knight', manaCost: '{2}{B}', archetype: 'bw', imageStatus: 'pending', isReprint: false, power: '2', toughness: '2', abilityText: 'Flying, lifelink', flavorText: '"In darkness, we find our true strength."', createdAt: Date.now() },
 ];
 
 export const loadData = (): AppData => {

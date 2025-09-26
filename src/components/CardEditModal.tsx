@@ -39,7 +39,9 @@ export const CardEditModal: React.FC<CardEditModalProps> = ({
     isReprint: card?.isReprint || false,
     imageFile: card?.imageFile || '',
     power: card?.power || '',
-    toughness: card?.toughness || ''
+    toughness: card?.toughness || '',
+    abilityText: card?.abilityText || '',
+    flavorText: card?.flavorText || ''
   });
 
   React.useEffect(() => {
@@ -53,7 +55,9 @@ export const CardEditModal: React.FC<CardEditModalProps> = ({
         isReprint: card.isReprint,
         imageFile: card.imageFile || '',
         power: card.power || '',
-        toughness: card.toughness || ''
+        toughness: card.toughness || '',
+        abilityText: card.abilityText || '',
+        flavorText: card.flavorText || ''
       });
     }
   }, [card]);
@@ -205,6 +209,34 @@ export const CardEditModal: React.FC<CardEditModalProps> = ({
                 </div>
               </div>
             )}
+          </div>
+
+          {/* Card Text */}
+          <div>
+            <h3 className="text-lg font-semibold text-white mb-4">Card Text</h3>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Ability Text</label>
+                <textarea
+                  value={formData.abilityText}
+                  onChange={(e) => setFormData(prev => ({ ...prev, abilityText: e.target.value }))}
+                  className="w-full p-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 resize-vertical"
+                  placeholder="Enter the card's abilities and rules text"
+                  rows={4}
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Flavor Text</label>
+                <textarea
+                  value={formData.flavorText}
+                  onChange={(e) => setFormData(prev => ({ ...prev, flavorText: e.target.value }))}
+                  className="w-full p-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 resize-vertical italic"
+                  placeholder="Enter the card's flavor text (optional)"
+                  rows={3}
+                />
+              </div>
+            </div>
           </div>
 
           {/* Card Properties */}

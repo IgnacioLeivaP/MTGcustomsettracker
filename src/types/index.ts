@@ -9,6 +9,8 @@ export interface Card {
   imageFile?: string; // base64 encoded image
   power?: string;
   toughness?: string;
+  abilityText?: string;
+  flavorText?: string;
   createdAt: number;
 }
 
