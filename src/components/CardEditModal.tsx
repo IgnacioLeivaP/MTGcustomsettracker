@@ -36,6 +36,7 @@ export const CardEditModal: React.FC<CardEditModalProps> = ({
 }) => {
   const [formData, setFormData] = useState({
     name: card?.name || '',
+    number: card?.number || '',
     type: card?.type || 'Creature',
     manaCost: card?.manaCost || '',
     rarity: card?.rarity || 'C',
@@ -51,7 +52,8 @@ export const CardEditModal: React.FC<CardEditModalProps> = ({
     power: card?.power || '',
     toughness: card?.toughness || '',
     abilityText: card?.abilityText || '',
-    flavorText: card?.flavorText || ''
+    flavorText: card?.flavorText || '',
+    artist: card?.artist || ''
   });
 
   React.useEffect(() => {
