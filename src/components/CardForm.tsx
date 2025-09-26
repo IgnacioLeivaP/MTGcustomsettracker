@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Card, Archetype } from '../types';
 import { Upload } from 'lucide-react';
 import { normalizeManaForStorage } from '../utils/manaParser';
+import { compressImage } from '../utils/imageCompression';
 
 interface CardFormProps {
   archetypes: Archetype[];
@@ -44,6 +45,35 @@ export const CardForm: React.FC<CardFormProps> = ({ archetypes, cards, onAddCard
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      // Show loading state
+      setFormData(prev => ({
+        ...prev,
+        imageStatus: 'pending' as const
+      }));
+      
+      compressImage(file)
+        .then((compressedDataUrl) => {
+          setFormData(prev => ({
+            ...prev,
+            imageFile: compressedDataUrl,
+            imageStatus: 'complete' as const
+          }));
+        })
+        .catch((error) => {
+          console.error('Error compressing image:', error);
+          alert('Error processing image. Please try a different image.');
+          setFormData(prev => ({
+            ...prev,
+            imageStatus: 'pending' as const
+          }));
+        });
+    }
+  };
+
+  const handleImageUploadLegacy = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Fallback to original method if compression fails
       const reader = new FileReader();
       reader.onload = (event) => {
         const result = event.target?.result as string;

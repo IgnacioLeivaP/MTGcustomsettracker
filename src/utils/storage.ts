@@ -80,17 +80,25 @@ export const loadData = (): AppData => {
 
 export const saveData = (data: AppData): void => {
   try {
-    // Create a copy of data without image files to avoid quota exceeded errors
-    const dataToSave = {
-      ...data,
-      cards: data.cards.map(card => {
-        const { imageFile, ...cardWithoutImage } = card;
-        return cardWithoutImage;
-      })
-    };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
+    // Now we save images too since they're compressed
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   } catch (error) {
     console.error('Error saving data:', error);
+    // If storage is full, try saving without images as fallback
+    try {
+      const dataWithoutImages = {
+        ...data,
+        cards: data.cards.map(card => {
+          const { imageFile, ...cardWithoutImage } = card;
+          return cardWithoutImage;
+        })
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(dataWithoutImages));
+      alert('Storage full! Data saved but images were removed. Consider exporting your data and clearing some space.');
+    } catch (fallbackError) {
+      console.error('Fallback save also failed:', fallbackError);
+      alert('Unable to save data - storage is full. Please export your data and clear browser storage.');
+    }
   }
 };
 

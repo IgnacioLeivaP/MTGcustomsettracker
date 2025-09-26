@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { X, Upload, Trash2, Image as ImageIcon, RotateCcw } from 'lucide-react';
 import { Card, Archetype } from '../types';
 import { normalizeManaForStorage } from '../utils/manaParser';
+import { compressImage } from '../utils/imageCompression';
 
 interface CardEditModalProps {
   isOpen: boolean;
@@ -80,6 +81,24 @@ export const CardEditModal: React.FC<CardEditModalProps> = ({
   if (!isOpen || !card) return null;
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      compressImage(file)
+        .then((compressedDataUrl) => {
+          setFormData(prev => ({
+            ...prev,
+            imageFile: compressedDataUrl,
+            imageStatus: 'complete' as const
+          }));
+        })
+        .catch((error) => {
+          console.error('Error compressing image:', error);
+          alert('Error processing image. Please try a different image.');
+        });
+    }
+  };
+
+  const handleImageUploadLegacy = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();

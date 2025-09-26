@@ -11,6 +11,7 @@ import { OverviewSettings } from './components/OverviewSettings';
 import { HelpSection } from './components/HelpSection';
 import { SetInfoSettings } from './components/SetInfoSettings';
 import { SetHeader } from './components/SetHeader';
+import { DebugSection } from './components/DebugSection';
 
 type ActiveSection = 'dashboard' | 'add-card' | 'card-list' | 'settings' | 'help';
 
@@ -141,6 +142,8 @@ function App() {
                   archetypes={appData.archetypes}
                   onUpdateArchetypes={updateArchetypes}
                 />
+                
+                <DebugSection appData={appData} />
                 
                 <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
                   <h2 className="text-2xl font-bold mb-6 text-red-400">⚙️ App Settings</h2>
