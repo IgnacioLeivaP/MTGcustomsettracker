@@ -405,6 +405,24 @@ export const CardTable: React.FC<CardTableProps> = ({
 
   const sortedCards = getSortedCards();
 
+  const showAllColumns = () => {
+    const newSettings = Object.keys(columnVisibility).reduce((acc, key) => {
+      acc[key as keyof ColumnVisibility] = true;
+      return acc;
+    }, {} as ColumnVisibility);
+    setColumnVisibility(newSettings);
+    saveColumnSettings(newSettings);
+  };
+
+  const hideAllColumns = () => {
+    const newSettings = Object.keys(columnVisibility).reduce((acc, key) => {
+      acc[key as keyof ColumnVisibility] = false;
+      return acc;
+    }, {} as ColumnVisibility);
+    setColumnVisibility(newSettings);
+    saveColumnSettings(newSettings);
+  };
+
   return (
     <>
       <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
@@ -754,24 +772,6 @@ export const CardTable: React.FC<CardTableProps> = ({
           )}
         </div>
       </div>
-
-      const showAllColumns = () => {
-        const newSettings = Object.keys(columnVisibility).reduce((acc, key) => {
-          acc[key as keyof ColumnVisibility] = true;
-          return acc;
-        }, {} as ColumnVisibility);
-        setColumnVisibility(newSettings);
-        saveColumnSettings(newSettings);
-      };
-
-      const hideAllColumns = () => {
-        const newSettings = Object.keys(columnVisibility).reduce((acc, key) => {
-          acc[key as keyof ColumnVisibility] = false;
-          return acc;
-        }, {} as ColumnVisibility);
-        setColumnVisibility(newSettings);
-        saveColumnSettings(newSettings);
-      };
 
       <CardEditModal
         isOpen={isEditModalOpen}
