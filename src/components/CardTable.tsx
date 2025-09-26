@@ -139,17 +139,6 @@ export const CardTable: React.FC<CardTableProps> = ({
     saveColumnSettings(newSettings);
   };
 
-  const handleSort = (field: SortField) => {
-    let direction: SortDirection = 'asc';
-    
-    if (sortConfig.field === field && sortConfig.direction === 'asc') {
-      direction = 'desc';
-    }
-    
-    const newSortConfig = { field, direction };
-    setSortConfig(newSortConfig);
-    saveSortSettings(newSortConfig);
-  };
   const getConvertedManaCost = (manaCost: string): number => {
     if (!manaCost) return 0;
     let total = 0;
@@ -314,6 +303,18 @@ export const CardTable: React.FC<CardTableProps> = ({
     );
   };
 
+  const handleSort = (field: SortField) => {
+    let direction: SortDirection = 'asc';
+    
+    if (sortConfig.field === field && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    
+    const newSortConfig = { field, direction };
+    setSortConfig(newSortConfig);
+    saveSortSettings(newSortConfig);
+  };
+
   const getSortedCards = () => {
     if (!sortConfig.field) return cards;
 
@@ -452,7 +453,7 @@ export const CardTable: React.FC<CardTableProps> = ({
             <div className="mt-4 p-3 bg-blue-500/10 border border-blue-500/30 rounded-lg">
               <p className="text-sm text-blue-200">
                 💡 <strong>Tip:</strong> Hide columns you don't need to create a cleaner view. 
-                The "Card Name\" column is always visible as it's essential for identification.
+                The "Card Name" column is always visible as it's essential for identification.
               </p>
             </div>
           </div>
