@@ -1,7 +1,5 @@
 import React from 'react';
-import { Home, Plus, List, Settings, BarChart3, HelpCircle, Grid3X3 } from 'lucide-react';
-
-type ActiveSection = 'dashboard' | 'add-card' | 'card-list' | 'settings' | 'help';
+import { Home, Plus, List, Settings, BarChart3, HelpCircle, Grid3x3 as Grid3X3 } from 'lucide-react'ctiveSection = 'dashboard' | 'add-card' | 'card-list' | 'settings' | 'help';
 type ActiveSection = 'dashboard' | 'add-card' | 'card-list' | 'set-spoiler' | 'settings' | 'help';
 
 interface SidebarProps {
@@ -28,12 +26,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
       label: 'Card List',
       icon: List,
       description: 'View and manage cards'
-    },
-    {
-      id: 'set-spoiler' as const,
-      label: 'Set Spoiler',
-      icon: Grid3X3,
-      description: 'Visual card spoiler view'
     },
     {
       id: 'settings' as const,
