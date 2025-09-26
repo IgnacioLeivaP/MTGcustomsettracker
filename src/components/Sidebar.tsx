@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, Plus, List, Settings, BarChart3, HelpCircle, Grid3x3 as Grid3X3 } from 'lucide-react';
+import { Home, Plus, List, Settings, Sparkles, HelpCircle, Grid3x3 as Grid3X3 } from 'lucide-react';
 type ActiveSection = 'dashboard' | 'add-card' | 'card-list' | 'set-spoiler' | 'settings' | 'help';
 
 interface SidebarProps {
@@ -52,10 +52,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
       {/* Header */}
       <div className="p-6 border-b border-white/20">
         <div className="flex items-center space-x-3">
-          <BarChart3 className="w-8 h-8 text-red-400" />
+          <Sparkles className="w-8 h-8 text-purple-400" />
           <div>
-            <h1 className="text-lg font-bold text-white">MTG Tracker</h1>
-            <p className="text-xs text-gray-400">Custom Set Manager</p>
+            <h1 className="text-lg font-bold text-white">MTG Custom Set Creator</h1>
+            <p className="text-xs text-gray-400">Magical Set Builder</p>
           </div>
         </div>
       </div>
