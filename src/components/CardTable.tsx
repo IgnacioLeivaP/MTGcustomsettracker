@@ -423,6 +423,22 @@ export const CardTable: React.FC<CardTableProps> = ({
         {showColumnConfig && (
           <div className="mb-6 p-4 bg-white/5 rounded-lg border border-white/20">
             <h3 className="text-lg font-semibold text-white mb-4">Column Visibility Settings</h3>
+            
+            <div className="flex space-x-3 mb-4">
+              <button
+                onClick={showAllColumns}
+                className="px-4 py-2 bg-green-500/20 border border-green-500/30 text-green-300 rounded-lg hover:bg-green-500/30 transition-colors text-sm font-medium"
+              >
+                Show All Columns
+              </button>
+              <button
+                onClick={hideAllColumns}
+                className="px-4 py-2 bg-red-500/20 border border-red-500/30 text-red-300 rounded-lg hover:bg-red-500/30 transition-colors text-sm font-medium"
+              >
+                Hide All Columns
+              </button>
+            </div>
+            
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
               {columnConfig.map((column) => (
                 <div
@@ -738,6 +754,24 @@ export const CardTable: React.FC<CardTableProps> = ({
           )}
         </div>
       </div>
+
+      const showAllColumns = () => {
+        const newSettings = Object.keys(columnVisibility).reduce((acc, key) => {
+          acc[key as keyof ColumnVisibility] = true;
+          return acc;
+        }, {} as ColumnVisibility);
+        setColumnVisibility(newSettings);
+        saveColumnSettings(newSettings);
+      };
+
+      const hideAllColumns = () => {
+        const newSettings = Object.keys(columnVisibility).reduce((acc, key) => {
+          acc[key as keyof ColumnVisibility] = false;
+          return acc;
+        }, {} as ColumnVisibility);
+        setColumnVisibility(newSettings);
+        saveColumnSettings(newSettings);
+      };
 
       <CardEditModal
         isOpen={isEditModalOpen}
