@@ -81,5 +81,14 @@ export const clearData = (): void => {
 const getDefaultData = (): AppData => ({
   cards: [...defaultCards],
   archetypes: [...defaultArchetypes],
-  version: STORAGE_VERSION
+  version: STORAGE_VERSION,
+  settings: {
+    overviewSections: {
+      totalCards: true,
+      cardsWithImages: true,
+      originalVsReprints: true,
+      activeArchetypes: true,
+      archetypeBreakdown: true
+    }
+  }
 });

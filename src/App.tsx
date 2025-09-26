@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Settings, Home } from 'lucide-react';
 import { Card, Archetype, AppData } from './types';
 import { loadData, saveData, clearData } from './utils/storage';
+import { Sidebar } from './components/Sidebar';
 import { StatsGrid } from './components/StatsGrid';
 import { CardForm } from './components/CardForm';
 import { CardTable } from './components/CardTable';
 import { ArchetypeManager } from './components/ArchetypeManager';
 import { SettingsModal } from './components/SettingsModal';
+import { OverviewSettings } from './components/OverviewSettings';
 
-type ActiveTab = 'dashboard' | 'archetypes' | 'settings';
+type ActiveSection = 'dashboard' | 'add-card' | 'card-list' | 'settings';
 
 function App() {
   const [appData, setAppData] = useState<AppData>(() => loadData());
-  const [activeTab, setActiveTab] = useState<ActiveTab>('dashboard');
+  const [activeSection, setActiveSection] = useState<ActiveSection>('dashboard');
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   // Save data whenever it changes
@@ -65,79 +66,82 @@ function App() {
     setAppData(newData);
   };
 
+  const updateSettings = (newSettings: any) => {
+    setAppData(prev => ({
+      ...prev,
+      settings: newSettings
+    }));
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
-            MTG Custom Set Tracker
-          </h1>
-          <button
-            onClick={() => setIsSettingsOpen(true)}
-            className="p-3 bg-white/10 hover:bg-white/20 rounded-lg border border-white/20 transition-colors"
-          >
-            <Settings className="w-6 h-6 text-gray-300" />
-          </button>
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white flex">
+      {/* Sidebar */}
+      <Sidebar 
+        activeSection={activeSection} 
+        onSectionChange={setActiveSection} 
+      />
+      
+      {/* Main Content */}
+      <div className="flex-1 overflow-auto">
+        <div className="container mx-auto px-6 py-8 max-w-6xl">
+          {/* Content based on active section */}
+          <div className="space-y-8">
+            {activeSection === 'dashboard' && (
+              <StatsGrid 
+                cards={appData.cards} 
+                archetypes={appData.archetypes}
+                settings={appData.settings}
+              />
+            )}
 
-        {/* Navigation */}
-        <div className="flex space-x-4 mb-8">
-          <button
-            onClick={() => setActiveTab('dashboard')}
-            className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
-              activeTab === 'dashboard'
-                ? 'bg-red-500 text-white'
-                : 'bg-white/10 text-gray-300 hover:bg-white/20'
-            }`}
-          >
-            <Home className="w-4 h-4" />
-            <span>Dashboard</span>
-          </button>
-          <button
-            onClick={() => setActiveTab('archetypes')}
-            className={`px-4 py-2 rounded-lg transition-colors ${
-              activeTab === 'archetypes'
-                ? 'bg-red-500 text-white'
-                : 'bg-white/10 text-gray-300 hover:bg-white/20'
-            }`}
-          >
-            Manage Archetypes
-          </button>
-        </div>
-
-        {/* Content */}
-        <div className="space-y-8">
-          {activeTab === 'dashboard' && (
-            <>
-              <StatsGrid cards={appData.cards} archetypes={appData.archetypes} />
+            {activeSection === 'add-card' && (
               <CardForm archetypes={appData.archetypes} onAddCard={addCard} />
+            )}
+
+            {activeSection === 'card-list' && (
               <CardTable 
                 cards={appData.cards}
                 archetypes={appData.archetypes}
                 onUpdateCard={updateCard}
                 onDeleteCard={deleteCard}
               />
-            </>
-          )}
+            )}
 
-          {activeTab === 'archetypes' && (
-            <ArchetypeManager
-              archetypes={appData.archetypes}
-              onUpdateArchetypes={updateArchetypes}
-            />
-          )}
+            {activeSection === 'settings' && (
+              <div className="space-y-8">
+                <OverviewSettings
+                  settings={appData.settings}
+                  onUpdateSettings={updateSettings}
+                />
+                
+                <ArchetypeManager
+                  archetypes={appData.archetypes}
+                  onUpdateArchetypes={updateArchetypes}
+                />
+                
+                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+                  <h2 className="text-2xl font-bold mb-6 text-red-400">⚙️ App Settings</h2>
+                  <button
+                    onClick={() => setIsSettingsOpen(true)}
+                    className="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
+                  >
+                    Open Data Management
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
-
-        {/* Settings Modal */}
-        <SettingsModal
-          isOpen={isSettingsOpen}
-          onClose={() => setIsSettingsOpen(false)}
-          onResetData={resetAllData}
-          appData={appData}
-          onImportData={importData}
-        />
       </div>
+
+      {/* Settings Modal */}
+      <SettingsModal
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+        onResetData={resetAllData}
+        appData={appData}
+        onImportData={importData}
+      />
     </div>
   );
 }
