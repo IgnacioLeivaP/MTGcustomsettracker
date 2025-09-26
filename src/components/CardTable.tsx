@@ -459,7 +459,7 @@ export const CardTable: React.FC<CardTableProps> = ({
             <div className="mt-4 p-3 bg-blue-500/10 border border-blue-500/30 rounded-lg">
               <p className="text-sm text-blue-200">
                 💡 <strong>Tip:</strong> Hide columns you don't need to create a cleaner view. 
-                The "Card Name" column is always visible as it's essential for identification.
+                The "Card Name\" column is always visible as it's essential for identification.
               </p>
             </div>
           </div>
@@ -736,6 +736,12 @@ export const CardTable: React.FC<CardTableProps> = ({
         card={editingCard}
         archetypes={archetypes}
         cards={cards}
+        onUpdateCard={onUpdateCard}
+        onDeleteCard={onDeleteCard}
+      />
+    </>
+  );
+};{cards}
         onUpdateCard={onUpdateCard}
         onDeleteCard={onDeleteCard}
       />
