@@ -9,6 +9,9 @@ export interface Card {
   rarity: 'C' | 'U' | 'R' | 'M';
   isNickname: boolean;
   isAlternateArt: boolean;
+  originalName?: string;
+  isDoubleFaced: boolean;
+  otherFaceId?: string;
   imageFile?: string; // base64 encoded image
   power?: string;
   toughness?: string;

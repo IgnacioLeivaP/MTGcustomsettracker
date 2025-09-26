@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Card, Archetype } from '../types';
-import { Settings } from 'lucide-react';
+import { Settings, RotateCcw } from 'lucide-react';
 import { ManaSymbols } from './ManaSymbols';
 import { CardEditModal } from './CardEditModal';
 
@@ -57,6 +57,7 @@ export const CardTable: React.FC<CardTableProps> = ({
           <thead>
             <tr className="bg-red-500/30">
               <th className="p-4 text-left font-bold text-white">Card Name</th>
+              <th className="p-4 text-left font-bold text-white">Original Name</th>
               <th className="p-4 text-left font-bold text-white">Mana Cost</th>
               <th className="p-4 text-left font-bold text-white">Type</th>
               <th className="p-4 text-left font-bold text-white">Rarity</th>
@@ -74,6 +75,18 @@ export const CardTable: React.FC<CardTableProps> = ({
               >
                 <td className="p-4">
                   <strong className="text-white">{card.name}</strong>
+                  {card.isDoubleFaced && (
+                    <span className="ml-2 text-blue-300" title="Double-faced card">
+                      <RotateCcw className="w-4 h-4 inline" />
+                    </span>
+                  )}
+                </td>
+                <td className="p-4">
+                  {card.isNickname && card.originalName ? (
+                    <span className="text-purple-300 italic">{card.originalName}</span>
+                  ) : (
+                    <span className="text-gray-500">—</span>
+                  )}
                 </td>
                 <td className="p-4">
                   <ManaSymbols manaCost={card.manaCost || ''} />
@@ -114,6 +127,11 @@ export const CardTable: React.FC<CardTableProps> = ({
                         AA
                       </span>
                     )}
+                    {card.isDoubleFaced && (
+                      <span className="px-2 py-1 rounded font-bold text-xs bg-indigo-500/20 text-indigo-300">
+                        DF
+                      </span>
+                    )}
                   </div>
                 </td>
                 <td className="p-4">
@@ -149,6 +167,7 @@ export const CardTable: React.FC<CardTableProps> = ({
         onClose={closeEditModal}
         card={editingCard}
         archetypes={archetypes}
+        cards={cards}
         onUpdateCard={onUpdateCard}
         onDeleteCard={onDeleteCard}
       />

@@ -4,6 +4,7 @@ import { Upload } from 'lucide-react';
 
 interface CardFormProps {
   archetypes: Archetype[];
+  cards: Card[];
   onAddCard: (card: Omit<Card, 'id' | 'createdAt'>) => void;
 }
 
@@ -18,7 +19,7 @@ const cardTypes = [
   'Land'
 ];
 
-export const CardForm: React.FC<CardFormProps> = ({ archetypes, onAddCard }) => {
+export const CardForm: React.FC<CardFormProps> = ({ archetypes, cards, onAddCard }) => {
   const [formData, setFormData] = useState({
     name: '',
     type: 'Creature',
@@ -29,6 +30,9 @@ export const CardForm: React.FC<CardFormProps> = ({ archetypes, onAddCard }) => 
     isReprint: false,
     isNickname: false,
     isAlternateArt: false,
+    originalName: '',
+    isDoubleFaced: false,
+    otherFaceId: '',
     imageFile: '',
     power: '',
     toughness: '',
@@ -74,6 +78,9 @@ export const CardForm: React.FC<CardFormProps> = ({ archetypes, onAddCard }) => 
       isReprint: false,
       isNickname: false,
       isAlternateArt: false,
+      originalName: '',
+      isDoubleFaced: false,
+      otherFaceId: '',
       imageFile: '',
       power: '',
       toughness: '',
@@ -152,6 +159,37 @@ export const CardForm: React.FC<CardFormProps> = ({ archetypes, onAddCard }) => 
               ))}
             </select>
           </div>
+
+          {formData.isNickname && (
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Original Card Name</label>
+              <input
+                type="text"
+                value={formData.originalName}
+                onChange={(e) => setFormData(prev => ({ ...prev, originalName: e.target.value }))}
+                className="w-full p-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500"
+                placeholder="Enter the original Magic card name"
+              />
+            </div>
+          )}
+
+          {formData.isDoubleFaced && (
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Other Face</label>
+              <select
+                value={formData.otherFaceId}
+                onChange={(e) => setFormData(prev => ({ ...prev, otherFaceId: e.target.value }))}
+                className="w-full p-3 bg-white/10 border border-white/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-red-500"
+              >
+                <option value="" className="bg-gray-800">Select other face...</option>
+                {cards.filter(card => card.id !== 'new').map(card => (
+                  <option key={card.id} value={card.id} className="bg-gray-800">
+                    {card.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
 
           {isCreature && (
             <>
@@ -244,10 +282,15 @@ export const CardForm: React.FC<CardFormProps> = ({ archetypes, onAddCard }) => 
               <input
                 type="checkbox"
                 checked={formData.isNickname}
-                onChange={(e) => setFormData(prev => ({ ...prev, isNickname: e.target.checked }))}
+                onChange={(e) => setFormData(prev => ({ 
+                  ...prev, 
+                  isNickname: e.target.checked,
+                  originalName: e.target.checked ? prev.originalName : ''
+                }))}
+                disabled={!formData.isReprint}
                 className="mr-2 w-4 h-4 text-red-500 bg-white/10 border-white/30 rounded focus:ring-red-500"
               />
-              This is a nickname card
+              This is a nickname card {!formData.isReprint && '(requires reprint)'}
             </label>
             <label className="flex items-center text-white cursor-pointer">
               <input
@@ -257,6 +300,19 @@ export const CardForm: React.FC<CardFormProps> = ({ archetypes, onAddCard }) => 
                 className="mr-2 w-4 h-4 text-red-500 bg-white/10 border-white/30 rounded focus:ring-red-500"
               />
               This is alternate art
+            </label>
+            <label className="flex items-center text-white cursor-pointer">
+              <input
+                type="checkbox"
+                checked={formData.isDoubleFaced}
+                onChange={(e) => setFormData(prev => ({ 
+                  ...prev, 
+                  isDoubleFaced: e.target.checked,
+                  otherFaceId: e.target.checked ? prev.otherFaceId : ''
+                }))}
+                className="mr-2 w-4 h-4 text-red-500 bg-white/10 border-white/30 rounded focus:ring-red-500"
+              />
+              This is a double-faced card
             </label>
           </div>
 

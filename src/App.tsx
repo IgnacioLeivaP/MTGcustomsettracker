@@ -96,7 +96,11 @@ function App() {
             )}
 
             {activeSection === 'add-card' && (
-              <CardForm archetypes={appData.archetypes} onAddCard={addCard} />
+              <CardForm 
+                archetypes={appData.archetypes} 
+                cards={appData.cards}
+                onAddCard={addCard} 
+              />
             )}
 
             {activeSection === 'card-list' && (

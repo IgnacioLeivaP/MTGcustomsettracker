@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Upload, Trash2, Image as ImageIcon } from 'lucide-react';
+import { X, Upload, Trash2, Image as ImageIcon, RotateCcw } from 'lucide-react';
 import { Card, Archetype } from '../types';
 
 interface CardEditModalProps {
@@ -7,6 +7,7 @@ interface CardEditModalProps {
   onClose: () => void;
   card: Card | null;
   archetypes: Archetype[];
+  cards: Card[];
   onUpdateCard: (id: string, updates: Partial<Card>) => void;
   onDeleteCard: (id: string) => void;
 }
@@ -27,6 +28,7 @@ export const CardEditModal: React.FC<CardEditModalProps> = ({
   onClose,
   card,
   archetypes,
+  cards,
   onUpdateCard,
   onDeleteCard
 }) => {
@@ -40,6 +42,9 @@ export const CardEditModal: React.FC<CardEditModalProps> = ({
     isReprint: card?.isReprint || false,
     isNickname: card?.isNickname || false,
     isAlternateArt: card?.isAlternateArt || false,
+    originalName: card?.originalName || '',
+    isDoubleFaced: card?.isDoubleFaced || false,
+    otherFaceId: card?.otherFaceId || '',
     imageFile: card?.imageFile || '',
     power: card?.power || '',
     toughness: card?.toughness || '',
@@ -59,6 +64,9 @@ export const CardEditModal: React.FC<CardEditModalProps> = ({
         isReprint: card.isReprint,
         isNickname: card.isNickname,
         isAlternateArt: card.isAlternateArt,
+        originalName: card.originalName || '',
+        isDoubleFaced: card.isDoubleFaced,
+        otherFaceId: card.otherFaceId || '',
         imageFile: card.imageFile || '',
         power: card.power || '',
         toughness: card.toughness || '',
@@ -202,6 +210,43 @@ export const CardEditModal: React.FC<CardEditModalProps> = ({
               </div>
             </div>
 
+            {formData.isNickname && (
+              <div>
+                <h4 className="text-md font-semibold text-white mb-3">Nickname Information</h4>
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">Original Card Name</label>
+                  <input
+                    type="text"
+                    value={formData.originalName}
+                    onChange={(e) => setFormData(prev => ({ ...prev, originalName: e.target.value }))}
+                    className="w-full p-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500"
+                    placeholder="Enter the original Magic card name"
+                  />
+                </div>
+              </div>
+            )}
+
+            {formData.isDoubleFaced && (
+              <div>
+                <h4 className="text-md font-semibold text-white mb-3">Double-Faced Card</h4>
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">Other Face</label>
+                  <select
+                    value={formData.otherFaceId}
+                    onChange={(e) => setFormData(prev => ({ ...prev, otherFaceId: e.target.value }))}
+                    className="w-full p-3 bg-white/10 border border-white/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-red-500"
+                  >
+                    <option value="" className="bg-gray-800">Select other face...</option>
+                    {cards.filter(c => c.id !== card?.id).map(c => (
+                      <option key={c.id} value={c.id} className="bg-gray-800">
+                        {c.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            )}
+
             {isCreature && (
               <div>
                 <h4 className="text-md font-semibold text-white mb-3">Creature Stats</h4>
@@ -280,10 +325,15 @@ export const CardEditModal: React.FC<CardEditModalProps> = ({
                   <input
                     type="checkbox"
                     checked={formData.isNickname}
-                    onChange={(e) => setFormData(prev => ({ ...prev, isNickname: e.target.checked }))}
+                    onChange={(e) => setFormData(prev => ({ 
+                      ...prev, 
+                      isNickname: e.target.checked,
+                      originalName: e.target.checked ? prev.originalName : ''
+                    }))}
+                    disabled={!formData.isReprint}
                     className="mr-2 w-4 h-4 text-red-500 bg-white/10 border-white/30 rounded focus:ring-red-500"
                   />
-                  This is a nickname card
+                  This is a nickname card {!formData.isReprint && '(requires reprint)'}
                 </label>
               </div>
 
@@ -296,6 +346,22 @@ export const CardEditModal: React.FC<CardEditModalProps> = ({
                     className="mr-2 w-4 h-4 text-red-500 bg-white/10 border-white/30 rounded focus:ring-red-500"
                   />
                   This is alternate art
+                </label>
+              </div>
+
+              <div className="flex items-center">
+                <label className="flex items-center text-white cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={formData.isDoubleFaced}
+                    onChange={(e) => setFormData(prev => ({ 
+                      ...prev, 
+                      isDoubleFaced: e.target.checked,
+                      otherFaceId: e.target.checked ? prev.otherFaceId : ''
+                    }))}
+                    className="mr-2 w-4 h-4 text-red-500 bg-white/10 border-white/30 rounded focus:ring-red-500"
+                  />
+                  This is a double-faced card
                 </label>
               </div>
 

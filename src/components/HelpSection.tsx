@@ -42,6 +42,14 @@ export const HelpSection: React.FC = () => {
                   borders, or visual treatment. Similar to how official Magic sets sometimes have alternate art versions of the same card.
                 </p>
               </div>
+              
+              <div>
+                <h4 className="font-semibold text-indigo-300 mb-2">Double-Faced Cards</h4>
+                <p className="text-gray-300 ml-4">
+                  <strong className="text-indigo-300">Double-Faced (DF):</strong> Cards that have two faces, similar to transform cards 
+                  or modal double-faced cards in official Magic. You can link two cards together to represent both faces of the same card.
+                </p>
+              </div>
             </div>
           </div>
 
