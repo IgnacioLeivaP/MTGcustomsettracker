@@ -39,7 +39,9 @@ export const CardForm: React.FC<CardFormProps> = ({ archetypes, cards, onAddCard
     power: '',
     toughness: '',
     abilityText: '',
-    flavorText: ''
+    flavorText: '',
+    number: '',
+    artist: ''
   });
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -122,7 +124,9 @@ export const CardForm: React.FC<CardFormProps> = ({ archetypes, cards, onAddCard
       power: '',
       toughness: '',
       abilityText: '',
-      flavorText: ''
+      flavorText: '',
+      number: '',
+      artist: ''
     });
   };
 
@@ -141,6 +145,17 @@ export const CardForm: React.FC<CardFormProps> = ({ archetypes, cards, onAddCard
               onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
               className="w-full p-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500"
               placeholder="Enter card name"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Card Number</label>
+            <input
+              type="text"
+              value={formData.number}
+              onChange={(e) => setFormData(prev => ({ ...prev, number: e.target.value }))}
+              className="w-full p-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500"
+              placeholder="e.g. 001, 002"
             />
           </div>
 

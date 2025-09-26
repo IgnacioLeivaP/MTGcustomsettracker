@@ -327,6 +327,11 @@ export const CardTable: React.FC<CardTableProps> = ({
           aValue = a.name.toLowerCase();
           bValue = b.name.toLowerCase();
           break;
+        case 'number':
+          // Sort by number, treating empty as highest value
+          aValue = a.number ? parseInt(a.number.replace(/\D/g, '')) || 999999 : 999999;
+          bValue = b.number ? parseInt(b.number.replace(/\D/g, '')) || 999999 : 999999;
+          break;
         case 'manaCost':
           aValue = getConvertedManaCost(a.manaCost || '');
           bValue = getConvertedManaCost(b.manaCost || '');
@@ -383,6 +388,7 @@ export const CardTable: React.FC<CardTableProps> = ({
   };
 
   const columnConfig = [
+    { key: 'number' as const, label: 'Card Number', description: 'Shows card number for set ordering' },
     { key: 'originalName' as const, label: 'Original Name', description: 'Shows original card name for nickname cards' },
     { key: 'imageThumbnail' as const, label: 'Image Thumbnail', description: 'Shows card image thumbnail if uploaded' },
     { key: 'manaCost' as const, label: 'Mana Cost', description: 'Displays mana cost symbols' },
@@ -473,6 +479,15 @@ export const CardTable: React.FC<CardTableProps> = ({
                     {getSortIcon('name')}
                   </button>
                 </th>
+                {columnVisibility.number && (
+                  <td className="p-4">
+                    {card.number ? (
+                      <span className="font-mono text-blue-300">#{card.number.padStart(3, '0')}</span>
+                    ) : (
+                      <span className="text-gray-500">—</span>
+                    )}
+                  </td>
+                )}
                 {columnVisibility.originalName && (
                   <th className="p-4 text-left font-bold text-white">Original Name</th>
                 )}
