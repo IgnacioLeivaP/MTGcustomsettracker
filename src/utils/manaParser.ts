@@ -1,5 +1,5 @@
 // Utility functions for parsing mana costs
-export const normalizeManaInput = (input: string): string => {
+export const normalizeManaForStorage = (input: string): string => {
   if (!input) return '';
   
   // Remove extra spaces
@@ -45,12 +45,16 @@ export const normalizeManaInput = (input: string): string => {
   return result.join('');
 };
 
+export const normalizeManaForDisplay = (input: string): string => {
+  // For display, we keep the user's input as-is
+  return input;
+};
+
 export const validateManaInput = (input: string): boolean => {
   if (!input) return true; // Empty is valid
   
   // Check if it matches the expected pattern
   const manaPattern = /^(\{[0-9WUBRGC]+\})*$/;
-  const normalized = normalizeManaInput(input);
+  const normalized = normalizeManaForStorage(input);
   
   return manaPattern.test(normalized);
-};

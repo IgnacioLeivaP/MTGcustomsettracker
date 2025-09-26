@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card, Archetype } from '../types';
 import { Upload } from 'lucide-react';
-import { normalizeManaInput } from '../utils/manaParser';
+import { normalizeManaForStorage } from '../utils/manaParser';
 
 interface CardFormProps {
   archetypes: Archetype[];
@@ -68,7 +68,13 @@ export const CardForm: React.FC<CardFormProps> = ({ archetypes, cards, onAddCard
       return;
     }
 
-    onAddCard(formData);
+    // Normalize mana cost for storage
+    const cardData = {
+      ...formData,
+      manaCost: normalizeManaForStorage(formData.manaCost)
+    };
+    
+    onAddCard(cardData);
     setFormData({
       name: '',
       type: 'Creature',
@@ -113,7 +119,7 @@ export const CardForm: React.FC<CardFormProps> = ({ archetypes, cards, onAddCard
             <input
               type="text"
               value={formData.manaCost}
-              onChange={(e) => setFormData(prev => ({ ...prev, manaCost: normalizeManaInput(e.target.value) }))}
+              onChange={(e) => setFormData(prev => ({ ...prev, manaCost: e.target.value }))}
               className="w-full p-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500"
               placeholder="e.g. {1}{U}{R}"
             />
