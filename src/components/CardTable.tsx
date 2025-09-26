@@ -586,6 +586,11 @@ export const CardTable: React.FC<CardTableProps> = ({
                   <td className="p-4">
                     <strong className="text-white">{card.name}</strong>
                     {card.isDoubleFaced && (
+                      <span className="ml-2 px-2 py-1 bg-indigo-500/20 text-indigo-300 text-xs rounded">
+                        DF
+                      </span>
+                    )}
+                  </td>
                   {columnVisibility.originalName && (
                     <td className="p-4">
                       {card.isNickname && card.originalName ? (
