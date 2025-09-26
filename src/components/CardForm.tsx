@@ -23,9 +23,12 @@ export const CardForm: React.FC<CardFormProps> = ({ archetypes, onAddCard }) => 
     name: '',
     type: 'Creature',
     manaCost: '',
+    rarity: 'C' as const,
     archetype: archetypes[0]?.id || '',
     imageStatus: 'pending' as const,
     isReprint: false,
+    isNickname: false,
+    isAlternateArt: false,
     imageFile: '',
     power: '',
     toughness: '',
@@ -65,9 +68,12 @@ export const CardForm: React.FC<CardFormProps> = ({ archetypes, onAddCard }) => 
       name: '',
       type: 'Creature',
       manaCost: '',
+      rarity: 'C',
       archetype: archetypes[0]?.id || '',
       imageStatus: 'pending',
       isReprint: false,
+      isNickname: false,
+      isAlternateArt: false,
       imageFile: '',
       power: '',
       toughness: '',
@@ -115,6 +121,20 @@ export const CardForm: React.FC<CardFormProps> = ({ archetypes, onAddCard }) => 
               {cardTypes.map(type => (
                 <option key={type} value={type} className="bg-gray-800">{type}</option>
               ))}
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Rarity</label>
+            <select
+              value={formData.rarity}
+              onChange={(e) => setFormData(prev => ({ ...prev, rarity: e.target.value as 'C' | 'U' | 'R' | 'M' }))}
+              className="w-full p-3 bg-white/10 border border-white/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-red-500"
+            >
+              <option value="C" className="bg-gray-800">Common (C)</option>
+              <option value="U" className="bg-gray-800">Uncommon (U)</option>
+              <option value="R" className="bg-gray-800">Rare (R)</option>
+              <option value="M" className="bg-gray-800">Mythic (M)</option>
             </select>
           </div>
 
@@ -216,6 +236,27 @@ export const CardForm: React.FC<CardFormProps> = ({ archetypes, onAddCard }) => 
                 className="mr-2 w-4 h-4 text-red-500 bg-white/10 border-white/30 rounded focus:ring-red-500"
               />
               This is a reprint
+            </label>
+          </div>
+
+          <div className="space-y-2">
+            <label className="flex items-center text-white cursor-pointer">
+              <input
+                type="checkbox"
+                checked={formData.isNickname}
+                onChange={(e) => setFormData(prev => ({ ...prev, isNickname: e.target.checked }))}
+                className="mr-2 w-4 h-4 text-red-500 bg-white/10 border-white/30 rounded focus:ring-red-500"
+              />
+              This is a nickname card
+            </label>
+            <label className="flex items-center text-white cursor-pointer">
+              <input
+                type="checkbox"
+                checked={formData.isAlternateArt}
+                onChange={(e) => setFormData(prev => ({ ...prev, isAlternateArt: e.target.checked }))}
+                className="mr-2 w-4 h-4 text-red-500 bg-white/10 border-white/30 rounded focus:ring-red-500"
+              />
+              This is alternate art
             </label>
           </div>
 

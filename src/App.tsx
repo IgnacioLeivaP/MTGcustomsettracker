@@ -8,8 +8,9 @@ import { CardTable } from './components/CardTable';
 import { ArchetypeManager } from './components/ArchetypeManager';
 import { SettingsModal } from './components/SettingsModal';
 import { OverviewSettings } from './components/OverviewSettings';
+import { HelpSection } from './components/HelpSection';
 
-type ActiveSection = 'dashboard' | 'add-card' | 'card-list' | 'settings';
+type ActiveSection = 'dashboard' | 'add-card' | 'card-list' | 'settings' | 'help';
 
 function App() {
   const [appData, setAppData] = useState<AppData>(() => loadData());
@@ -129,6 +130,10 @@ function App() {
                   </button>
                 </div>
               </div>
+            )}
+
+            {activeSection === 'help' && (
+              <HelpSection />
             )}
           </div>
         </div>

@@ -34,9 +34,12 @@ export const CardEditModal: React.FC<CardEditModalProps> = ({
     name: card?.name || '',
     type: card?.type || 'Creature',
     manaCost: card?.manaCost || '',
+    rarity: card?.rarity || 'C',
     archetype: card?.archetype || '',
     imageStatus: card?.imageStatus || 'pending',
     isReprint: card?.isReprint || false,
+    isNickname: card?.isNickname || false,
+    isAlternateArt: card?.isAlternateArt || false,
     imageFile: card?.imageFile || '',
     power: card?.power || '',
     toughness: card?.toughness || '',
@@ -50,9 +53,12 @@ export const CardEditModal: React.FC<CardEditModalProps> = ({
         name: card.name,
         type: card.type,
         manaCost: card.manaCost || '',
+        rarity: card.rarity,
         archetype: card.archetype,
         imageStatus: card.imageStatus,
         isReprint: card.isReprint,
+        isNickname: card.isNickname,
+        isAlternateArt: card.isAlternateArt,
         imageFile: card.imageFile || '',
         power: card.power || '',
         toughness: card.toughness || '',
@@ -167,6 +173,20 @@ export const CardEditModal: React.FC<CardEditModalProps> = ({
               </div>
 
               <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Rarity</label>
+                <select
+                  value={formData.rarity}
+                  onChange={(e) => setFormData(prev => ({ ...prev, rarity: e.target.value as 'C' | 'U' | 'R' | 'M' }))}
+                  className="w-full p-3 bg-white/10 border border-white/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-red-500"
+                >
+                  <option value="C" className="bg-gray-800">Common (C)</option>
+                  <option value="U" className="bg-gray-800">Uncommon (U)</option>
+                  <option value="R" className="bg-gray-800">Rare (R)</option>
+                  <option value="M" className="bg-gray-800">Mythic (M)</option>
+                </select>
+              </div>
+
+              <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">Archetype</label>
                 <select
                   value={formData.archetype}
@@ -252,6 +272,30 @@ export const CardEditModal: React.FC<CardEditModalProps> = ({
                     className="mr-2 w-4 h-4 text-red-500 bg-white/10 border-white/30 rounded focus:ring-red-500"
                   />
                   This is a reprint
+                </label>
+              </div>
+
+              <div className="flex items-center">
+                <label className="flex items-center text-white cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={formData.isNickname}
+                    onChange={(e) => setFormData(prev => ({ ...prev, isNickname: e.target.checked }))}
+                    className="mr-2 w-4 h-4 text-red-500 bg-white/10 border-white/30 rounded focus:ring-red-500"
+                  />
+                  This is a nickname card
+                </label>
+              </div>
+
+              <div className="flex items-center">
+                <label className="flex items-center text-white cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={formData.isAlternateArt}
+                    onChange={(e) => setFormData(prev => ({ ...prev, isAlternateArt: e.target.checked }))}
+                    className="mr-2 w-4 h-4 text-red-500 bg-white/10 border-white/30 rounded focus:ring-red-500"
+                  />
+                  This is alternate art
                 </label>
               </div>
 

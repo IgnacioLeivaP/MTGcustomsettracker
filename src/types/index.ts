@@ -6,6 +6,9 @@ export interface Card {
   archetype: string;
   imageStatus: 'pending' | 'complete';
   isReprint: boolean;
+  rarity: 'C' | 'U' | 'R' | 'M';
+  isNickname: boolean;
+  isAlternateArt: boolean;
   imageFile?: string; // base64 encoded image
   power?: string;
   toughness?: string;
