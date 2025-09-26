@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, Plus, List, Settings, BarChart3, HelpCircle, Grid3x3 as Grid3X3 } from 'lucide-react'ctiveSection = 'dashboard' | 'add-card' | 'card-list' | 'settings' | 'help';
+import { Home, Plus, List, Settings, BarChart3, HelpCircle, Grid3x3 as Grid3X3 } from 'lucide-react';
 type ActiveSection = 'dashboard' | 'add-card' | 'card-list' | 'set-spoiler' | 'settings' | 'help';
 
 interface SidebarProps {
