@@ -744,7 +744,7 @@ export const CardTable: React.FC<CardTableProps> = ({
       />
     </>
   );
-};        </span>
+};
           )}
         </div>
       </div>
