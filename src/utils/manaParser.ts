@@ -58,3 +58,4 @@ export const validateManaInput = (input: string): boolean => {
   const normalized = normalizeManaForStorage(input);
   
   return manaPattern.test(normalized);
+}
