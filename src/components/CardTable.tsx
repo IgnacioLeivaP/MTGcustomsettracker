@@ -19,10 +19,11 @@ interface ColumnVisibility {
   archetype: boolean;
   originalReprint: boolean;
   imageStatus: boolean;
+  colorIdentity: boolean;
   actions: boolean;
 }
 
-type SortField = 'name' | 'manaCost' | 'rarity' | 'archetype' | 'originalReprint' | 'type';
+type SortField = 'name' | 'manaCost' | 'rarity' | 'archetype' | 'originalReprint' | 'type' | 'colorIdentity';
 type SortDirection = 'asc' | 'desc';
 
 interface SortConfig {
@@ -48,6 +49,7 @@ export const CardTable: React.FC<CardTableProps> = ({
     archetype: true,
     originalReprint: true,
     imageStatus: true,
+    colorIdentity: true,
     actions: true
   });
 
@@ -106,6 +108,150 @@ export const CardTable: React.FC<CardTableProps> = ({
     return order[rarity as keyof typeof order] ?? 999;
   };
 
+  const getColorIdentity = (card: Card): { colors: string[], category: string, displayName: string } => {
+    const manaCost = card.manaCost || '';
+    const cardType = card.type.toLowerCase();
+    const colors = new Set<string>();
+    
+    // Extract colors from mana cost
+    if (manaCost.includes('W') || manaCost.includes('w')) colors.add('W');
+    if (manaCost.includes('U') || manaCost.includes('u')) colors.add('U');
+    if (manaCost.includes('B') || manaCost.includes('b')) colors.add('B');
+    if (manaCost.includes('R') || manaCost.includes('r')) colors.add('R');
+    if (manaCost.includes('G') || manaCost.includes('g')) colors.add('G');
+    
+    const colorArray = Array.from(colors).sort();
+    
+    // Determine category
+    if (cardType.includes('land')) {
+      return { colors: [], category: 'Land', displayName: 'Land' };
+    }
+    
+    if (colorArray.length === 0) {
+      if (cardType.includes('artifact')) {
+        return { colors: [], category: 'Artifact', displayName: 'Artifact' };
+      }
+      return { colors: [], category: 'Colorless', displayName: 'Colorless' };
+    }
+    
+    if (colorArray.length > 1) {
+      return { colors: colorArray, category: 'Multicolor', displayName: 'Multicolor' };
+    }
+    
+    const colorNames = {
+      'W': 'White',
+      'U': 'Blue', 
+      'B': 'Black',
+      'R': 'Red',
+      'G': 'Green'
+    };
+    
+    const singleColor = colorArray[0];
+    return { 
+      colors: colorArray, 
+      category: colorNames[singleColor as keyof typeof colorNames] || 'Unknown',
+      displayName: colorNames[singleColor as keyof typeof colorNames] || 'Unknown'
+    };
+  };
+  
+  const getColorIdentityOrder = (card: Card): number => {
+    const identity = getColorIdentity(card);
+    const order = {
+      'White': 0,
+      'Blue': 1,
+      'Black': 2,
+      'Red': 3,
+      'Green': 4,
+      'Multicolor': 5,
+      'Artifact': 6,
+      'Land': 7,
+      'Colorless': 8
+    };
+    return order[identity.category as keyof typeof order] ?? 999;
+  };
+  
+  const renderColorIdentity = (card: Card) => {
+    const identity = getColorIdentity(card);
+    
+    if (identity.category === 'Land') {
+      return (
+        <div className="flex items-center space-x-1">
+          <div className="w-6 h-6 rounded border-2 border-gray-500 bg-gradient-to-br from-green-800 to-brown-600 flex items-center justify-center">
+            <span className="text-xs font-bold text-white">🏞️</span>
+          </div>
+          <span className="text-gray-300 text-sm">Land</span>
+        </div>
+      );
+    }
+    
+    if (identity.category === 'Artifact') {
+      return (
+        <div className="flex items-center space-x-1">
+          <div className="w-6 h-6 rounded border-2 border-gray-400 bg-gray-600 flex items-center justify-center">
+            <span className="text-xs font-bold text-white">⚙️</span>
+          </div>
+          <span className="text-gray-300 text-sm">Artifact</span>
+        </div>
+      );
+    }
+    
+    if (identity.category === 'Multicolor') {
+      const colorSymbols = {
+        'W': '☀️',
+        'U': '💧',
+        'B': '💀',
+        'R': '🔥',
+        'G': '🌳'
+      };
+      
+      return (
+        <div className="flex items-center space-x-1">
+          <div className="w-6 h-6 rounded border-2 border-yellow-400 bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center relative overflow-hidden">
+            <div className="absolute inset-0 flex">
+              {identity.colors.slice(0, 2).map((color, index) => (
+                <div key={color} className={`flex-1 flex items-center justify-center text-xs ${
+                  color === 'W' ? 'bg-yellow-100' :
+                  color === 'U' ? 'bg-blue-400' :
+                  color === 'B' ? 'bg-gray-800' :
+                  color === 'R' ? 'bg-red-500' :
+                  'bg-green-500'
+                }`}>
+                  <span className="text-white text-xs">
+                    {colorSymbols[color as keyof typeof colorSymbols]}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <span className="text-yellow-300 text-sm">Multicolor</span>
+        </div>
+      );
+    }
+    
+    // Single color
+    const colorInfo = {
+      'White': { bg: 'bg-yellow-100', border: 'border-yellow-400', text: 'text-yellow-800', symbol: '☀️', textColor: 'text-yellow-300' },
+      'Blue': { bg: 'bg-blue-400', border: 'border-blue-500', text: 'text-white', symbol: '💧', textColor: 'text-blue-300' },
+      'Black': { bg: 'bg-gray-800', border: 'border-gray-600', text: 'text-white', symbol: '💀', textColor: 'text-gray-300' },
+      'Red': { bg: 'bg-red-500', border: 'border-red-600', text: 'text-white', symbol: '🔥', textColor: 'text-red-300' },
+      'Green': { bg: 'bg-green-500', border: 'border-green-600', text: 'text-white', symbol: '🌳', textColor: 'text-green-300' }
+    };
+    
+    const info = colorInfo[identity.category as keyof typeof colorInfo];
+    if (!info) {
+      return <span className="text-gray-400">—</span>;
+    }
+    
+    return (
+      <div className="flex items-center space-x-1">
+        <div className={`w-6 h-6 rounded border-2 ${info.border} ${info.bg} flex items-center justify-center`}>
+          <span className={`text-xs ${info.text}`}>{info.symbol}</span>
+        </div>
+        <span className={`text-sm ${info.textColor}`}>{identity.displayName}</span>
+      </div>
+    );
+  };
+
   const handleSort = (field: SortField) => {
     let direction: SortDirection = 'asc';
     
@@ -148,6 +294,18 @@ export const CardTable: React.FC<CardTableProps> = ({
           aValue = a.type.toLowerCase();
           bValue = b.type.toLowerCase();
           break;
+        case 'colorIdentity':
+          const aOrder = getColorIdentityOrder(a);
+          const bOrder = getColorIdentityOrder(b);
+          if (aOrder !== bOrder) {
+            aValue = aOrder;
+            bValue = bOrder;
+          } else {
+            // Same color identity, sort alphabetically by name
+            aValue = a.name.toLowerCase();
+            bValue = b.name.toLowerCase();
+          }
+          break;
         default:
           return 0;
       }
@@ -177,6 +335,7 @@ export const CardTable: React.FC<CardTableProps> = ({
     { key: 'type' as const, label: 'Type', description: 'Card type line' },
     { key: 'rarity' as const, label: 'Rarity', description: 'Card rarity (C/U/R/M)' },
     { key: 'archetype' as const, label: 'Archetype', description: 'Card archetype assignment' },
+    { key: 'colorIdentity' as const, label: 'Color Identity', description: 'Automatic color identity based on mana cost' },
     { key: 'originalReprint' as const, label: 'Original/Reprint', description: 'Shows if card is original or reprint' },
     { key: 'imageStatus' as const, label: 'Image Status', description: 'Image completion status' },
     { key: 'actions' as const, label: 'Actions', description: 'Edit and configuration buttons' }
@@ -307,6 +466,17 @@ export const CardTable: React.FC<CardTableProps> = ({
                     </button>
                   </th>
                 )}
+                {columnVisibility.colorIdentity && (
+                  <th className="p-4 text-left font-bold text-white">
+                    <button
+                      onClick={() => handleSort('colorIdentity')}
+                      className="flex items-center space-x-2 hover:text-blue-300 transition-colors"
+                    >
+                      <span>Color Identity</span>
+                      {getSortIcon('colorIdentity')}
+                    </button>
+                  </th>
+                )}
                 {columnVisibility.originalReprint && (
                   <th className="p-4 text-left font-bold text-white">
                     <button
@@ -372,6 +542,11 @@ export const CardTable: React.FC<CardTableProps> = ({
                   {columnVisibility.archetype && (
                     <td className="p-4">
                       <span className="text-white">{getArchetypeName(card.archetype)}</span>
+                    </td>
+                  )}
+                  {columnVisibility.colorIdentity && (
+                    <td className="p-4">
+                      {renderColorIdentity(card)}
                     </td>
                   )}
                   {columnVisibility.originalReprint && (
