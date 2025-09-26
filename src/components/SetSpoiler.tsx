@@ -403,15 +403,6 @@ export const SetSpoiler: React.FC<SetSpoilerProps> = ({ cards, archetypes }) => 
                 )}
               </div>
 
-              {/* Card Name Overlay for images */}
-              {card.imageFile && (
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2">
-                  <div className="text-white font-semibold text-sm text-center">
-                    {card.number && <span className="text-gray-300 text-xs">{card.number} </span>}
-                    {card.name}
-                  </div>
-                </div>
-              )}
             </div>
           ))}
         </div>
