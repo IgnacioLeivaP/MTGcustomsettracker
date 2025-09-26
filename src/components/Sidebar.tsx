@@ -16,6 +16,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
       description: 'Set overview and statistics'
     },
     {
+      id: 'set-spoiler' as const,
+      label: 'Set Spoiler',
+      icon: Grid3X3,
+      description: 'Visual card spoiler view'
+    },
+    {
       id: 'add-card' as const,
       label: 'Add New Card',
       icon: Plus,
@@ -28,22 +34,16 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
       description: 'View and manage cards'
     },
     {
-      id: 'set-spoiler' as const,
-      label: 'Set Spoiler',
-      icon: Grid3X3,
-      description: 'Visual card spoiler view'
+      id: 'help' as const,
+      label: 'Help',
+      icon: HelpCircle,
+      description: 'Documentation and guides'
     },
     {
       id: 'settings' as const,
       label: 'Settings',
       icon: Settings,
       description: 'App configuration'
-    },
-    {
-      id: 'help' as const,
-      label: 'Help',
-      icon: HelpCircle,
-      description: 'Documentation and guides'
     }
   ];
 
