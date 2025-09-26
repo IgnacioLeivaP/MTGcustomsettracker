@@ -55,7 +55,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
           <Sparkles className="w-8 h-8 text-purple-400" />
           <div>
             <h1 className="text-lg font-bold text-white">MTG Custom Set Creator</h1>
-            <p className="text-xs text-gray-400">Magical Set Builder</p>
           </div>
         </div>
       </div>
