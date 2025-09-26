@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, Upload, Trash2, Image as ImageIcon, RotateCcw } from 'lucide-react';
 import { Card, Archetype } from '../types';
+import { normalizeManaInput } from '../utils/manaParser';
 
 interface CardEditModalProps {
   isOpen: boolean;
@@ -161,9 +162,9 @@ export const CardEditModal: React.FC<CardEditModalProps> = ({
                 <input
                   type="text"
                   value={formData.manaCost}
-                  onChange={(e) => setFormData(prev => ({ ...prev, manaCost: e.target.value }))}
+                  onChange={(e) => setFormData(prev => ({ ...prev, manaCost: normalizeManaInput(e.target.value) }))}
                   className="w-full p-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500"
-                  placeholder="e.g. {1}{U}{R}"
+                  placeholder="e.g. {1}{U}{R} or 1UR"
                 />
               </div>
 
