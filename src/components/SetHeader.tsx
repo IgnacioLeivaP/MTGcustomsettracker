@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookOpen, Target, Palette } from 'lucide-react';
+import { BookOpen, Target, Palette, Image as ImageIcon } from 'lucide-react';
 
 interface SetHeaderProps {
   setInfo: {
@@ -7,6 +7,7 @@ interface SetHeaderProps {
     description: string;
     totalCards: number;
     hasAlternateArts: boolean;
+    setIcon?: string;
   };
   currentCardCount: number;
 }
@@ -19,7 +20,15 @@ export const SetHeader: React.FC<SetHeaderProps> = ({ setInfo, currentCardCount 
       <div className="flex items-start justify-between">
         <div className="flex-1">
           <div className="flex items-center space-x-3 mb-3">
-            <BookOpen className="w-8 h-8 text-red-400" />
+            {setInfo.setIcon ? (
+              <img 
+                src={setInfo.setIcon} 
+                alt="Set icon" 
+                className="w-8 h-8 object-contain"
+              />
+            ) : (
+              <ImageIcon className="w-8 h-8 text-red-400" />
+            )}
             <h1 className="text-3xl font-bold text-white">{setInfo.name}</h1>
             {setInfo.hasAlternateArts && (
               <div className="flex items-center space-x-1 px-2 py-1 bg-purple-500/20 border border-purple-500/30 rounded-full">

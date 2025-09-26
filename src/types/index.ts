@@ -39,6 +39,7 @@ export interface AppData {
       description: string;
       totalCards: number;
       hasAlternateArts: boolean;
+      setIcon?: string; // base64 encoded image
     };
     overviewSections: {
       totalCards: boolean;

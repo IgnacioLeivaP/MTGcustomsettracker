@@ -119,7 +119,8 @@ const getDefaultData = (): AppData => ({
       name: 'My Custom Magic Set',
       description: 'A custom Magic: The Gathering set created with the MTG Custom Set Tracker.',
       totalCards: 280,
-      hasAlternateArts: false
+      hasAlternateArts: false,
+      setIcon: undefined
     },
     overviewSections: {
       totalCards: true,
