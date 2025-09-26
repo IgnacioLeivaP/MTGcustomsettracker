@@ -744,10 +744,4 @@ export const CardTable: React.FC<CardTableProps> = ({
       />
     </>
   );
-};{cards}
-        onUpdateCard={onUpdateCard}
-        onDeleteCard={onDeleteCard}
-      />
-    </>
-  );
 };
