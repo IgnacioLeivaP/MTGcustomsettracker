@@ -501,8 +501,7 @@ export const CardEditModal: React.FC<CardEditModalProps> = ({
                 Save Changes
               </button>
             </div>
-
-            <div>
+          </div>
         </div>
       </div>
     </div>
