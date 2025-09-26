@@ -105,6 +105,7 @@ function App() {
                   cards={appData.cards} 
                   archetypes={appData.archetypes}
                   settings={appData.settings}
+                  onUpdateSettings={updateSettings}
                 />
               </>
             )}
@@ -129,11 +130,6 @@ function App() {
             {activeSection === 'settings' && (
               <div className="space-y-8">
                 <SetInfoSettings
-                  settings={appData.settings}
-                  onUpdateSettings={updateSettings}
-                />
-                
-                <OverviewSettings
                   settings={appData.settings}
                   onUpdateSettings={updateSettings}
                 />
