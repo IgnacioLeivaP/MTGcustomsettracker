@@ -58,6 +58,7 @@ export const CardEditModal: React.FC<CardEditModalProps> = ({
     if (card) {
       setFormData({
         name: card.name,
+        number: card.number || '',
         type: card.type,
         manaCost: card.manaCost || '',
         rarity: card.rarity,
@@ -73,7 +74,8 @@ export const CardEditModal: React.FC<CardEditModalProps> = ({
         power: card.power || '',
         toughness: card.toughness || '',
         abilityText: card.abilityText || '',
-        flavorText: card.flavorText || ''
+        flavorText: card.flavorText || '',
+        artist: card.artist || ''
       });
     }
   }, [card]);
@@ -179,6 +181,17 @@ export const CardEditModal: React.FC<CardEditModalProps> = ({
                   onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                   className="w-full p-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500"
                   placeholder="Enter card name"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Card Number</label>
+                <input
+                  type="text"
+                  value={formData.number}
+                  onChange={(e) => setFormData(prev => ({ ...prev, number: e.target.value }))}
+                  className="w-full p-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500"
+                  placeholder="e.g. 001, 002"
                 />
               </div>
 
@@ -389,6 +402,17 @@ export const CardEditModal: React.FC<CardEditModalProps> = ({
                   />
                   This is a double-faced card
                 </label>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Artist</label>
+                <input
+                  type="text"
+                  value={formData.artist}
+                  onChange={(e) => setFormData(prev => ({ ...prev, artist: e.target.value }))}
+                  className="w-full p-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500"
+                  placeholder="Enter artist name for art credit"
+                />
               </div>
 
               <div>
