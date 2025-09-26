@@ -5,12 +5,21 @@ interface StatsGridProps {
   cards: Card[];
   archetypes: Archetype[];
   settings: {
+    setInfo: {
+      totalCards: number;
+    };
     overviewSections: {
       totalCards: boolean;
       cardsWithImages: boolean;
       originalVsReprints: boolean;
       activeArchetypes: boolean;
       archetypeBreakdown: boolean;
+      colorBreakdown: boolean;
+      rarityRatio: boolean;
+      cardTypeBreakdown: boolean;
+      costBreakdown: boolean;
+      multicolored: boolean;
+      averagePowerToughness: boolean;
     };
   };
 }
@@ -30,6 +39,113 @@ export const StatsGrid: React.FC<StatsGridProps> = ({ cards, archetypes, setting
   const completionPercent = ((totalCards / settings.setInfo.totalCards) * 100);
   const imagePercent = totalCards > 0 ? ((imageCompleteCards / totalCards) * 100) : 0;
 
+  // Color analysis
+  const getCardColors = (manaCost: string) => {
+    const colors = new Set<string>();
+    if (manaCost.includes('W')) colors.add('W');
+    if (manaCost.includes('U')) colors.add('U');
+    if (manaCost.includes('B')) colors.add('B');
+    if (manaCost.includes('R')) colors.add('R');
+    if (manaCost.includes('G')) colors.add('G');
+    return colors;
+  };
+
+  const colorCounts = cards.reduce((acc, card) => {
+    const colors = getCardColors(card.manaCost || '');
+    if (colors.size === 0) {
+      acc['Colorless'] = (acc['Colorless'] || 0) + 1;
+    } else {
+      colors.forEach(color => {
+        const colorName = {
+          'W': 'White',
+          'U': 'Blue', 
+          'B': 'Black',
+          'R': 'Red',
+          'G': 'Green'
+        }[color] || color;
+        acc[colorName] = (acc[colorName] || 0) + 1;
+      });
+    }
+    return acc;
+  }, {} as Record<string, number>);
+
+  // Rarity analysis
+  const rarityCounts = cards.reduce((acc, card) => {
+    const rarity = card.rarity || 'Unknown';
+    acc[rarity] = (acc[rarity] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+
+  // Card type analysis
+  const typeCounts = cards.reduce((acc, card) => {
+    const baseType = card.type.split(' - ')[0].split(' ')[0]; // Get first word before subtype
+    acc[baseType] = (acc[baseType] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+
+  // Mana cost analysis
+  const getConvertedManaCost = (manaCost: string) => {
+    if (!manaCost) return 0;
+    let total = 0;
+    const symbols = manaCost.match(/\{([^}]+)\}/g) || [];
+    symbols.forEach(symbol => {
+      const content = symbol.slice(1, -1);
+      if (/^\d+$/.test(content)) {
+        total += parseInt(content);
+      } else {
+        total += 1; // Each colored symbol counts as 1
+      }
+    });
+    return total;
+  };
+
+  const costCounts = cards.reduce((acc, card) => {
+    const cmc = getConvertedManaCost(card.manaCost || '');
+    acc[cmc] = (acc[cmc] || 0) + 1;
+    return acc;
+  }, {} as Record<number, number>);
+
+  // Multicolored analysis
+  const multicoloredCards = cards.filter(card => {
+    const colors = getCardColors(card.manaCost || '');
+    return colors.size > 1;
+  }).length;
+
+  // Average power/toughness
+  const creatures = cards.filter(card => 
+    card.type.toLowerCase().includes('creature') && 
+    card.power && 
+    card.toughness &&
+    !isNaN(Number(card.power)) &&
+    !isNaN(Number(card.toughness))
+  );
+  
+  const avgPower = creatures.length > 0 
+    ? creatures.reduce((sum, card) => sum + Number(card.power), 0) / creatures.length 
+    : 0;
+  
+  const avgToughness = creatures.length > 0 
+    ? creatures.reduce((sum, card) => sum + Number(card.toughness), 0) / creatures.length 
+    : 0;
+
+  const renderProgressBar = (segments: Array<{value: number, color: string, label: string}>) => {
+    const total = segments.reduce((sum, seg) => sum + seg.value, 0);
+    if (total === 0) return <div className="w-full bg-white/10 rounded-full h-3" />;
+    
+    return (
+      <div className="w-full bg-white/10 rounded-full h-3 flex overflow-hidden">
+        {segments.map((segment, index) => (
+          <div
+            key={index}
+            className={`${segment.color} transition-all duration-300`}
+            style={{ width: `${(segment.value / total) * 100}%` }}
+            title={`${segment.label}: ${segment.value}`}
+          />
+        ))}
+      </div>
+    );
+  };
+
   return (
     <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
       <h2 className="text-2xl font-bold mb-6 text-red-400">📊 Set Overview</h2>
@@ -46,7 +162,6 @@ export const StatsGrid: React.FC<StatsGridProps> = ({ cards, archetypes, setting
                 style={{ width: `${Math.min(100, completionPercent)}%` }}
               />
             </div>
-            <small className="text-gray-300">Target: 280 cards ({completionPercent.toFixed(1)}%)</small>
             <small className="text-gray-300">Target: {settings.setInfo.totalCards} cards ({completionPercent.toFixed(1)}%)</small>
           </div>
         )}
@@ -98,6 +213,110 @@ export const StatsGrid: React.FC<StatsGridProps> = ({ cards, archetypes, setting
             <h3 className="text-lg font-semibold mb-2 text-red-400">Active Archetypes</h3>
             <div className="text-3xl font-bold text-white">{activeArchetypes}</div>
             <small className="text-gray-300">of {archetypes.length} defined</small>
+          </div>
+        )}
+
+        {settings.overviewSections.colorBreakdown && (
+          <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4">
+            <h3 className="text-lg font-semibold mb-2 text-red-400 text-center">Color Breakdown</h3>
+            <div className="space-y-2 text-sm">
+              {Object.entries(colorCounts).map(([color, count]) => (
+                <div key={color} className="flex justify-between items-center">
+                  <span className={`font-medium ${
+                    color === 'White' ? 'text-yellow-200' :
+                    color === 'Blue' ? 'text-blue-300' :
+                    color === 'Black' ? 'text-gray-300' :
+                    color === 'Red' ? 'text-red-300' :
+                    color === 'Green' ? 'text-green-300' :
+                    'text-gray-400'
+                  }`}>{color}</span>
+                  <span className="text-white font-bold">{count}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {settings.overviewSections.rarityRatio && (
+          <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4 text-center">
+            <h3 className="text-lg font-semibold mb-2 text-red-400">Rarity Ratio</h3>
+            <div className="grid grid-cols-2 gap-2 text-sm mb-2">
+              <div className="text-gray-400">C: {rarityCounts.C || 0}</div>
+              <div className="text-gray-300">U: {rarityCounts.U || 0}</div>
+              <div className="text-yellow-300">R: {rarityCounts.R || 0}</div>
+              <div className="text-orange-400">M: {rarityCounts.M || 0}</div>
+            </div>
+            {renderProgressBar([
+              { value: rarityCounts.C || 0, color: 'bg-gray-600', label: 'Common' },
+              { value: rarityCounts.U || 0, color: 'bg-gray-400', label: 'Uncommon' },
+              { value: rarityCounts.R || 0, color: 'bg-yellow-500', label: 'Rare' },
+              { value: rarityCounts.M || 0, color: 'bg-orange-600', label: 'Mythic' }
+            ])}
+          </div>
+        )}
+
+        {settings.overviewSections.cardTypeBreakdown && (
+          <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4">
+            <h3 className="text-lg font-semibold mb-2 text-red-400 text-center">Card Type Breakdown</h3>
+            <div className="space-y-1 text-sm">
+              {Object.entries(typeCounts).slice(0, 6).map(([type, count]) => (
+                <div key={type} className="flex justify-between items-center">
+                  <span className="text-gray-300">{type}</span>
+                  <span className="text-white font-bold">{count}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {settings.overviewSections.costBreakdown && (
+          <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4">
+            <h3 className="text-lg font-semibold mb-2 text-red-400 text-center">Cost Breakdown</h3>
+            <div className="grid grid-cols-4 gap-1 text-xs">
+              {Array.from({length: 8}, (_, i) => (
+                <div key={i} className="text-center">
+                  <div className="text-gray-400">{i}</div>
+                  <div className="text-white font-bold">{costCounts[i] || 0}</div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-2 text-xs text-gray-400 text-center">
+              {Object.keys(costCounts).filter(cost => Number(cost) >= 8).length > 0 && 
+                `8+: ${Object.entries(costCounts).filter(([cost]) => Number(cost) >= 8).reduce((sum, [, count]) => sum + count, 0)}`
+              }
+            </div>
+          </div>
+        )}
+
+        {settings.overviewSections.multicolored && (
+          <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4 text-center">
+            <h3 className="text-lg font-semibold mb-2 text-red-400">Multicolored Cards</h3>
+            <div className="text-3xl font-bold text-white mb-2">{multicoloredCards}</div>
+            <div className="w-full bg-white/10 rounded-full h-3 mb-2">
+              <div 
+                className="bg-gradient-to-r from-purple-500 to-pink-400 h-3 rounded-full transition-all duration-300"
+                style={{ width: `${totalCards > 0 ? (multicoloredCards / totalCards) * 100 : 0}%` }}
+              />
+            </div>
+            <small className="text-gray-300">of {totalCards} cards ({totalCards > 0 ? ((multicoloredCards / totalCards) * 100).toFixed(1) : 0}%)</small>
+          </div>
+        )}
+
+        {settings.overviewSections.averagePowerToughness && (
+          <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4 text-center">
+            <h3 className="text-lg font-semibold mb-2 text-red-400">Avg Power/Toughness</h3>
+            <div className="flex justify-center items-center space-x-2 text-white">
+              <div>
+                <div className="text-2xl font-bold">{avgPower.toFixed(1)}</div>
+                <div className="text-xs text-gray-300">Power</div>
+              </div>
+              <div className="text-gray-400">/</div>
+              <div>
+                <div className="text-2xl font-bold">{avgToughness.toFixed(1)}</div>
+                <div className="text-xs text-gray-300">Toughness</div>
+              </div>
+            </div>
+            <small className="text-gray-300">from {creatures.length} creatures</small>
           </div>
         )}
       </div>

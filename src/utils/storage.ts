@@ -118,7 +118,13 @@ const getDefaultData = (): AppData => ({
       cardsWithImages: true,
       originalVsReprints: true,
       activeArchetypes: true,
-      archetypeBreakdown: true
+      archetypeBreakdown: true,
+      colorBreakdown: true,
+      rarityRatio: true,
+      cardTypeBreakdown: true,
+      costBreakdown: true,
+      multicolored: true,
+      averagePowerToughness: true
     }
   }
 });

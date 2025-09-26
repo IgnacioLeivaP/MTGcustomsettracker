@@ -33,7 +33,13 @@ export const OverviewSettings: React.FC<OverviewSettingsProps> = ({
     { key: 'cardsWithImages' as const, label: 'Cards with Images', description: 'Tracks image completion status' },
     { key: 'originalVsReprints' as const, label: 'Original vs Reprints', description: 'Breakdown of original vs reprint cards' },
     { key: 'activeArchetypes' as const, label: 'Active Archetypes', description: 'Count of archetypes in use' },
-    { key: 'archetypeBreakdown' as const, label: 'Archetype Breakdown', description: 'Detailed view of cards per archetype' }
+    { key: 'archetypeBreakdown' as const, label: 'Archetype Breakdown', description: 'Detailed view of cards per archetype' },
+    { key: 'colorBreakdown' as const, label: 'Color Breakdown', description: 'Distribution of cards by mana colors' },
+    { key: 'rarityRatio' as const, label: 'Rarity Ratio', description: 'Breakdown of cards by rarity (C/U/R/M)' },
+    { key: 'cardTypeBreakdown' as const, label: 'Card Type Breakdown', description: 'Distribution by card types' },
+    { key: 'costBreakdown' as const, label: 'Cost Breakdown', description: 'Mana cost distribution analysis' },
+    { key: 'multicolored' as const, label: 'Multicolored Cards', description: 'Count and percentage of multicolor cards' },
+    { key: 'averagePowerToughness' as const, label: 'Average Power/Toughness', description: 'Average stats of creatures in the set' }
   ];
 
   return (

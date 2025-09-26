@@ -44,6 +44,12 @@ export interface AppData {
       originalVsReprints: boolean;
       activeArchetypes: boolean;
       archetypeBreakdown: boolean;
+      colorBreakdown: boolean;
+      rarityRatio: boolean;
+      cardTypeBreakdown: boolean;
+      costBreakdown: boolean;
+      multicolored: boolean;
+      averagePowerToughness: boolean;
     };
   };
 }
