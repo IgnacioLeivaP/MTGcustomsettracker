@@ -18,6 +18,29 @@ interface CardDetailModalProps {
 }
 
 const CardDetailModal: React.FC<CardDetailModalProps> = ({ card, isOpen, onClose, archetypes, cards, onNavigate }) => {
+  // Keyboard navigation
+  React.useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const currentIndex = cards.findIndex(c => c.id === card?.id);
+      
+      if (event.key === 'ArrowLeft' && currentIndex > 0) {
+        event.preventDefault();
+        onNavigate(cards[currentIndex - 1]);
+      } else if (event.key === 'ArrowRight' && currentIndex < cards.length - 1) {
+        event.preventDefault();
+        onNavigate(cards[currentIndex + 1]);
+      } else if (event.key === 'Escape') {
+        event.preventDefault();
+        onClose();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, card, cards, onNavigate, onClose]);
+
   if (!isOpen || !card) return null;
 
   const getArchetypeName = (id: string) => {
