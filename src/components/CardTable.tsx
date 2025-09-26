@@ -460,7 +460,7 @@ export const CardTable: React.FC<CardTableProps> = ({
             <div className="mt-4 p-3 bg-blue-500/10 border border-blue-500/30 rounded-lg">
               <p className="text-sm text-blue-200">
                 💡 <strong>Tip:</strong> Hide columns you don't need to create a cleaner view. 
-                The "Card Name" column is always visible as it's essential for identification.
+                The "Card Name\" column is always visible as it's essential for identification.
               </p>
             </div>
           </div>
@@ -585,13 +585,6 @@ export const CardTable: React.FC<CardTableProps> = ({
                       </span>
                     )}
                   </td>
-                  {columnVisibility.number && (
-                    <td className="p-4">
-                      <span className="text-white font-mono">
-                        {card.number ? `#${card.number.toString().padStart(3, '0')}` : '—'}
-                      </span>
-                    </td>
-                  )}
                   {columnVisibility.originalName && (
                     <td className="p-4">
                       {card.isNickname && card.originalName ? (
@@ -736,6 +729,22 @@ export const CardTable: React.FC<CardTableProps> = ({
             <span className="ml-2 text-blue-300">
               (sorted by {sortConfig.field} {sortConfig.direction === 'asc' ? '↑' : '↓'})
             </span>
+          )}
+        </div>
+      </div>
+
+      <CardEditModal
+        isOpen={isEditModalOpen}
+        onClose={closeEditModal}
+        card={editingCard}
+        archetypes={archetypes}
+        cards={cards}
+        onUpdateCard={onUpdateCard}
+        onDeleteCard={onDeleteCard}
+      />
+    </>
+  );
+};        </span>
           )}
         </div>
       </div>
