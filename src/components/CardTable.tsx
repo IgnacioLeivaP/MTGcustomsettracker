@@ -472,15 +472,6 @@ export const CardTable: React.FC<CardTableProps> = ({
           <table className="w-full border-collapse bg-white/5 rounded-lg overflow-hidden">
             <thead>
               <tr className="bg-red-500/30">
-                <th className="p-4 text-left font-bold text-white">
-                  <button
-                    onClick={() => handleSort('name')}
-                    className="flex items-center space-x-2 hover:text-blue-300 transition-colors"
-                  >
-                    <span>Card Name</span>
-                    {getSortIcon('name')}
-                  </button>
-                </th>
                 {columnVisibility.number && (
                   <th className="p-4 text-left font-bold text-white">
                     <button
@@ -492,6 +483,15 @@ export const CardTable: React.FC<CardTableProps> = ({
                     </button>
                   </th>
                 )}
+                <th className="p-4 text-left font-bold text-white">
+                  <button
+                    onClick={() => handleSort('name')}
+                    className="flex items-center space-x-2 hover:text-blue-300 transition-colors"
+                  >
+                    <span>Card Name</span>
+                    {getSortIcon('name')}
+                  </button>
+                </th>
                 {columnVisibility.originalName && (
                   <th className="p-4 text-left font-bold text-white">Original Name</th>
                 )}
@@ -578,14 +578,14 @@ export const CardTable: React.FC<CardTableProps> = ({
                   key={card.id}
                   className={`${getArchetypeColor(card.archetype)} hover:bg-white/10 transition-colors border-b border-white/10`}
                 >
+                  {columnVisibility.number && (
+                    <td className="p-4">
+                      <span className="text-gray-300">{card.number || '—'}</span>
+                    </td>
+                  )}
                   <td className="p-4">
                     <strong className="text-white">{card.name}</strong>
                     {card.isDoubleFaced && (
-                      <span className="ml-2 text-blue-300" title="Double-faced card">
-                        <RotateCcw className="w-4 h-4 inline" />
-                      </span>
-                    )}
-                  </td>
                   {columnVisibility.originalName && (
                     <td className="p-4">
                       {card.isNickname && card.originalName ? (
