@@ -43,7 +43,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
   ];
 
   return (
-    <div className="w-64 bg-gray-900/50 backdrop-blur-sm border-r border-white/20 h-screen flex flex-col">
+    <div className="w-64 bg-gray-900/50 backdrop-blur-sm border-r border-white/20 h-screen flex flex-col fixed left-0 top-0 z-10">
       {/* Header */}
       <div className="p-6 border-b border-white/20">
         <div className="flex items-center space-x-3">

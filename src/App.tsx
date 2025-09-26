@@ -85,7 +85,7 @@ function App() {
       />
       
       {/* Main Content */}
-      <div className="flex-1 overflow-auto">
+      <div className="flex-1 overflow-auto ml-64">
         <div className="container mx-auto px-6 py-8 max-w-6xl">
           {/* Content based on active section */}
           <div className="space-y-8">
