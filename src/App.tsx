@@ -11,6 +11,7 @@ import { OverviewSettings } from './components/OverviewSettings';
 import { HelpSection } from './components/HelpSection';
 import { SetInfoSettings } from './components/SetInfoSettings';
 import { SetHeader } from './components/SetHeader';
+import { useEffect } from 'react';
 
 type ActiveSection = 'dashboard' | 'add-card' | 'card-list' | 'settings' | 'help';
 
@@ -18,6 +19,11 @@ function App() {
   const [appData, setAppData] = useState<AppData>(() => loadData());
   const [activeSection, setActiveSection] = useState<ActiveSection>('dashboard');
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
+  // Reset scroll position when changing sections
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [activeSection]);
 
   // Save data whenever it changes
   useEffect(() => {
