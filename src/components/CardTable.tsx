@@ -94,7 +94,7 @@ export const CardTable: React.FC<CardTableProps> = ({
                 <td className="p-4 text-gray-300">{card.type}</td>
                 <td className="p-4">
                   <span className={`px-2 py-1 rounded text-xs font-bold ${
-                    card.rarity === 'C' ? 'bg-gray-500/20 text-gray-300' :
+                    card.rarity === 'C' ? 'bg-gray-600/20 text-gray-300' :
                     card.rarity === 'U' ? 'bg-blue-500/20 text-blue-300' :
                     card.rarity === 'R' ? 'bg-yellow-500/20 text-yellow-300' :
                     'bg-red-500/20 text-red-300'
