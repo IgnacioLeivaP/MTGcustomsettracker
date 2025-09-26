@@ -20,6 +20,7 @@ interface ColumnVisibility {
   originalReprint: boolean;
   imageStatus: boolean;
   colorIdentity: boolean;
+  imageThumbnail: boolean;
   actions: boolean;
 }
 
@@ -50,6 +51,7 @@ export const CardTable: React.FC<CardTableProps> = ({
     originalReprint: true,
     imageStatus: true,
     colorIdentity: true,
+    imageThumbnail: true,
     actions: true
   });
 
@@ -331,6 +333,7 @@ export const CardTable: React.FC<CardTableProps> = ({
 
   const columnConfig = [
     { key: 'originalName' as const, label: 'Original Name', description: 'Shows original card name for nickname cards' },
+    { key: 'imageThumbnail' as const, label: 'Image Thumbnail', description: 'Shows card image thumbnail if uploaded' },
     { key: 'manaCost' as const, label: 'Mana Cost', description: 'Displays mana cost symbols' },
     { key: 'type' as const, label: 'Type', description: 'Card type line' },
     { key: 'rarity' as const, label: 'Rarity', description: 'Card rarity (C/U/R/M)' },
@@ -421,6 +424,9 @@ export const CardTable: React.FC<CardTableProps> = ({
                 </th>
                 {columnVisibility.originalName && (
                   <th className="p-4 text-left font-bold text-white">Original Name</th>
+                )}
+                {columnVisibility.imageThumbnail && (
+                  <th className="p-4 text-left font-bold text-white">Image</th>
                 )}
                 {columnVisibility.manaCost && (
                   <th className="p-4 text-left font-bold text-white">
@@ -516,6 +522,42 @@ export const CardTable: React.FC<CardTableProps> = ({
                         <span className="text-purple-300 italic">{card.originalName}</span>
                       ) : (
                         <span className="text-gray-500">—</span>
+                      )}
+                    </td>
+                  )}
+                  {columnVisibility.imageThumbnail && (
+                    <td className="p-4">
+                      {card.imageFile ? (
+                        <div className="relative group">
+                          <img 
+                            src={card.imageFile} 
+                            alt={`${card.name} thumbnail`}
+                            className="w-12 h-12 object-cover rounded border border-white/20 shadow-sm hover:shadow-lg transition-shadow cursor-pointer"
+                            onClick={() => {
+                              // Create a modal to show full image
+                              const modal = document.createElement('div');
+                              modal.className = 'fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4';
+                              modal.onclick = () => modal.remove();
+                              
+                              const img = document.createElement('img');
+                              img.src = card.imageFile!;
+                              img.className = 'max-w-full max-h-full object-contain rounded-lg shadow-2xl';
+                              img.alt = card.name;
+                              
+                              modal.appendChild(img);
+                              document.body.appendChild(modal);
+                            }}
+                          />
+                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors rounded flex items-center justify-center opacity-0 group-hover:opacity-100">
+                            <span className="text-white text-xs font-medium bg-black/50 px-2 py-1 rounded">
+                              Click to enlarge
+                            </span>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="w-12 h-12 bg-gray-600/30 rounded border border-white/10 flex items-center justify-center">
+                          <span className="text-gray-400 text-xs">No image</span>
+                        </div>
                       )}
                     </td>
                   )}
