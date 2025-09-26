@@ -461,7 +461,7 @@ export const CardTable: React.FC<CardTableProps> = ({
             <div className="mt-4 p-3 bg-blue-500/10 border border-blue-500/30 rounded-lg">
               <p className="text-sm text-blue-200">
                 💡 <strong>Tip:</strong> Hide columns you don't need to create a cleaner view. 
-                The "Card Name\" column is always visible as it's essential for identification.
+                The "Card Name" column is always visible as it's essential for identification.
               </p>
             </div>
           </div>
@@ -586,7 +586,7 @@ export const CardTable: React.FC<CardTableProps> = ({
                   <td className="p-4">
                     <strong className="text-white">{card.name}</strong>
                     {card.isDoubleFaced && (
-                      <span className="ml-2 px-2 py-1 bg-indigo-500/20 text-indigo-300 text-xs rounded">
+                      <span className="ml-2 px-2 py-1 rounded font-bold text-xs bg-indigo-500/20 text-indigo-300">
                         DF
                       </span>
                     )}
