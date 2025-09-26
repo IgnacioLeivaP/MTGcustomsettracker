@@ -7,6 +7,8 @@ export interface Card {
   imageStatus: 'pending' | 'complete';
   isReprint: boolean;
   imageFile?: string; // base64 encoded image
+  power?: string;
+  toughness?: string;
   createdAt: number;
 }
 

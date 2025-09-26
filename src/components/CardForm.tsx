@@ -26,7 +26,9 @@ export const CardForm: React.FC<CardFormProps> = ({ archetypes, onAddCard }) => 
     archetype: archetypes[0]?.id || '',
     imageStatus: 'pending' as const,
     isReprint: false,
-    imageFile: ''
+    imageFile: '',
+    power: '',
+    toughness: ''
   });
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,15 +66,19 @@ export const CardForm: React.FC<CardFormProps> = ({ archetypes, onAddCard }) => 
       archetype: archetypes[0]?.id || '',
       imageStatus: 'pending',
       isReprint: false,
-      imageFile: ''
+      imageFile: '',
+      power: '',
+      toughness: ''
     });
   };
+
+  const isCreature = formData.type.toLowerCase().includes('creature');
 
   return (
     <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
       <h2 className="text-2xl font-bold mb-6 text-red-400">➕ Add New Card</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">Card Name</label>
             <input
@@ -122,6 +128,31 @@ export const CardForm: React.FC<CardFormProps> = ({ archetypes, onAddCard }) => 
               ))}
             </select>
           </div>
+
+          {isCreature && (
+            <>
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Power</label>
+                <input
+                  type="text"
+                  value={formData.power}
+                  onChange={(e) => setFormData(prev => ({ ...prev, power: e.target.value }))}
+                  className="w-full p-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500"
+                  placeholder="e.g. 2, *, X"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Toughness</label>
+                <input
+                  type="text"
+                  value={formData.toughness}
+                  onChange={(e) => setFormData(prev => ({ ...prev, toughness: e.target.value }))}
+                  className="w-full p-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500"
+                  placeholder="e.g. 3, *, X"
+                />
+              </div>
+            </>
+          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
