@@ -20,6 +20,8 @@ export interface Card {
   createdAt: number;
   number?: string;
   artist?: string;
+  isToken?: boolean;
+  isEmblem?: boolean;
 }
 
 export interface Archetype {

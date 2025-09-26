@@ -41,6 +41,7 @@ export const StatsGrid: React.FC<StatsGridProps> = ({ cards, archetypes, setting
   
   const activeArchetypes = Object.keys(archetypeCounts).length;
   const completionPercent = ((totalCards / settings.setInfo.totalCards) * 100);
+  const mainSetCompletionPercent = ((mainSetCards / settings.setInfo.totalCards) * 100);
   const imagePercent = totalCards > 0 ? ((imageCompleteCards / totalCards) * 100) : 0;
 
   // Color analysis

@@ -295,6 +295,15 @@ export const SetSpoiler: React.FC<SetSpoilerProps> = ({ cards, archetypes }) => 
 
   // Sort cards by number first, then alphabetically by name
   const sortedCards = [...cards].sort((a, b) => {
+    // Tokens and emblems go to the end
+    if ((a.isToken || a.isEmblem) && !(b.isToken || b.isEmblem)) return 1;
+    if (!(a.isToken || a.isEmblem) && (b.isToken || b.isEmblem)) return -1;
+    
+    // If both are tokens/emblems, sort alphabetically
+    if ((a.isToken || a.isEmblem) && (b.isToken || b.isEmblem)) {
+      return a.name.localeCompare(b.name);
+    }
+    
     // If both have numbers, sort by number
     if (a.number && b.number) {
       const aNum = parseInt(a.number.replace(/\D/g, '')) || 0;

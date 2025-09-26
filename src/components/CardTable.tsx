@@ -624,6 +624,16 @@ export const CardTable: React.FC<CardTableProps> = ({
                         DF
                       </span>
                     )}
+                    {card.isToken && (
+                      <span className="ml-2 px-2 py-1 rounded font-bold text-xs bg-orange-500/20 text-orange-300">
+                        TOKEN
+                      </span>
+                    )}
+                    {card.isEmblem && (
+                      <span className="ml-2 px-2 py-1 rounded font-bold text-xs bg-purple-500/20 text-purple-300">
+                        EMBLEM
+                      </span>
+                    )}
                   </td>
                   {columnVisibility.originalName && (
                     <td className="p-4">

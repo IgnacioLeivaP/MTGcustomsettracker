@@ -141,7 +141,10 @@ export const CardEditModal: React.FC<CardEditModalProps> = ({
     // Normalize mana cost for storage
     const updates = {
       ...formData,
-      manaCost: normalizeManaForStorage(formData.manaCost)
+      manaCost: normalizeManaForStorage(formData.manaCost),
+      isToken: formData.type === 'Token',
+      isEmblem: formData.type === 'Emblem',
+      number: isTokenOrEmblem ? '' : formData.number // Clear number for tokens/emblems
     };
     
     onUpdateCard(card.id, updates);

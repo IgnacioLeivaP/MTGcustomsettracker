@@ -18,7 +18,9 @@ const cardTypes = [
   'Enchantment - Aura',
   'Artifact',
   'Planeswalker',
-  'Land'
+  'Land',
+  'Token',
+  'Emblem'
 ];
 
 export const CardForm: React.FC<CardFormProps> = ({ archetypes, cards, onAddCard }) => {
@@ -126,7 +128,9 @@ export const CardForm: React.FC<CardFormProps> = ({ archetypes, cards, onAddCard
       abilityText: '',
       flavorText: '',
       number: '',
-      artist: ''
+      artist: '',
+      isToken: false,
+      isEmblem: false
     });
   };
 
