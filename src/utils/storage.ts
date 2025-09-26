@@ -44,9 +44,26 @@ export const loadData = (): AppData => {
       const data = JSON.parse(stored) as AppData;
       // Migrate or use defaults if version mismatch
       if (data.version !== STORAGE_VERSION) {
-        return getDefaultData();
+        const defaultData = getDefaultData();
+        return {
+          ...defaultData,
+          cards: data.cards || defaultData.cards,
+          archetypes: data.archetypes || defaultData.archetypes
+        };
       }
-      return data;
+      // Ensure settings object exists and has all required properties
+      const defaultData = getDefaultData();
+      return {
+        ...data,
+        settings: {
+          ...defaultData.settings,
+          ...data.settings,
+          overviewSections: {
+            ...defaultData.settings.overviewSections,
+            ...(data.settings?.overviewSections || {})
+          }
+        }
+      };
     }
   } catch (error) {
     console.error('Error loading data:', error);
