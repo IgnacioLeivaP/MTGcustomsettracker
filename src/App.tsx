@@ -11,7 +11,6 @@ import { OverviewSettings } from './components/OverviewSettings';
 import { HelpSection } from './components/HelpSection';
 import { SetInfoSettings } from './components/SetInfoSettings';
 import { SetHeader } from './components/SetHeader';
-import { useEffect } from 'react';
 
 type ActiveSection = 'dashboard' | 'add-card' | 'card-list' | 'settings' | 'help';
 
