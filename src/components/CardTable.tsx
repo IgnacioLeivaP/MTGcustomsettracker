@@ -745,19 +745,3 @@ export const CardTable: React.FC<CardTableProps> = ({
     </>
   );
 };
-          )}
-        </div>
-      </div>
-
-      <CardEditModal
-        isOpen={isEditModalOpen}
-        onClose={closeEditModal}
-        card={editingCard}
-        archetypes={archetypes}
-        cards={cards}
-        onUpdateCard={onUpdateCard}
-        onDeleteCard={onDeleteCard}
-      />
-    </>
-  );
-};
