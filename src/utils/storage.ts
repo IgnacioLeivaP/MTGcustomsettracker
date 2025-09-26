@@ -32,6 +32,9 @@ const defaultCards: Card[] = [
   { id: '8', name: 'Repel Aegis', type: 'Instant', manaCost: '{1}{W}', archetype: 'power', imageStatus: 'pending', isReprint: false, createdAt: Date.now() },
   { id: '9', name: 'Mind Stun', type: 'Instant', manaCost: '{2}{U}', archetype: 'power', imageStatus: 'pending', isReprint: false, createdAt: Date.now() },
   { id: '10', name: 'Control Mind', type: 'Sorcery', manaCost: '{4}{U}{B}', archetype: 'power', imageStatus: 'pending', isReprint: false, createdAt: Date.now() },
+  
+  // Example creature with power/toughness
+  { id: '11', name: 'Vampire Knight', type: 'Creature - Vampire Knight', manaCost: '{2}{B}', archetype: 'bw', imageStatus: 'pending', isReprint: false, power: '2', toughness: '2', createdAt: Date.now() },
 ];
 
 export const loadData = (): AppData => {

@@ -37,7 +37,9 @@ export const CardEditModal: React.FC<CardEditModalProps> = ({
     archetype: card?.archetype || '',
     imageStatus: card?.imageStatus || 'pending',
     isReprint: card?.isReprint || false,
-    imageFile: card?.imageFile || ''
+    imageFile: card?.imageFile || '',
+    power: card?.power || '',
+    toughness: card?.toughness || ''
   });
 
   React.useEffect(() => {
@@ -49,7 +51,9 @@ export const CardEditModal: React.FC<CardEditModalProps> = ({
         archetype: card.archetype,
         imageStatus: card.imageStatus,
         isReprint: card.isReprint,
-        imageFile: card.imageFile || ''
+        imageFile: card.imageFile || '',
+        power: card.power || '',
+        toughness: card.toughness || ''
       });
     }
   }, [card]);
@@ -96,6 +100,8 @@ export const CardEditModal: React.FC<CardEditModalProps> = ({
     onClose();
   };
 
+  const isCreature = formData.type.toLowerCase().includes('creature');
+
   const handleDelete = () => {
     if (confirm(`Are you sure you want to delete "${card.name}"? This action cannot be undone.`)) {
       onDeleteCard(card.id);
@@ -120,7 +126,7 @@ export const CardEditModal: React.FC<CardEditModalProps> = ({
           {/* Basic Information */}
           <div>
             <h3 className="text-lg font-semibold text-white mb-4">Basic Information</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">Card Name</label>
                 <input
@@ -171,6 +177,34 @@ export const CardEditModal: React.FC<CardEditModalProps> = ({
                 </select>
               </div>
             </div>
+
+            {isCreature && (
+              <div>
+                <h4 className="text-md font-semibold text-white mb-3">Creature Stats</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">Power</label>
+                    <input
+                      type="text"
+                      value={formData.power}
+                      onChange={(e) => setFormData(prev => ({ ...prev, power: e.target.value }))}
+                      className="w-full p-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500"
+                      placeholder="e.g. 2, *, X"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">Toughness</label>
+                    <input
+                      type="text"
+                      value={formData.toughness}
+                      onChange={(e) => setFormData(prev => ({ ...prev, toughness: e.target.value }))}
+                      className="w-full p-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500"
+                      placeholder="e.g. 3, *, X"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Card Properties */}
