@@ -25,4 +25,13 @@ export interface AppData {
   cards: Card[];
   archetypes: Archetype[];
   version: string;
+  settings: {
+    overviewSections: {
+      totalCards: boolean;
+      cardsWithImages: boolean;
+      originalVsReprints: boolean;
+      activeArchetypes: boolean;
+      archetypeBreakdown: boolean;
+    };
+  };
 }
