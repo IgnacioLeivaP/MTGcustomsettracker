@@ -35,6 +35,9 @@ const defaultCards: Card[] = [
   
   // Example creature with power/toughness
   { id: '11', name: 'Vampire Knight', type: 'Creature - Vampire Knight', manaCost: '{2}{B}', rarity: 'C', archetype: 'bw', imageStatus: 'pending', isReprint: false, isNickname: false, isAlternateArt: false, power: '2', toughness: '2', abilityText: 'Flying, lifelink', flavorText: '"In darkness, we find our true strength."', createdAt: Date.now() },
+  
+  // Example nickname card
+  { id: '12', name: 'Lightning Bolt', type: 'Instant', manaCost: '{R}', rarity: 'C', archetype: 'power', imageStatus: 'pending', isReprint: true, isNickname: true, isAlternateArt: false, originalName: 'Lightning Bolt', isDoubleFaced: false, abilityText: 'Lightning Bolt deals 3 damage to any target.', createdAt: Date.now() },
 ];
 
 export const loadData = (): AppData => {
