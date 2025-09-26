@@ -55,41 +55,30 @@ const CardDetailModal: React.FC<CardDetailModalProps> = ({ card, isOpen, onClose
 
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-gray-900 border border-white/20 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-        {/* Navigation Header */}
-        <div className="flex items-center justify-between p-4 border-b border-white/20">
-          <button
-            onClick={navigatePrev}
-            disabled={!canNavigatePrev}
-            className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors ${
-              canNavigatePrev 
-                ? 'bg-blue-500/20 border border-blue-500/30 text-blue-300 hover:bg-blue-500/30' 
-                : 'bg-gray-500/20 border border-gray-500/30 text-gray-500 cursor-not-allowed'
-            }`}
-          >
-            <ChevronLeft className="w-4 h-4" />
-            <span>Previous</span>
-          </button>
+      <div className="flex items-center space-x-4 max-w-6xl w-full">
+        {/* Left Navigation Arrow */}
+        <button
+          onClick={navigatePrev}
+          disabled={!canNavigatePrev}
+          className={`flex items-center justify-center w-12 h-12 rounded-full transition-colors ${
+            canNavigatePrev 
+              ? 'bg-blue-500/20 border border-blue-500/30 text-blue-300 hover:bg-blue-500/30' 
+              : 'bg-gray-500/20 border border-gray-500/30 text-gray-500 cursor-not-allowed'
+          }`}
+        >
+          <ChevronLeft className="w-6 h-6" />
+        </button>
 
-          <div className="text-center text-gray-300">
-            <span className="text-sm">Card {currentIndex + 1} of {cards.length}</span>
+        {/* Modal Content */}
+        <div className="bg-gray-900 border border-white/20 rounded-xl flex-1 max-h-[90vh] overflow-y-auto">
+          {/* Header with card counter */}
+          <div className="flex items-center justify-center p-4 border-b border-white/20">
+            <div className="text-center text-gray-300">
+              <span className="text-sm">Card {currentIndex + 1} of {cards.length}</span>
+            </div>
           </div>
 
-          <button
-            onClick={navigateNext}
-            disabled={!canNavigateNext}
-            className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors ${
-              canNavigateNext 
-                ? 'bg-blue-500/20 border border-blue-500/30 text-blue-300 hover:bg-blue-500/30' 
-                : 'bg-gray-500/20 border border-gray-500/30 text-gray-500 cursor-not-allowed'
-            }`}
-          >
-            <span>Next</span>
-            <ChevronRight className="w-4 h-4" />
-          </button>
-        </div>
-
-        <div className="flex">
+          <div className="flex">
           {/* Left side - Image */}
           <div className="w-1/2 p-6">
             {card.imageFile ? (
@@ -256,6 +245,20 @@ const CardDetailModal: React.FC<CardDetailModalProps> = ({ card, isOpen, onClose
             </div>
           </div>
         </div>
+        </div>
+
+        {/* Right Navigation Arrow */}
+        <button
+          onClick={navigateNext}
+          disabled={!canNavigateNext}
+          className={`flex items-center justify-center w-12 h-12 rounded-full transition-colors ${
+            canNavigateNext 
+              ? 'bg-blue-500/20 border border-blue-500/30 text-blue-300 hover:bg-blue-500/30' 
+              : 'bg-gray-500/20 border border-gray-500/30 text-gray-500 cursor-not-allowed'
+          }`}
+        >
+          <ChevronRight className="w-6 h-6" />
+        </button>
       </div>
     </div>
   );
