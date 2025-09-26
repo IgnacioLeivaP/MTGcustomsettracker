@@ -90,7 +90,7 @@ export const CardTable: React.FC<CardTableProps> = ({
                         : 'bg-green-500/20 border border-green-500/30 text-green-300 hover:bg-green-500/30'
                     }`}
                   >
-                    {card.isReprint ? 'Reprint' : 'Original'}
+                    {card.isReprint ? 'R' : 'O'}
                   </button>
                 </td>
                 <td className="p-4">
