@@ -391,7 +391,6 @@ export const CardTable: React.FC<CardTableProps> = ({
 
   const columnConfig = [
     { key: 'number' as const, label: 'Card Number', description: 'Shows card number for set ordering' },
-    { key: 'number' as const, label: 'Card Number', description: 'Shows card number for set ordering' },
     { key: 'originalName' as const, label: 'Original Name', description: 'Shows original card name for nickname cards' },
     { key: 'imageThumbnail' as const, label: 'Image Thumbnail', description: 'Shows card image thumbnail if uploaded' },
     { key: 'manaCost' as const, label: 'Mana Cost', description: 'Displays mana cost symbols' },
@@ -483,13 +482,15 @@ export const CardTable: React.FC<CardTableProps> = ({
                   </button>
                 </th>
                 {columnVisibility.number && (
-                  <td className="p-4">
-                    {card.number ? (
-                      <span className="font-mono text-blue-300">#{card.number.padStart(3, '0')}</span>
-                    ) : (
-                      <span className="text-gray-500">—</span>
-                    )}
-                  </td>
+                  <th className="p-4 text-left font-bold text-white">
+                    <button
+                      onClick={() => handleSort('number')}
+                      className="flex items-center space-x-2 hover:text-blue-300 transition-colors"
+                    >
+                      <span>Card Number</span>
+                      {getSortIcon('number')}
+                    </button>
+                  </th>
                 )}
                 {columnVisibility.originalName && (
                   <th className="p-4 text-left font-bold text-white">Original Name</th>
