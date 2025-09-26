@@ -41,7 +41,6 @@ export const StatsGrid: React.FC<StatsGridProps> = ({ cards, archetypes, setting
   
   const activeArchetypes = Object.keys(archetypeCounts).length;
   const completionPercent = ((totalCards / settings.setInfo.totalCards) * 100);
-  const mainSetCompletionPercent = ((mainSetCards / settings.setInfo.totalCards) * 100);
   const imagePercent = totalCards > 0 ? ((imageCompleteCards / totalCards) * 100) : 0;
 
   // Color analysis
@@ -280,14 +279,21 @@ export const StatsGrid: React.FC<StatsGridProps> = ({ cards, archetypes, setting
         {settings.overviewSections.totalCards && (
           <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4 text-center">
             <h3 className="text-lg font-semibold mb-2 text-red-400">Total Cards Created</h3>
-            <div className="text-3xl font-bold text-white mb-2">{totalCards}</div>
+            <div className="text-3xl font-bold text-white mb-2">{mainSetCards}</div>
             <div className="w-full bg-white/10 rounded-full h-3 mb-2">
               <div 
                 className="bg-gradient-to-r from-red-500 to-teal-400 h-3 rounded-full transition-all duration-300"
-                style={{ width: `${Math.min(100, completionPercent)}%` }}
+                style={{ width: `${Math.min(100, mainSetCompletionPercent)}%` }}
               />
             </div>
-            <small className="text-gray-300">Target: {settings.setInfo.totalCards} cards ({completionPercent.toFixed(1)}%)</small>
+            <small className="text-gray-300">
+              Target: {settings.setInfo.totalCards} cards ({mainSetCompletionPercent.toFixed(1)}%)
+              {(tokenCards > 0 || emblemCards > 0) && (
+                <div className="text-xs text-gray-400 mt-1">
+                  + {tokenCards} tokens, {emblemCards} emblems
+                </div>
+              )}
+            </small>
           </div>
         )}
 
