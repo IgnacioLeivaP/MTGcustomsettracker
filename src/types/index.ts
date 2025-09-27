@@ -42,6 +42,27 @@ export interface AppData {
       totalCards: number;
       hasAlternateArts: boolean;
       setIcon?: string; // base64 encoded image
+      customCounters: {
+        rarities: {
+          enabled: boolean;
+          common: number;
+          uncommon: number;
+          rare: number;
+          mythic: number;
+        };
+        alternateArts: {
+          enabled: boolean;
+          target: number;
+        };
+        tokens: {
+          enabled: boolean;
+          target: number;
+        };
+        emblems: {
+          enabled: boolean;
+          target: number;
+        };
+      };
     };
     overviewSections: {
       totalCards: boolean;
@@ -55,6 +76,7 @@ export interface AppData {
       costBreakdown: boolean;
       multicolored: boolean;
       averagePowerToughness: boolean;
+      customCounters: boolean;
     };
   };
 }

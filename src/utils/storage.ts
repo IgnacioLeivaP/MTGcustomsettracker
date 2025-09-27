@@ -120,7 +120,28 @@ const getDefaultData = (): AppData => ({
       description: 'A custom Magic: The Gathering set created with the MTG Custom Set Tracker.',
       totalCards: 280,
       hasAlternateArts: false,
-      setIcon: undefined
+      setIcon: undefined,
+      customCounters: {
+        rarities: {
+          enabled: false,
+          common: 101,
+          uncommon: 80,
+          rare: 53,
+          mythic: 15
+        },
+        alternateArts: {
+          enabled: false,
+          target: 20
+        },
+        tokens: {
+          enabled: false,
+          target: 15
+        },
+        emblems: {
+          enabled: false,
+          target: 5
+        }
+      }
     },
     overviewSections: {
       totalCards: true,
@@ -133,7 +154,8 @@ const getDefaultData = (): AppData => ({
       cardTypeBreakdown: true,
       costBreakdown: true,
       multicolored: true,
-      averagePowerToughness: true
+      averagePowerToughness: true,
+      customCounters: true
     }
   }
 });

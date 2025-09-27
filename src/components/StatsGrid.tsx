@@ -140,6 +140,14 @@ export const StatsGrid: React.FC<StatsGridProps> = ({ cards, archetypes, setting
     ? creatures.reduce((sum, card) => sum + Number(card.toughness), 0) / creatures.length 
     : 0;
 
+  // Custom counters data
+  const alternateArtCards = cards.filter(card => card.isAlternateArt).length;
+  const customCounters = settings.setInfo.customCounters || {
+    rarities: { enabled: false, common: 0, uncommon: 0, rare: 0, mythic: 0 },
+    alternateArts: { enabled: false, target: 0 },
+    tokens: { enabled: false, target: 0 },
+    emblems: { enabled: false, target: 0 }
+  };
   const toggleSection = (section: keyof typeof settings.overviewSections) => {
     onUpdateSettings({
       ...settings,
@@ -184,7 +192,8 @@ export const StatsGrid: React.FC<StatsGridProps> = ({ cards, archetypes, setting
     { key: 'cardTypeBreakdown' as const, label: 'Card Type Breakdown', description: 'Distribution by card types' },
     { key: 'costBreakdown' as const, label: 'Cost Breakdown', description: 'Mana cost distribution analysis' },
     { key: 'multicolored' as const, label: 'Multicolored Cards', description: 'Count and percentage of multicolor cards' },
-    { key: 'averagePowerToughness' as const, label: 'Average Power/Toughness', description: 'Average stats of creatures in the set' }
+    { key: 'averagePowerToughness' as const, label: 'Average Power/Toughness', description: 'Average stats of creatures in the set' },
+    { key: 'customCounters' as const, label: 'Custom Counters', description: 'Track custom targets for rarities, tokens, etc.' }
   ];
 
   const renderProgressBar = (segments: Array<{value: number, color: string, label: string}>) => {
@@ -457,6 +466,109 @@ export const StatsGrid: React.FC<StatsGridProps> = ({ cards, archetypes, setting
             </div>
             <small className="text-gray-300">from {creatures.length} creatures</small>
           </div>
+        )}
+
+        {/* Custom Counters */}
+        {settings.overviewSections.customCounters && (
+          <>
+            {/* Rarity Distribution */}
+            {customCounters.rarities.enabled && (
+              <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4">
+                <h3 className="text-lg font-semibold mb-2 text-red-400 text-center">Rarity Distribution</h3>
+                <div className="grid grid-cols-2 gap-2 text-sm mb-3">
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Common:</span>
+                    <span className="text-white font-bold">{rarityCounts.C || 0}/{customCounters.rarities.common}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-blue-300">Uncommon:</span>
+                    <span className="text-white font-bold">{rarityCounts.U || 0}/{customCounters.rarities.uncommon}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-yellow-300">Rare:</span>
+                    <span className="text-white font-bold">{rarityCounts.R || 0}/{customCounters.rarities.rare}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-orange-400">Mythic:</span>
+                    <span className="text-white font-bold">{rarityCounts.M || 0}/{customCounters.rarities.mythic}</span>
+                  </div>
+                </div>
+                {renderProgressBar([
+                  { 
+                    value: Math.min(rarityCounts.C || 0, customCounters.rarities.common), 
+                    color: 'bg-gray-600', 
+                    label: 'Common' 
+                  },
+                  { 
+                    value: Math.min(rarityCounts.U || 0, customCounters.rarities.uncommon), 
+                    color: 'bg-blue-500', 
+                    label: 'Uncommon' 
+                  },
+                  { 
+                    value: Math.min(rarityCounts.R || 0, customCounters.rarities.rare), 
+                    color: 'bg-yellow-500', 
+                    label: 'Rare' 
+                  },
+                  { 
+                    value: Math.min(rarityCounts.M || 0, customCounters.rarities.mythic), 
+                    color: 'bg-orange-600', 
+                    label: 'Mythic' 
+                  }
+                ])}
+              </div>
+            )}
+
+            {/* Alternate Arts */}
+            {customCounters.alternateArts.enabled && (
+              <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4 text-center">
+                <h3 className="text-lg font-semibold mb-2 text-red-400">Alternate Arts</h3>
+                <div className="text-3xl font-bold text-white mb-2">{alternateArtCards}</div>
+                <div className="w-full bg-white/10 rounded-full h-3 mb-2">
+                  <div 
+                    className="bg-gradient-to-r from-cyan-500 to-purple-400 h-3 rounded-full transition-all duration-300"
+                    style={{ width: `${Math.min(100, (alternateArtCards / Math.max(1, customCounters.alternateArts.target)) * 100)}%` }}
+                  />
+                </div>
+                <small className="text-gray-300">
+                  Target: {customCounters.alternateArts.target} ({((alternateArtCards / Math.max(1, customCounters.alternateArts.target)) * 100).toFixed(1)}%)
+                </small>
+              </div>
+            )}
+
+            {/* Tokens */}
+            {customCounters.tokens.enabled && (
+              <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4 text-center">
+                <h3 className="text-lg font-semibold mb-2 text-red-400">Tokens</h3>
+                <div className="text-3xl font-bold text-white mb-2">{tokenCards}</div>
+                <div className="w-full bg-white/10 rounded-full h-3 mb-2">
+                  <div 
+                    className="bg-gradient-to-r from-orange-500 to-red-400 h-3 rounded-full transition-all duration-300"
+                    style={{ width: `${Math.min(100, (tokenCards / Math.max(1, customCounters.tokens.target)) * 100)}%` }}
+                  />
+                </div>
+                <small className="text-gray-300">
+                  Target: {customCounters.tokens.target} ({((tokenCards / Math.max(1, customCounters.tokens.target)) * 100).toFixed(1)}%)
+                </small>
+              </div>
+            )}
+
+            {/* Emblems */}
+            {customCounters.emblems.enabled && (
+              <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4 text-center">
+                <h3 className="text-lg font-semibold mb-2 text-red-400">Emblems</h3>
+                <div className="text-3xl font-bold text-white mb-2">{emblemCards}</div>
+                <div className="w-full bg-white/10 rounded-full h-3 mb-2">
+                  <div 
+                    className="bg-gradient-to-r from-purple-500 to-pink-400 h-3 rounded-full transition-all duration-300"
+                    style={{ width: `${Math.min(100, (emblemCards / Math.max(1, customCounters.emblems.target)) * 100)}%` }}
+                  />
+                </div>
+                <small className="text-gray-300">
+                  Target: {customCounters.emblems.target} ({((emblemCards / Math.max(1, customCounters.emblems.target)) * 100).toFixed(1)}%)
+                </small>
+              </div>
+            )}
+          </>
         )}
       </div>
 
