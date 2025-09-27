@@ -215,7 +215,10 @@ export const StatsGrid: React.FC<StatsGridProps> = ({ cards, archetypes, setting
     { key: 'individualRarities' as const, label: 'Individual Rarity Counters', description: 'Separate counter for each rarity (C/U/R/M)' },
     { key: 'alternateArts' as const, label: 'Alternate Arts Counter', description: 'Progress toward alternate art target' },
     { key: 'tokens' as const, label: 'Tokens Counter', description: 'Progress toward token target' },
-    { key: 'emblems' as const, label: 'Emblems Counter', description: 'Progress toward emblem target' }
+    { key: 'emblems' as const, label: 'Emblems Counter', description: 'Progress toward emblem target' },
+    { key: 'colorBreakdownGraphical' as const, label: 'Color Breakdown (Graphical)', description: 'Visual chart of color distribution' },
+    { key: 'cardTypeBreakdownGraphical' as const, label: 'Card Type Breakdown (Graphical)', description: 'Visual chart of card types' },
+    { key: 'costBreakdownGraphical' as const, label: 'Cost Breakdown (Graphical)', description: 'Visual chart of mana cost distribution' }
   ];
 
   const renderProgressBar = (segments: Array<{value: number, color: string, label: string}>) => {
@@ -656,6 +659,168 @@ export const StatsGrid: React.FC<StatsGridProps> = ({ cards, archetypes, setting
               </div>
             )}
           </>
+        )}
+
+        {/* Graphical Breakdowns */}
+        {settings.overviewSections.colorBreakdownGraphical && (
+          <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4 md:col-span-2">
+            <h3 className="text-lg font-semibold mb-4 text-red-400 text-center">🎨 Color Distribution</h3>
+            <div className="space-y-3">
+              {Object.entries(colorCounts)
+                .sort(([,a], [,b]) => b - a)
+                .map(([color, count]) => {
+                  const percentage = totalCards > 0 ? (count / totalCards) * 100 : 0;
+                  const colorClasses = {
+                    'White': 'bg-gradient-to-r from-yellow-200 to-yellow-400',
+                    'Blue': 'bg-gradient-to-r from-blue-400 to-blue-600',
+                    'Black': 'bg-gradient-to-r from-gray-600 to-gray-800',
+                    'Red': 'bg-gradient-to-r from-red-400 to-red-600',
+                    'Green': 'bg-gradient-to-r from-green-400 to-green-600',
+                    'Colorless': 'bg-gradient-to-r from-gray-400 to-gray-500'
+                  };
+                  
+                  return (
+                    <div key={color} className="space-y-1">
+                      <div className="flex justify-between items-center text-sm">
+                        <span className={`font-medium ${
+                          color === 'White' ? 'text-yellow-200' :
+                          color === 'Blue' ? 'text-blue-300' :
+                          color === 'Black' ? 'text-gray-300' :
+                          color === 'Red' ? 'text-red-300' :
+                          color === 'Green' ? 'text-green-300' :
+                          'text-gray-400'
+                        }`}>
+                          {color}
+                        </span>
+                        <div className="flex items-center space-x-2">
+                          <span className="text-white font-bold">{count}</span>
+                          <span className="text-gray-400">({percentage.toFixed(1)}%)</span>
+                        </div>
+                      </div>
+                      <div className="w-full bg-white/10 rounded-full h-3">
+                        <div 
+                          className={`h-3 rounded-full transition-all duration-500 ${
+                            colorClasses[color as keyof typeof colorClasses] || 'bg-gray-500'
+                          }`}
+                          style={{ width: `${percentage}%` }}
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
+          </div>
+        )}
+
+        {settings.overviewSections.cardTypeBreakdownGraphical && (
+          <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4 md:col-span-2">
+            <h3 className="text-lg font-semibold mb-4 text-red-400 text-center">🃏 Card Type Distribution</h3>
+            <div className="space-y-3">
+              {Object.entries(typeCounts)
+                .sort(([,a], [,b]) => b - a)
+                .slice(0, 8)
+                .map(([type, count], index) => {
+                  const percentage = totalCards > 0 ? (count / totalCards) * 100 : 0;
+                  const gradientColors = [
+                    'bg-gradient-to-r from-purple-400 to-purple-600',
+                    'bg-gradient-to-r from-blue-400 to-blue-600',
+                    'bg-gradient-to-r from-green-400 to-green-600',
+                    'bg-gradient-to-r from-yellow-400 to-yellow-600',
+                    'bg-gradient-to-r from-red-400 to-red-600',
+                    'bg-gradient-to-r from-pink-400 to-pink-600',
+                    'bg-gradient-to-r from-indigo-400 to-indigo-600',
+                    'bg-gradient-to-r from-teal-400 to-teal-600'
+                  ];
+                  
+                  return (
+                    <div key={type} className="space-y-1">
+                      <div className="flex justify-between items-center text-sm">
+                        <span className="font-medium text-white">{type}</span>
+                        <div className="flex items-center space-x-2">
+                          <span className="text-white font-bold">{count}</span>
+                          <span className="text-gray-400">({percentage.toFixed(1)}%)</span>
+                        </div>
+                      </div>
+                      <div className="w-full bg-white/10 rounded-full h-3">
+                        <div 
+                          className={`h-3 rounded-full transition-all duration-500 ${
+                            gradientColors[index % gradientColors.length]
+                          }`}
+                          style={{ width: `${percentage}%` }}
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
+          </div>
+        )}
+
+        {settings.overviewSections.costBreakdownGraphical && (
+          <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4 md:col-span-2">
+            <h3 className="text-lg font-semibold mb-4 text-red-400 text-center">💎 Mana Cost Distribution</h3>
+            <div className="space-y-3">
+              {Array.from({length: 10}, (_, i) => {
+                const cost = i;
+                const count = costCounts[cost] || 0;
+                const percentage = totalCards > 0 ? (count / totalCards) * 100 : 0;
+                
+                if (count === 0 && cost > 7) return null;
+                
+                const costColors = [
+                  'bg-gradient-to-r from-gray-300 to-gray-400',      // 0
+                  'bg-gradient-to-r from-blue-300 to-blue-500',      // 1
+                  'bg-gradient-to-r from-green-300 to-green-500',    // 2
+                  'bg-gradient-to-r from-yellow-300 to-yellow-500',  // 3
+                  'bg-gradient-to-r from-orange-300 to-orange-500',  // 4
+                  'bg-gradient-to-r from-red-300 to-red-500',        // 5
+                  'bg-gradient-to-r from-purple-300 to-purple-500',  // 6
+                  'bg-gradient-to-r from-pink-300 to-pink-500',      // 7
+                  'bg-gradient-to-r from-indigo-400 to-purple-600',  // 8
+                  'bg-gradient-to-r from-red-500 to-red-700'         // 9+
+                ];
+                
+                return (
+                  <div key={cost} className="space-y-1">
+                    <div className="flex justify-between items-center text-sm">
+                      <span className="font-medium text-white">
+                        {cost === 0 ? '0 mana' : cost >= 9 ? '9+ mana' : `${cost} mana`}
+                      </span>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-white font-bold">{count}</span>
+                        <span className="text-gray-400">({percentage.toFixed(1)}%)</span>
+                      </div>
+                    </div>
+                    <div className="w-full bg-white/10 rounded-full h-3">
+                      <div 
+                        className={`h-3 rounded-full transition-all duration-500 ${
+                          costColors[Math.min(cost, costColors.length - 1)]
+                        }`}
+                        style={{ width: `${percentage}%` }}
+                      />
+                    </div>
+                  </div>
+                );
+              }).filter(Boolean)}
+              
+              {/* High cost summary */}
+              {Object.entries(costCounts).some(([cost]) => Number(cost) >= 8) && (
+                <div className="mt-4 p-3 bg-white/5 rounded-lg border border-white/10">
+                  <h4 className="text-sm font-semibold text-gray-300 mb-2">High Cost Cards (8+)</h4>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
+                    {Object.entries(costCounts)
+                      .filter(([cost]) => Number(cost) >= 8)
+                      .map(([cost, count]) => (
+                        <div key={cost} className="flex justify-between">
+                          <span className="text-gray-400">{cost}:</span>
+                          <span className="text-white font-bold">{count}</span>
+                        </div>
+                      ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
         )}
       </div>
 

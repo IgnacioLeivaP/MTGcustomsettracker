@@ -77,6 +77,9 @@ export interface AppData {
       alternateArts: boolean;
       tokens: boolean;
       emblems: boolean;
+      colorBreakdownGraphical: boolean;
+      cardTypeBreakdownGraphical: boolean;
+      costBreakdownGraphical: boolean;
     };
   };
 }

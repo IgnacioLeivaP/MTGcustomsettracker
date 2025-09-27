@@ -156,7 +156,10 @@ const getDefaultData = (): AppData => ({
       individualRarities: false,
       alternateArts: false,
       tokens: false,
-      emblems: false
+      emblems: false,
+      colorBreakdownGraphical: false,
+      cardTypeBreakdownGraphical: false,
+      costBreakdownGraphical: false
     }
   }
 });
