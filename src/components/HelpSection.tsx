@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShieldQuestion, Info, Tag, Landmark, Star, Hash, Play, CheckCircle, AlertCircle } from 'lucide-react';
+import { ShieldQuestion, Info, Tag, Landmark, Star, ArrowDown01, Play, CheckCircle, AlertCircle } from 'lucide-react';
 import { Card } from '../types';
 
 interface HelpSectionProps {
@@ -121,7 +121,7 @@ export const HelpSection: React.FC<HelpSectionProps> = ({ cards, onUpdateCard, s
       {/* Auto-Numbering Tool */}
       <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
         <div className="flex items-center space-x-3 mb-6">
-          <Hash className="w-8 h-8 text-green-400" />
+          <ArrowDown01 className="w-8 h-8 text-green-400" />
           <h2 className="text-2xl font-bold text-green-400">Auto-Numbering Tool</h2>
         </div>
         
