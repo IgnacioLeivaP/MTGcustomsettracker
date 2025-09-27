@@ -8,6 +8,23 @@ interface StatsGridProps {
   settings: {
     setInfo: {
       totalCards: number;
+      customCounters: {
+        rarities: {
+          common: number;
+          uncommon: number;
+          rare: number;
+          mythic: number;
+        };
+        alternateArts: {
+          target: number;
+        };
+        tokens: {
+          target: number;
+        };
+        emblems: {
+          target: number;
+        };
+      };
     };
     overviewSections: {
       totalCards: boolean;
@@ -21,6 +38,11 @@ interface StatsGridProps {
       costBreakdown: boolean;
       multicolored: boolean;
       averagePowerToughness: boolean;
+      customCounters: boolean;
+      rarityDistribution: boolean;
+      alternateArts: boolean;
+      tokens: boolean;
+      emblems: boolean;
     };
   };
   onUpdateSettings: (settings: any) => void;
@@ -142,12 +164,8 @@ export const StatsGrid: React.FC<StatsGridProps> = ({ cards, archetypes, setting
 
   // Custom counters data
   const alternateArtCards = cards.filter(card => card.isAlternateArt).length;
-  const customCounters = settings.setInfo.customCounters || {
-    rarities: { enabled: false, common: 0, uncommon: 0, rare: 0, mythic: 0 },
-    alternateArts: { enabled: false, target: 0 },
-    tokens: { enabled: false, target: 0 },
-    emblems: { enabled: false, target: 0 }
-  };
+  const customCounters = settings.setInfo.customCounters;
+
   const toggleSection = (section: keyof typeof settings.overviewSections) => {
     onUpdateSettings({
       ...settings,
@@ -193,7 +211,11 @@ export const StatsGrid: React.FC<StatsGridProps> = ({ cards, archetypes, setting
     { key: 'costBreakdown' as const, label: 'Cost Breakdown', description: 'Mana cost distribution analysis' },
     { key: 'multicolored' as const, label: 'Multicolored Cards', description: 'Count and percentage of multicolor cards' },
     { key: 'averagePowerToughness' as const, label: 'Average Power/Toughness', description: 'Average stats of creatures in the set' },
-    { key: 'customCounters' as const, label: 'Custom Counters', description: 'Track custom targets for rarities, tokens, etc.' }
+    { key: 'customCounters' as const, label: 'Custom Counters', description: 'Track custom targets for rarities, tokens, etc.' },
+    { key: 'rarityDistribution' as const, label: 'Rarity Distribution', description: 'Progress toward rarity targets' },
+    { key: 'alternateArts' as const, label: 'Alternate Arts Counter', description: 'Progress toward alternate art target' },
+    { key: 'tokens' as const, label: 'Tokens Counter', description: 'Progress toward token target' },
+    { key: 'emblems' as const, label: 'Emblems Counter', description: 'Progress toward emblem target' }
   ];
 
   const renderProgressBar = (segments: Array<{value: number, color: string, label: string}>) => {
@@ -469,10 +491,10 @@ export const StatsGrid: React.FC<StatsGridProps> = ({ cards, archetypes, setting
         )}
 
         {/* Custom Counters */}
-        {settings.overviewSections.customCounters && (
+        {settings.overviewSections.customCounters && customCounters && (
           <>
             {/* Rarity Distribution */}
-            {customCounters.rarities.enabled && (
+            {settings.overviewSections.rarityDistribution && (
               <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4">
                 <h3 className="text-lg font-semibold mb-2 text-red-400 text-center">Rarity Distribution</h3>
                 <div className="grid grid-cols-2 gap-2 text-sm mb-3">
@@ -519,7 +541,7 @@ export const StatsGrid: React.FC<StatsGridProps> = ({ cards, archetypes, setting
             )}
 
             {/* Alternate Arts */}
-            {customCounters.alternateArts.enabled && (
+            {settings.overviewSections.alternateArts && (
               <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4 text-center">
                 <h3 className="text-lg font-semibold mb-2 text-red-400">Alternate Arts</h3>
                 <div className="text-3xl font-bold text-white mb-2">{alternateArtCards}</div>
@@ -536,7 +558,7 @@ export const StatsGrid: React.FC<StatsGridProps> = ({ cards, archetypes, setting
             )}
 
             {/* Tokens */}
-            {customCounters.tokens.enabled && (
+            {settings.overviewSections.tokens && (
               <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4 text-center">
                 <h3 className="text-lg font-semibold mb-2 text-red-400">Tokens</h3>
                 <div className="text-3xl font-bold text-white mb-2">{tokenCards}</div>
@@ -553,7 +575,7 @@ export const StatsGrid: React.FC<StatsGridProps> = ({ cards, archetypes, setting
             )}
 
             {/* Emblems */}
-            {customCounters.emblems.enabled && (
+            {settings.overviewSections.emblems && (
               <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4 text-center">
                 <h3 className="text-lg font-semibold mb-2 text-red-400">Emblems</h3>
                 <div className="text-3xl font-bold text-white mb-2">{emblemCards}</div>

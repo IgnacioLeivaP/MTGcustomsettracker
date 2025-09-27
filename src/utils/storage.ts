@@ -123,22 +123,18 @@ const getDefaultData = (): AppData => ({
       setIcon: undefined,
       customCounters: {
         rarities: {
-          enabled: false,
           common: 101,
           uncommon: 80,
           rare: 53,
           mythic: 15
         },
         alternateArts: {
-          enabled: false,
           target: 20
         },
         tokens: {
-          enabled: false,
           target: 15
         },
         emblems: {
-          enabled: false,
           target: 5
         }
       }
@@ -155,7 +151,11 @@ const getDefaultData = (): AppData => ({
       costBreakdown: true,
       multicolored: true,
       averagePowerToughness: true,
-      customCounters: true
+      customCounters: true,
+      rarityDistribution: false,
+      alternateArts: false,
+      tokens: false,
+      emblems: false
     }
   }
 });

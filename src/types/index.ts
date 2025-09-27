@@ -44,22 +44,18 @@ export interface AppData {
       setIcon?: string; // base64 encoded image
       customCounters: {
         rarities: {
-          enabled: boolean;
           common: number;
           uncommon: number;
           rare: number;
           mythic: number;
         };
         alternateArts: {
-          enabled: boolean;
           target: number;
         };
         tokens: {
-          enabled: boolean;
           target: number;
         };
         emblems: {
-          enabled: boolean;
           target: number;
         };
       };
@@ -77,6 +73,10 @@ export interface AppData {
       multicolored: boolean;
       averagePowerToughness: boolean;
       customCounters: boolean;
+      rarityDistribution: boolean;
+      alternateArts: boolean;
+      tokens: boolean;
+      emblems: boolean;
     };
   };
 }

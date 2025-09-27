@@ -297,179 +297,117 @@ export const SetInfoSettings: React.FC<SetInfoSettingsProps> = ({
             <h3 className="text-lg font-semibold text-white">Custom Counters</h3>
           </div>
           <p className="text-gray-300 mb-4">
-            Set optional targets for different card categories. These will be tracked in the Dashboard when enabled.
+            Set targets for different card categories. Use Dashboard → Display Settings to show/hide these counters.
           </p>
           
           {/* Rarity Counters */}
           <div className="bg-white/5 rounded-lg p-4 border border-white/10 mb-4">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h4 className="font-semibold text-white">Rarity Distribution</h4>
-                <p className="text-sm text-gray-400">Track progress for each rarity level</p>
-              </div>
-              <button
-                onClick={() => handleChange('customCounters.rarities.enabled', !formData.customCounters.rarities.enabled)}
-                className="flex items-center space-x-2 text-sm"
-              >
-                {formData.customCounters.rarities.enabled ? (
-                  <>
-                    <ToggleRight className="w-5 h-5 text-green-400" />
-                    <span className="text-green-300">Enabled</span>
-                  </>
-                ) : (
-                  <>
-                    <ToggleLeft className="w-5 h-5 text-gray-400" />
-                    <span className="text-gray-400">Disabled</span>
-                  </>
-                )}
-              </button>
+            <div className="mb-4">
+              <h4 className="font-semibold text-white">Rarity Distribution</h4>
+              <p className="text-sm text-gray-400">Set target quantities for each rarity level</p>
             </div>
             
-            {formData.customCounters.rarities.enabled && (
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Common</label>
-                  <input
-                    type="number"
-                    min="0"
-                    value={formData.customCounters.rarities.common}
-                    onChange={(e) => handleChange('customCounters.rarities.common', parseInt(e.target.value) || 0)}
-                    className="w-full p-2 bg-white/10 border border-white/30 rounded text-white focus:outline-none focus:ring-2 focus:ring-green-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Uncommon</label>
-                  <input
-                    type="number"
-                    min="0"
-                    value={formData.customCounters.rarities.uncommon}
-                    onChange={(e) => handleChange('customCounters.rarities.uncommon', parseInt(e.target.value) || 0)}
-                    className="w-full p-2 bg-white/10 border border-white/30 rounded text-white focus:outline-none focus:ring-2 focus:ring-green-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Rare</label>
-                  <input
-                    type="number"
-                    min="0"
-                    value={formData.customCounters.rarities.rare}
-                    onChange={(e) => handleChange('customCounters.rarities.rare', parseInt(e.target.value) || 0)}
-                    className="w-full p-2 bg-white/10 border border-white/30 rounded text-white focus:outline-none focus:ring-2 focus:ring-green-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Mythic</label>
-                  <input
-                    type="number"
-                    min="0"
-                    value={formData.customCounters.rarities.mythic}
-                    onChange={(e) => handleChange('customCounters.rarities.mythic', parseInt(e.target.value) || 0)}
-                    className="w-full p-2 bg-white/10 border border-white/30 rounded text-white focus:outline-none focus:ring-2 focus:ring-green-500"
-                  />
-                </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Common</label>
+                <input
+                  type="number"
+                  min="0"
+                  value={formData.customCounters.rarities.common}
+                  onChange={(e) => handleChange('customCounters.rarities.common', parseInt(e.target.value) || 0)}
+                  className="w-full p-2 bg-white/10 border border-white/30 rounded text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
               </div>
-            )}
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Uncommon</label>
+                <input
+                  type="number"
+                  min="0"
+                  value={formData.customCounters.rarities.uncommon}
+                  onChange={(e) => handleChange('customCounters.rarities.uncommon', parseInt(e.target.value) || 0)}
+                  className="w-full p-2 bg-white/10 border border-white/30 rounded text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Rare</label>
+                <input
+                  type="number"
+                  min="0"
+                  value={formData.customCounters.rarities.rare}
+                  onChange={(e) => handleChange('customCounters.rarities.rare', parseInt(e.target.value) || 0)}
+                  className="w-full p-2 bg-white/10 border border-white/30 rounded text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Mythic</label>
+                <input
+                  type="number"
+                  min="0"
+                  value={formData.customCounters.rarities.mythic}
+                  onChange={(e) => handleChange('customCounters.rarities.mythic', parseInt(e.target.value) || 0)}
+                  className="w-full p-2 bg-white/10 border border-white/30 rounded text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+              </div>
+            </div>
           </div>
           
           {/* Other Counters */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Alternate Arts */}
             <div className="bg-white/5 rounded-lg p-4 border border-white/10">
-              <div className="flex items-center justify-between mb-3">
-                <div>
-                  <h4 className="font-semibold text-white text-sm">Alternate Arts</h4>
-                  <p className="text-xs text-gray-400">Special art variants</p>
-                </div>
-                <button
-                  onClick={() => handleChange('customCounters.alternateArts.enabled', !formData.customCounters.alternateArts.enabled)}
-                  className="flex items-center space-x-1 text-xs"
-                >
-                  {formData.customCounters.alternateArts.enabled ? (
-                    <ToggleRight className="w-4 h-4 text-green-400" />
-                  ) : (
-                    <ToggleLeft className="w-4 h-4 text-gray-400" />
-                  )}
-                </button>
+              <div className="mb-3">
+                <h4 className="font-semibold text-white text-sm">Alternate Arts</h4>
+                <p className="text-xs text-gray-400">Target for special art variants</p>
               </div>
               
-              {formData.customCounters.alternateArts.enabled && (
-                <div>
-                  <label className="block text-xs font-medium text-gray-300 mb-1">Target</label>
-                  <input
-                    type="number"
-                    min="0"
-                    value={formData.customCounters.alternateArts.target}
-                    onChange={(e) => handleChange('customCounters.alternateArts.target', parseInt(e.target.value) || 0)}
-                    className="w-full p-2 bg-white/10 border border-white/30 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-                  />
-                </div>
-              )}
+              <div>
+                <label className="block text-xs font-medium text-gray-300 mb-1">Target</label>
+                <input
+                  type="number"
+                  min="0"
+                  value={formData.customCounters.alternateArts.target}
+                  onChange={(e) => handleChange('customCounters.alternateArts.target', parseInt(e.target.value) || 0)}
+                  className="w-full p-2 bg-white/10 border border-white/30 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+              </div>
             </div>
             
             {/* Tokens */}
             <div className="bg-white/5 rounded-lg p-4 border border-white/10">
-              <div className="flex items-center justify-between mb-3">
-                <div>
-                  <h4 className="font-semibold text-white text-sm">Tokens</h4>
-                  <p className="text-xs text-gray-400">Token creatures</p>
-                </div>
-                <button
-                  onClick={() => handleChange('customCounters.tokens.enabled', !formData.customCounters.tokens.enabled)}
-                  className="flex items-center space-x-1 text-xs"
-                >
-                  {formData.customCounters.tokens.enabled ? (
-                    <ToggleRight className="w-4 h-4 text-green-400" />
-                  ) : (
-                    <ToggleLeft className="w-4 h-4 text-gray-400" />
-                  )}
-                </button>
+              <div className="mb-3">
+                <h4 className="font-semibold text-white text-sm">Tokens</h4>
+                <p className="text-xs text-gray-400">Target for token creatures</p>
               </div>
               
-              {formData.customCounters.tokens.enabled && (
-                <div>
-                  <label className="block text-xs font-medium text-gray-300 mb-1">Target</label>
-                  <input
-                    type="number"
-                    min="0"
-                    value={formData.customCounters.tokens.target}
-                    onChange={(e) => handleChange('customCounters.tokens.target', parseInt(e.target.value) || 0)}
-                    className="w-full p-2 bg-white/10 border border-white/30 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-                  />
-                </div>
-              )}
+              <div>
+                <label className="block text-xs font-medium text-gray-300 mb-1">Target</label>
+                <input
+                  type="number"
+                  min="0"
+                  value={formData.customCounters.tokens.target}
+                  onChange={(e) => handleChange('customCounters.tokens.target', parseInt(e.target.value) || 0)}
+                  className="w-full p-2 bg-white/10 border border-white/30 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+              </div>
             </div>
             
             {/* Emblems */}
             <div className="bg-white/5 rounded-lg p-4 border border-white/10">
-              <div className="flex items-center justify-between mb-3">
-                <div>
-                  <h4 className="font-semibold text-white text-sm">Emblems</h4>
-                  <p className="text-xs text-gray-400">Planeswalker emblems</p>
-                </div>
-                <button
-                  onClick={() => handleChange('customCounters.emblems.enabled', !formData.customCounters.emblems.enabled)}
-                  className="flex items-center space-x-1 text-xs"
-                >
-                  {formData.customCounters.emblems.enabled ? (
-                    <ToggleRight className="w-4 h-4 text-green-400" />
-                  ) : (
-                    <ToggleLeft className="w-4 h-4 text-gray-400" />
-                  )}
-                </button>
+              <div className="mb-3">
+                <h4 className="font-semibold text-white text-sm">Emblems</h4>
+                <p className="text-xs text-gray-400">Target for planeswalker emblems</p>
               </div>
               
-              {formData.customCounters.emblems.enabled && (
-                <div>
-                  <label className="block text-xs font-medium text-gray-300 mb-1">Target</label>
-                  <input
-                    type="number"
-                    min="0"
-                    value={formData.customCounters.emblems.target}
-                    onChange={(e) => handleChange('customCounters.emblems.target', parseInt(e.target.value) || 0)}
-                    className="w-full p-2 bg-white/10 border border-white/30 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-                  />
-                </div>
-              )}
+              <div>
+                <label className="block text-xs font-medium text-gray-300 mb-1">Target</label>
+                <input
+                  type="number"
+                  min="0"
+                  value={formData.customCounters.emblems.target}
+                  onChange={(e) => handleChange('customCounters.emblems.target', parseInt(e.target.value) || 0)}
+                  className="w-full p-2 bg-white/10 border border-white/30 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+              </div>
             </div>
           </div>
         </div>
