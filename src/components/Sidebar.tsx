@@ -151,34 +151,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
         </div>
       )}
 
-      {/* Mobile Bottom Navigation */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-gray-900/95 backdrop-blur-sm border-t border-white/20 z-50">
-        <div className="grid grid-cols-6 gap-1 p-2">
-          {menuItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = activeSection === item.id;
-            
-            return (
-              <button
-                key={item.id}
-                onClick={() => onSectionChange(item.id)}
-                className={`flex flex-col items-center justify-center py-2 px-1 rounded-lg transition-colors ${
-                  isActive
-                    ? 'bg-red-500 text-white'
-                    : 'text-gray-400 hover:text-white hover:bg-white/10'
-                }`}
-              >
-                <Icon className="w-5 h-5 mb-1" />
-                <span className="text-xs font-medium leading-tight text-center">
-                  {item.label.split(' ').map((word, index) => (
-                    <div key={index}>{word}</div>
-                  ))}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
     </>
   );
 };
