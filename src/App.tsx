@@ -93,8 +93,8 @@ function App() {
       />
       
       {/* Main Content */}
-      <div className="flex-1 overflow-auto ml-64">
-        <div className="container mx-auto px-6 py-8 max-w-6xl">
+      <div className="flex-1 overflow-auto lg:ml-64">
+        <div className="container mx-auto px-4 lg:px-6 py-4 lg:py-8 max-w-6xl mt-16 lg:mt-0 mb-20 lg:mb-0">
           {/* Content based on active section */}
           <div className="space-y-8">
             {activeSection === 'dashboard' && (
