@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card, Archetype } from '../types';
 import { ManaSymbols } from './ManaSymbols';
-import { X, Image as ImageIcon, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, Image as ImageIcon, ChevronLeft, ChevronRight, Grid3X3 } from 'lucide-react';
 
 interface SetSpoilerProps {
   cards: Card[];
@@ -335,7 +335,10 @@ export const SetSpoiler: React.FC<SetSpoilerProps> = ({ cards, archetypes }) => 
     <>
       <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-red-400">🃏 Set Spoiler</h2>
+          <div className="flex items-center space-x-3">
+            <Grid3X3 className="w-6 h-6 text-red-400" />
+            <h2 className="text-2xl font-bold text-red-400">Set Spoiler</h2>
+          </div>
           <div className="text-gray-300">
             {sortedCards.length} cards
           </div>
