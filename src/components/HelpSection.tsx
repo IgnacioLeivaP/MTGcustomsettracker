@@ -1,13 +1,13 @@
 import React from 'react';
-import { BookOpen, Info, Tag, Palette, Star } from 'lucide-react';
+import { ShieldQuestion, Info, Tag, Landmark, Star } from 'lucide-react';
 
 export const HelpSection: React.FC = () => {
   return (
     <div className="space-y-8">
       <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
         <div className="flex items-center space-x-3 mb-6">
-          <BookOpen className="w-8 h-8 text-red-400" />
-          <h2 className="text-2xl font-bold text-red-400">📚 Help & Documentation</h2>
+          <ShieldQuestion className="w-8 h-8 text-red-400" />
+          <h2 className="text-2xl font-bold text-red-400">Help & Documentation</h2>
         </div>
         
         <div className="space-y-6">
@@ -87,7 +87,7 @@ export const HelpSection: React.FC = () => {
           {/* Archetypes Section */}
           <div className="bg-white/5 rounded-lg p-6 border border-white/10">
             <div className="flex items-center space-x-2 mb-4">
-              <Palette className="w-5 h-5 text-green-400" />
+              <Landmark className="w-5 h-5 text-green-400" />
               <h3 className="text-xl font-semibold text-white">Archetypes</h3>
             </div>
             

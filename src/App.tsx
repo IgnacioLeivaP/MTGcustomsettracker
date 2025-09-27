@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Database, ExternalLink } from 'lucide-react';
 import { Card, Archetype, AppData } from './types';
 import { loadData, saveData, clearData } from './utils/storage';
 import { Sidebar } from './components/Sidebar';
@@ -150,13 +151,49 @@ function App() {
                 <DebugSection appData={appData} />
                 
                 <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-                  <h2 className="text-2xl font-bold mb-6 text-red-400">⚙️ App Settings</h2>
+                  <div className="flex items-center space-x-3 mb-6">
+                    <Database className="w-6 h-6 text-red-400" />
+                    <h2 className="text-2xl font-bold text-red-400">Data</h2>
+                  </div>
                   <button
                     onClick={() => setIsSettingsOpen(true)}
                     className="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
                   >
                     Open Data Management
                   </button>
+                </div>
+                
+                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+                  <div className="flex items-center space-x-3 mb-6">
+                    <ExternalLink className="w-6 h-6 text-red-400" />
+                    <h2 className="text-2xl font-bold text-red-400">My Other Projects</h2>
+                  </div>
+                  <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+                    <a 
+                      href="https://mtgreminders.netlify.app/" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="flex items-center space-x-4 hover:bg-white/10 p-3 rounded-lg transition-colors group"
+                    >
+                      <img 
+                        src="https://mtgreminders.netlify.app/assets/logo-BW6lAP-7.png" 
+                        alt="MTG Reminders Logo" 
+                        className="w-12 h-12 object-contain rounded"
+                      />
+                      <div className="flex-1">
+                        <h3 className="text-lg font-semibold text-white group-hover:text-blue-300 transition-colors">
+                          MTG Reminders
+                        </h3>
+                        <p className="text-gray-400 text-sm">
+                          Track your Magic: The Gathering reminders and triggers
+                        </p>
+                        <p className="text-blue-400 text-xs mt-1">
+                          mtgreminders.netlify.app →
+                        </p>
+                      </div>
+                      <ExternalLink className="w-5 h-5 text-gray-400 group-hover:text-blue-300 transition-colors" />
+                    </a>
+                  </div>
                 </div>
               </div>
             )}
