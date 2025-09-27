@@ -760,12 +760,16 @@ export const StatsGrid: React.FC<StatsGridProps> = ({ cards, archetypes, setting
           <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4 md:col-span-2">
             <h3 className="text-lg font-semibold mb-4 text-red-400 text-center">💎 Mana Cost Distribution</h3>
             <div className="space-y-3">
-              {Array.from({length: 10}, (_, i) => {
+              {Array.from({length: 8}, (_, i) => {
                 const cost = i;
-                const count = costCounts[cost] || 0;
+                const count = cost === 7 
+                  ? Object.entries(costCounts).reduce((sum, [c, cnt]) => {
+                      return Number(c) >= 7 ? sum + cnt : sum;
+                    }, 0)
+                  : costCounts[cost] || 0;
                 const percentage = totalCards > 0 ? (count / totalCards) * 100 : 0;
                 
-                if (count === 0 && cost > 7) return null;
+                if (count === 0 && cost > 6) return null;
                 
                 const costColors = [
                   'bg-gradient-to-r from-gray-300 to-gray-400',      // 0
@@ -775,16 +779,14 @@ export const StatsGrid: React.FC<StatsGridProps> = ({ cards, archetypes, setting
                   'bg-gradient-to-r from-orange-300 to-orange-500',  // 4
                   'bg-gradient-to-r from-red-300 to-red-500',        // 5
                   'bg-gradient-to-r from-purple-300 to-purple-500',  // 6
-                  'bg-gradient-to-r from-pink-300 to-pink-500',      // 7
-                  'bg-gradient-to-r from-indigo-400 to-purple-600',  // 8
-                  'bg-gradient-to-r from-red-500 to-red-700'         // 9+
+                  'bg-gradient-to-r from-pink-400 to-red-600'        // 7+
                 ];
                 
                 return (
                   <div key={cost} className="space-y-1">
                     <div className="flex justify-between items-center text-sm">
                       <span className="font-medium text-white">
-                        {cost === 0 ? '0 mana' : cost >= 9 ? '9+ mana' : `${cost} mana`}
+                        {cost === 0 ? '0 mana' : cost === 7 ? '7+ mana' : `${cost} mana`}
                       </span>
                       <div className="flex items-center space-x-2">
                         <span className="text-white font-bold">{count}</span>
@@ -794,7 +796,7 @@ export const StatsGrid: React.FC<StatsGridProps> = ({ cards, archetypes, setting
                     <div className="w-full bg-white/10 rounded-full h-3">
                       <div 
                         className={`h-3 rounded-full transition-all duration-500 ${
-                          costColors[Math.min(cost, costColors.length - 1)]
+                          costColors[cost]
                         }`}
                         style={{ width: `${percentage}%` }}
                       />
@@ -804,12 +806,12 @@ export const StatsGrid: React.FC<StatsGridProps> = ({ cards, archetypes, setting
               }).filter(Boolean)}
               
               {/* High cost summary */}
-              {Object.entries(costCounts).some(([cost]) => Number(cost) >= 8) && (
+              {Object.entries(costCounts).some(([cost]) => Number(cost) >= 7) && (
                 <div className="mt-4 p-3 bg-white/5 rounded-lg border border-white/10">
-                  <h4 className="text-sm font-semibold text-gray-300 mb-2">High Cost Cards (8+)</h4>
+                  <h4 className="text-sm font-semibold text-gray-300 mb-2">High Cost Cards (7+)</h4>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
                     {Object.entries(costCounts)
-                      .filter(([cost]) => Number(cost) >= 8)
+                      .filter(([cost]) => Number(cost) >= 7)
                       .map(([cost, count]) => (
                         <div key={cost} className="flex justify-between">
                           <span className="text-gray-400">{cost}:</span>
