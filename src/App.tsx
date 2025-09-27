@@ -199,7 +199,11 @@ function App() {
             )}
 
             {activeSection === 'help' && (
-              <HelpSection />
+              <HelpSection 
+                cards={appData.cards}
+                onUpdateCard={updateCard}
+                settings={appData.settings}
+              />
             )}
           </div>
         </div>
