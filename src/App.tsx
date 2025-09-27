@@ -14,6 +14,7 @@ import { HelpSection } from './components/HelpSection';
 import { SetInfoSettings } from './components/SetInfoSettings';
 import { SetHeader } from './components/SetHeader';
 import { DebugSection } from './components/DebugSection';
+import { PWAInstallPrompt } from './components/PWAInstallPrompt';
 
 type ActiveSection = 'dashboard' | 'add-card' | 'card-list' | 'set-spoiler' | 'settings' | 'help';
 
@@ -217,6 +218,9 @@ function App() {
         appData={appData}
         onImportData={importData}
       />
+      
+      {/* PWA Install Prompt */}
+      <PWAInstallPrompt />
     </div>
   );
 }

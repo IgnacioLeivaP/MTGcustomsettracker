@@ -4,10 +4,48 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/Mesa de trabajo 1CSC.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#ef4444" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="CSC MTG" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="CSC MTG" />
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="/Mesa de trabajo 1CSC.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/Mesa de trabajo 1CSC.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/Mesa de trabajo 1CSC.png" />
+    <link rel="apple-touch-icon" sizes="167x167" href="/Mesa de trabajo 1CSC.png" />
+    
+    <!-- Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- Microsoft Tiles -->
+    <meta name="msapplication-TileColor" content="#ef4444" />
+    <meta name="msapplication-TileImage" content="/Mesa de trabajo 1CSC.png" />
+    <meta name="msapplication-config" content="/browserconfig.xml" />
+    
     <title>MTG Custom Set Tracker</title>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- PWA Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+              console.log('SW registered: ', registration);
+            })
+            .catch((registrationError) => {
+              console.log('SW registration failed: ', registrationError);
+            });
+        });
+      }
+    </script>
   </body>
 </html>

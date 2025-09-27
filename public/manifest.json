@@ -1,0 +1,86 @@
+{
+  "name": "MTG Custom Set Creator",
+  "short_name": "CSC MTG",
+  "description": "Create and manage custom Magic: The Gathering sets with ease",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#111827",
+  "theme_color": "#ef4444",
+  "orientation": "portrait-primary",
+  "categories": ["games", "productivity", "utilities"],
+  "lang": "en",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/Mesa de trabajo 1CSC.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/Mesa de trabajo 1CSC.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/Mesa de trabajo 1CSC.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/Mesa de trabajo 1CSC.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/Mesa de trabajo 1CSC.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/Mesa de trabajo 1CSC.png",
+      "sizes": "48x48",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/Mesa de trabajo 1CSC.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "MTG Custom Set Creator Dashboard"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Add New Card",
+      "short_name": "Add Card",
+      "description": "Quickly add a new card to your set",
+      "url": "/?section=add-card",
+      "icons": [
+        {
+          "src": "/Mesa de trabajo 1CSC.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "View Set Spoiler",
+      "short_name": "Spoiler",
+      "description": "View your set in spoiler format",
+      "url": "/?section=set-spoiler",
+      "icons": [
+        {
+          "src": "/Mesa de trabajo 1CSC.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ]
+}
