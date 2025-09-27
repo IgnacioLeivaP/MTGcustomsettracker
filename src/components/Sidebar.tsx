@@ -56,7 +56,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
       <div className="hidden lg:flex w-64 bg-gray-900/50 backdrop-blur-sm border-r border-white/20 h-screen flex-col fixed left-0 top-0 z-10">
         <div className="p-6 border-b border-white/20">
           <div className="flex items-center space-x-3">
-            <Sparkles className="w-8 h-8 text-purple-400" />
+            <img 
+              src="/Mesa de trabajo 1CSC.png" 
+              alt="CSC MTG Logo" 
+              className="w-8 h-8 object-contain"
+            />
             <div>
               <h1 className="text-lg font-bold text-white">MTG Custom Set Creator</h1>
             </div>
@@ -102,7 +106,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
       <div className="lg:hidden fixed top-0 left-0 right-0 bg-gray-900/95 backdrop-blur-sm border-b border-white/20 z-50">
         <div className="flex items-center justify-between p-4">
           <div className="flex items-center space-x-3">
-            <Sparkles className="w-6 h-6 text-purple-400" />
+            <img 
+              src="/Mesa de trabajo 1CSC.png" 
+              alt="CSC MTG Logo" 
+              className="w-6 h-6 object-contain"
+            />
             <h1 className="text-lg font-bold text-white">MTG Set Creator</h1>
           </div>
           <button
