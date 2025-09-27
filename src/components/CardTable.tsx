@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Card, Archetype } from '../types';
-import { Settings, RotateCcw, Eye, EyeOff, Columns2 as Columns, ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
+import { Settings, RotateCcw, Eye, EyeOff, Columns2 as Columns, ArrowUpDown, ArrowUp, ArrowDown, Rows4 } from 'lucide-react';
 import { ManaSymbols } from './ManaSymbols';
 import { CardEditModal } from './CardEditModal';
 
@@ -427,7 +427,10 @@ export const CardTable: React.FC<CardTableProps> = ({
     <>
       <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-red-400">📋 Card List</h2>
+          <div className="flex items-center space-x-3">
+            <Rows4 className="w-6 h-6 text-red-400" />
+            <h2 className="text-2xl font-bold text-red-400">Card List</h2>
+          </div>
           <button
             onClick={() => setShowColumnConfig(!showColumnConfig)}
             className="flex items-center space-x-2 px-4 py-2 bg-blue-500/20 border border-blue-500/30 text-blue-300 rounded-lg hover:bg-blue-500/30 transition-colors"

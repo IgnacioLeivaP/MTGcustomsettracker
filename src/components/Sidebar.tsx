@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, BookPlus, List, Settings, Sparkles, ShieldQuestion, Grid3x3 as Grid3X3 } from 'lucide-react';
+import { Home, BookPlus, Rows4, Settings, Sparkles, ShieldQuestion, Grid3x3 as Grid3X3 } from 'lucide-react';
 type ActiveSection = 'dashboard' | 'add-card' | 'card-list' | 'set-spoiler' | 'settings' | 'help';
 
 interface SidebarProps {
@@ -30,7 +30,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
     {
       id: 'card-list' as const,
       label: 'Card List',
-      icon: List,
+      icon: Rows4,
       description: 'View and manage cards'
     },
     {
