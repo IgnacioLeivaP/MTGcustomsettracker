@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card, Archetype } from '../types';
 import { ManaSymbols } from './ManaSymbols';
-import { X, Image as ImageIcon, ChevronLeft, ChevronRight, Grid3X3 } from 'lucide-react';
+import { X, Image as ImageIcon, ChevronLeft, ChevronRight, Grid3x3 as Grid3X3 } from 'lucide-react';
 
 interface SetSpoilerProps {
   cards: Card[];
