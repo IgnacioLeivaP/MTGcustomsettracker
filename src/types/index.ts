@@ -74,6 +74,7 @@ export interface AppData {
       averagePowerToughness: boolean;
       customCounters: boolean;
       rarityDistribution: boolean;
+      individualRarities: boolean;
       alternateArts: boolean;
       tokens: boolean;
       emblems: boolean;

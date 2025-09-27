@@ -213,6 +213,7 @@ export const StatsGrid: React.FC<StatsGridProps> = ({ cards, archetypes, setting
     { key: 'averagePowerToughness' as const, label: 'Average Power/Toughness', description: 'Average stats of creatures in the set' },
     { key: 'customCounters' as const, label: 'Custom Counters', description: 'Track custom targets for rarities, tokens, etc.' },
     { key: 'rarityDistribution' as const, label: 'Rarity Distribution', description: 'Progress toward rarity targets' },
+    { key: 'individualRarities' as const, label: 'Individual Rarity Counters', description: 'Separate counter for each rarity (C/U/R/M)' },
     { key: 'alternateArts' as const, label: 'Alternate Arts Counter', description: 'Progress toward alternate art target' },
     { key: 'tokens' as const, label: 'Tokens Counter', description: 'Progress toward token target' },
     { key: 'emblems' as const, label: 'Emblems Counter', description: 'Progress toward emblem target' }
@@ -538,6 +539,71 @@ export const StatsGrid: React.FC<StatsGridProps> = ({ cards, archetypes, setting
                   }
                 ])}
               </div>
+            )}
+
+            {/* Individual Rarity Counters */}
+            {settings.overviewSections.individualRarities && customCounters && (
+              <>
+                {/* Common Counter */}
+                <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4 text-center">
+                  <h3 className="text-lg font-semibold mb-2 text-red-400">Common Cards</h3>
+                  <div className="text-3xl font-bold text-white mb-2">{rarityCounts.C || 0}</div>
+                  <div className="w-full bg-white/10 rounded-full h-3 mb-2">
+                    <div 
+                      className="bg-gradient-to-r from-gray-500 to-gray-400 h-3 rounded-full transition-all duration-300"
+                      style={{ width: `${Math.min(100, ((rarityCounts.C || 0) / Math.max(1, customCounters.rarities.common)) * 100)}%` }}
+                    />
+                  </div>
+                  <small className="text-gray-300">
+                    Target: {customCounters.rarities.common} ({(((rarityCounts.C || 0) / Math.max(1, customCounters.rarities.common)) * 100).toFixed(1)}%)
+                  </small>
+                </div>
+
+                {/* Uncommon Counter */}
+                <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4 text-center">
+                  <h3 className="text-lg font-semibold mb-2 text-red-400">Uncommon Cards</h3>
+                  <div className="text-3xl font-bold text-white mb-2">{rarityCounts.U || 0}</div>
+                  <div className="w-full bg-white/10 rounded-full h-3 mb-2">
+                    <div 
+                      className="bg-gradient-to-r from-blue-500 to-blue-400 h-3 rounded-full transition-all duration-300"
+                      style={{ width: `${Math.min(100, ((rarityCounts.U || 0) / Math.max(1, customCounters.rarities.uncommon)) * 100)}%` }}
+                    />
+                  </div>
+                  <small className="text-gray-300">
+                    Target: {customCounters.rarities.uncommon} ({(((rarityCounts.U || 0) / Math.max(1, customCounters.rarities.uncommon)) * 100).toFixed(1)}%)
+                  </small>
+                </div>
+
+                {/* Rare Counter */}
+                <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4 text-center">
+                  <h3 className="text-lg font-semibold mb-2 text-red-400">Rare Cards</h3>
+                  <div className="text-3xl font-bold text-white mb-2">{rarityCounts.R || 0}</div>
+                  <div className="w-full bg-white/10 rounded-full h-3 mb-2">
+                    <div 
+                      className="bg-gradient-to-r from-yellow-500 to-yellow-400 h-3 rounded-full transition-all duration-300"
+                      style={{ width: `${Math.min(100, ((rarityCounts.R || 0) / Math.max(1, customCounters.rarities.rare)) * 100)}%` }}
+                    />
+                  </div>
+                  <small className="text-gray-300">
+                    Target: {customCounters.rarities.rare} ({(((rarityCounts.R || 0) / Math.max(1, customCounters.rarities.rare)) * 100).toFixed(1)}%)
+                  </small>
+                </div>
+
+                {/* Mythic Counter */}
+                <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4 text-center">
+                  <h3 className="text-lg font-semibold mb-2 text-red-400">Mythic Cards</h3>
+                  <div className="text-3xl font-bold text-white mb-2">{rarityCounts.M || 0}</div>
+                  <div className="w-full bg-white/10 rounded-full h-3 mb-2">
+                    <div 
+                      className="bg-gradient-to-r from-orange-500 to-red-500 h-3 rounded-full transition-all duration-300"
+                      style={{ width: `${Math.min(100, ((rarityCounts.M || 0) / Math.max(1, customCounters.rarities.mythic)) * 100)}%` }}
+                    />
+                  </div>
+                  <small className="text-gray-300">
+                    Target: {customCounters.rarities.mythic} ({(((rarityCounts.M || 0) / Math.max(1, customCounters.rarities.mythic)) * 100).toFixed(1)}%)
+                  </small>
+                </div>
+              </>
             )}
 
             {/* Alternate Arts */}

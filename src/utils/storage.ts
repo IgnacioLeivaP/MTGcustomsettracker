@@ -153,6 +153,7 @@ const getDefaultData = (): AppData => ({
       averagePowerToughness: true,
       customCounters: true,
       rarityDistribution: false,
+      individualRarities: false,
       alternateArts: false,
       tokens: false,
       emblems: false
