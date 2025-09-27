@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Card, Archetype } from '../types';
-import { Upload } from 'lucide-react';
+import { Upload, BookPlus } from 'lucide-react';
 import { normalizeManaForStorage } from '../utils/manaParser';
 import { compressImage } from '../utils/imageCompression';
 
@@ -138,7 +138,10 @@ export const CardForm: React.FC<CardFormProps> = ({ archetypes, cards, onAddCard
 
   return (
     <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-      <h2 className="text-2xl font-bold mb-6 text-red-400">➕ Add New Card</h2>
+      <div className="flex items-center space-x-3 mb-6">
+        <BookPlus className="w-6 h-6 text-red-400" />
+        <h2 className="text-2xl font-bold text-red-400">Add New Card</h2>
+      </div>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
           <div>
