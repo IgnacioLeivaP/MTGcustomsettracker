@@ -29,7 +29,15 @@ interface StatsGridProps {
 export const StatsGrid: React.FC<StatsGridProps> = ({ cards, archetypes, settings, onUpdateSettings }) => {
   const [showOverviewConfig, setShowOverviewConfig] = React.useState(false);
 
+  // Separate cards by type
+  const mainSetCards = cards.filter(card => !card.isToken && !card.isEmblem).length;
+  const tokenCards = cards.filter(card => card.isToken).length;
+  const emblemCards = cards.filter(card => card.isEmblem).length;
   const totalCards = cards.length;
+  
+  // Calculate completion percentages
+  const mainSetCompletionPercent = ((mainSetCards / settings.setInfo.totalCards) * 100);
+  
   const imageCompleteCards = cards.filter(card => card.imageStatus === 'complete').length;
   const reprintCards = cards.filter(card => card.isReprint).length;
   const originalCards = totalCards - reprintCards;
@@ -40,7 +48,6 @@ export const StatsGrid: React.FC<StatsGridProps> = ({ cards, archetypes, setting
   }, {} as Record<string, number>);
   
   const activeArchetypes = Object.keys(archetypeCounts).length;
-  const completionPercent = ((totalCards / settings.setInfo.totalCards) * 100);
   const imagePercent = totalCards > 0 ? ((imageCompleteCards / totalCards) * 100) : 0;
 
   // Color analysis
