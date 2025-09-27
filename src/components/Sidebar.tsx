@@ -37,7 +37,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
       id: 'help' as const,
       label: 'Help',
       icon: ShieldQuestion,
-      description: 'Documentation and guides'
+      description: 'Tools and documentation'
     },
     {
       id: 'settings' as const,
