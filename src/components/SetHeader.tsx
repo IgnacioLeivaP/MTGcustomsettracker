@@ -13,7 +13,8 @@ interface SetHeaderProps {
 }
 
 export const SetHeader: React.FC<SetHeaderProps> = ({ setInfo, currentCardCount }) => {
-  const progressPercent = ((currentCardCount / setInfo.totalCards) * 100);
+  const targetCards = setInfo.totalCards || 1; // Prevent division by zero
+  const progressPercent = ((currentCardCount / targetCards) * 100);
 
   return (
     <div className="bg-gradient-to-r from-red-500/20 via-purple-500/20 to-blue-500/20 backdrop-blur-sm rounded-xl p-6 border border-white/20 mb-8">
@@ -44,7 +45,7 @@ export const SetHeader: React.FC<SetHeaderProps> = ({ setInfo, currentCardCount 
             <div className="flex items-center space-x-2">
               <Target className="w-5 h-5 text-green-400" />
               <span className="text-white font-semibold">
-                {currentCardCount} / {setInfo.totalCards} cards
+                {currentCardCount} / {setInfo.totalCards || 'Not set'} cards
               </span>
               <span className="text-gray-400">
                 ({progressPercent.toFixed(1)}% complete)

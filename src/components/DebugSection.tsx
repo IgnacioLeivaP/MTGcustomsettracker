@@ -48,7 +48,6 @@ export const DebugSection: React.FC<DebugSectionProps> = ({ appData }) => {
   return (
     <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
       <div className="flex items-center space-x-3 mb-6">
-        <HardDrive className="w-6 h-6 text-blue-400" />
         <h2 className="text-2xl font-bold text-blue-400">🔧 Debug & Storage Info</h2>
       </div>
       

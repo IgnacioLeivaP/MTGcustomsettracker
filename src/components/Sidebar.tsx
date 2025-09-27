@@ -93,7 +93,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
         <div className="p-4 border-t border-white/20">
           <div className="text-xs text-gray-400 text-center">
             <div>Version 1.0.0</div>
-            <div className="mt-1">Custom Set Tracker</div>
+            <div className="mt-1">MTG Custom Set Creator</div>
           </div>
         </div>
       </div>

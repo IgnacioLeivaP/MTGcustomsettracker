@@ -36,7 +36,8 @@ export const StatsGrid: React.FC<StatsGridProps> = ({ cards, archetypes, setting
   const totalCards = cards.length;
   
   // Calculate completion percentages
-  const mainSetCompletionPercent = ((mainSetCards / settings.setInfo.totalCards) * 100);
+  const targetCards = settings.setInfo.totalCards || 1; // Prevent division by zero
+  const mainSetCompletionPercent = ((mainSetCards / targetCards) * 100);
   
   const imageCompleteCards = cards.filter(card => card.imageStatus === 'complete').length;
   const reprintCards = cards.filter(card => card.isReprint).length;
@@ -294,7 +295,7 @@ export const StatsGrid: React.FC<StatsGridProps> = ({ cards, archetypes, setting
               />
             </div>
             <small className="text-gray-300">
-              Target: {settings.setInfo.totalCards} cards ({mainSetCompletionPercent.toFixed(1)}%)
+              Target: {settings.setInfo.totalCards || 'Not set'} cards ({mainSetCompletionPercent.toFixed(1)}%)
               {(tokenCards > 0 || emblemCards > 0) && (
                 <div className="text-xs text-gray-400 mt-1">
                   + {tokenCards} tokens, {emblemCards} emblems

@@ -34,6 +34,24 @@ export const SetInfoSettings: React.FC<SetInfoSettingsProps> = ({
   };
 
   const handleChange = (field: string, value: any) => {
+    // Special handling for totalCards to prevent crashes
+    if (field === 'totalCards') {
+      // Allow empty string but don't save it
+      if (value === '' || value === null || value === undefined) {
+        setFormData({ ...formData, [field]: '' });
+        return; // Don't auto-save empty values
+      }
+      
+      // Convert to number and validate
+      const numValue = parseInt(value);
+      if (isNaN(numValue) || numValue < 1) {
+        setFormData({ ...formData, [field]: '' });
+        return; // Don't save invalid values
+      }
+      
+      value = numValue;
+    }
+    
     const newFormData = { ...formData, [field]: value };
     setFormData(newFormData);
     
@@ -110,10 +128,15 @@ export const SetInfoSettings: React.FC<SetInfoSettingsProps> = ({
               min="1"
               max="1000"
               value={formData.totalCards}
-              onChange={(e) => handleChange('totalCards', parseInt(e.target.value) || 280)}
+              onChange={(e) => handleChange('totalCards', e.target.value)}
               className="w-full p-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500"
               placeholder="280"
             />
+            {(formData.totalCards === '' || formData.totalCards < 1) && (
+              <p className="text-red-400 text-sm mt-1">
+                ⚠️ Please enter a valid number of cards (minimum 1)
+              </p>
+            )}
           </div>
         </div>
 
