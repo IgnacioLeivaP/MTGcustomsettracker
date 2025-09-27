@@ -72,7 +72,6 @@ export interface AppData {
       costBreakdown: boolean;
       multicolored: boolean;
       averagePowerToughness: boolean;
-      customCounters: boolean;
       rarityDistribution: boolean;
       individualRarities: boolean;
       alternateArts: boolean;

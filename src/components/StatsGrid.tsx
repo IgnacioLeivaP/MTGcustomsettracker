@@ -211,7 +211,6 @@ export const StatsGrid: React.FC<StatsGridProps> = ({ cards, archetypes, setting
     { key: 'costBreakdown' as const, label: 'Cost Breakdown', description: 'Mana cost distribution analysis' },
     { key: 'multicolored' as const, label: 'Multicolored Cards', description: 'Count and percentage of multicolor cards' },
     { key: 'averagePowerToughness' as const, label: 'Average Power/Toughness', description: 'Average stats of creatures in the set' },
-    { key: 'customCounters' as const, label: 'Custom Counters', description: 'Track custom targets for rarities, tokens, etc.' },
     { key: 'rarityDistribution' as const, label: 'Rarity Distribution', description: 'Progress toward rarity targets' },
     { key: 'individualRarities' as const, label: 'Individual Rarity Counters', description: 'Separate counter for each rarity (C/U/R/M)' },
     { key: 'alternateArts' as const, label: 'Alternate Arts Counter', description: 'Progress toward alternate art target' },
@@ -492,7 +491,7 @@ export const StatsGrid: React.FC<StatsGridProps> = ({ cards, archetypes, setting
         )}
 
         {/* Custom Counters */}
-        {settings.overviewSections.customCounters && customCounters && (
+        {customCounters && (
           <>
             {/* Rarity Distribution */}
             {settings.overviewSections.rarityDistribution && (
