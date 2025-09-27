@@ -44,7 +44,28 @@ export const SetInfoSettings: React.FC<SetInfoSettingsProps> = ({
     description: settings.setInfo.description,
     totalCards: settings.setInfo.totalCards,
     hasAlternateArts: settings.setInfo.hasAlternateArts,
-    setIcon: settings.setInfo.setIcon || ''
+    setIcon: settings.setInfo.setIcon || '',
+    customCounters: settings.setInfo.customCounters || {
+      rarities: {
+        enabled: false,
+        common: 101,
+        uncommon: 80,
+        rare: 53,
+        mythic: 15
+      },
+      alternateArts: {
+        enabled: false,
+        target: 20
+      },
+      tokens: {
+        enabled: false,
+        target: 15
+      },
+      emblems: {
+        enabled: false,
+        target: 5
+      }
+    }
   });
 
   const handleSave = () => {
