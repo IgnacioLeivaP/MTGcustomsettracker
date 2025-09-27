@@ -321,11 +321,11 @@ export const HelpSection: React.FC<HelpSectionProps> = ({ cards, onUpdateCard, s
             <div className="space-y-3 text-gray-300">
               <div className="flex items-start space-x-2">
                 <span className="text-red-400 font-bold">•</span>
-                <span>Use the Dashboard to track your progress toward the 280-card target</span>
+                <span>Use the Dashboard to track your progress toward the {settings.setInfo.totalCards}-card target</span>
               </div>
               <div className="flex items-start space-x-2">
                 <span className="text-red-400 font-bold">•</span>
-                <span>Configure which overview sections to display in Settings → Overview Display Settings</span>
+                <span>Configure which overview sections to display in Dashboard → Display Settings</span>
               </div>
               <div className="flex items-start space-x-2">
                 <span className="text-red-400 font-bold">•</span>
@@ -334,6 +334,97 @@ export const HelpSection: React.FC<HelpSectionProps> = ({ cards, onUpdateCard, s
               <div className="flex items-start space-x-2">
                 <span className="text-red-400 font-bold">•</span>
                 <span>Click the settings icon (⚙️) on any card to edit all its properties in detail</span>
+              </div>
+              <div className="flex items-start space-x-2">
+                <span className="text-red-400 font-bold">•</span>
+                <span>Use the Set Spoiler to view all cards in a visual grid layout with detailed modal views</span>
+              </div>
+              <div className="flex items-start space-x-2">
+                <span className="text-red-400 font-bold">•</span>
+                <span>Configure Card List columns to show only the information you need</span>
+              </div>
+              <div className="flex items-start space-x-2">
+                <span className="text-red-400 font-bold">•</span>
+                <span>Use the Auto-Numbering tool in Help when your set is 100% complete</span>
+              </div>
+              <div className="flex items-start space-x-2">
+                <span className="text-red-400 font-bold">•</span>
+                <span>Upload and compress card images automatically to save storage space</span>
+              </div>
+            </div>
+          </div>
+
+          {/* New Features Section */}
+          <div className="bg-white/5 rounded-lg p-6 border border-white/10">
+            <div className="flex items-center space-x-2 mb-4">
+              <Info className="w-5 h-5 text-cyan-400" />
+              <h3 className="text-xl font-semibold text-white">Key Features</h3>
+            </div>
+            
+            <div className="space-y-4">
+              <div>
+                <h4 className="font-semibold text-cyan-300 mb-2">🖼️ Set Spoiler View</h4>
+                <p className="text-gray-300 ml-4">
+                  Visual grid layout showing all cards with images or detailed text previews. Click any card to view 
+                  full details in a modal with keyboard navigation (arrow keys to browse, ESC to close).
+                </p>
+              </div>
+              
+              <div>
+                <h4 className="font-semibold text-green-300 mb-2">📊 Customizable Dashboard</h4>
+                <p className="text-gray-300 ml-4">
+                  Configure which statistics and overview sections to display. Hide sections you don't need 
+                  and focus on the metrics that matter most for your set development.
+                </p>
+              </div>
+              
+              <div>
+                <h4 className="font-semibold text-blue-300 mb-2">📋 Advanced Card List</h4>
+                <p className="text-gray-300 ml-4">
+                  Sortable and filterable table with customizable columns. Show/hide columns like thumbnails, 
+                  color identity, original names, and more. Click column headers to sort by any field.
+                </p>
+              </div>
+              
+              <div>
+                <h4 className="font-semibold text-purple-300 mb-2">🔢 Auto-Numbering Tool</h4>
+                <p className="text-gray-300 ml-4">
+                  Automatically assign collector numbers following official Magic conventions. Available when 
+                  your set reaches 100% completion. Numbers main set cards 001-{settings.setInfo.totalCards}, 
+                  tokens as T01+, and emblems as E01+.
+                </p>
+              </div>
+              
+              <div>
+                <h4 className="font-semibold text-orange-300 mb-2">🗜️ Image Compression</h4>
+                <p className="text-gray-300 ml-4">
+                  Automatic image compression reduces file sizes to max 500KB while maintaining quality. 
+                  Monitor storage usage in Settings → Debug & Storage Info.
+                </p>
+              </div>
+              
+              <div>
+                <h4 className="font-semibold text-red-300 mb-2">⚙️ Comprehensive Card Editor</h4>
+                <p className="text-gray-300 ml-4">
+                  Full-featured card editor accessible by clicking the settings icon on any card. 
+                  Edit all properties including power/toughness, abilities, flavor text, artist credits, and more.
+                </p>
+              </div>
+              
+              <div>
+                <h4 className="font-semibold text-yellow-300 mb-2">🏛️ Archetype Management</h4>
+                <p className="text-gray-300 ml-4">
+                  Create and customize archetypes with unique color themes. Organize cards by strategy, 
+                  color combinations, or thematic elements. View archetype breakdowns in the dashboard.
+                </p>
+              </div>
+              
+              <div>
+                <h4 className="font-semibold text-teal-300 mb-2">💾 Data Management</h4>
+                <p className="text-gray-300 ml-4">
+                  Export your entire set as JSON for backup. Import data from previous exports. 
+                  Monitor storage usage and get warnings when approaching browser limits.
+                </p>
               </div>
             </div>
           </div>
