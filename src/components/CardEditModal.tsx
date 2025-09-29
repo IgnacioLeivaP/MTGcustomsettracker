@@ -22,7 +22,9 @@ const cardTypes = [
   'Enchantment - Aura',
   'Artifact',
   'Planeswalker',
-  'Land'
+  'Land',
+  'Token',
+  'Emblem'
 ];
 
 export const CardEditModal: React.FC<CardEditModalProps> = ({
@@ -137,6 +139,8 @@ export const CardEditModal: React.FC<CardEditModalProps> = ({
       alert('Please select an archetype');
       return;
     }
+
+    const isTokenOrEmblem = formData.type === 'Token' || formData.type === 'Emblem';
 
     // Normalize mana cost for storage
     const updates = {
