@@ -28,6 +28,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
       setShowResetConfirm(false);
       setResetConfirmText('');
       onClose();
+      // Force page reload to ensure complete reset
+      window.location.reload();
     } else {
       alert('Please type "RESET" to confirm data deletion');
     }
